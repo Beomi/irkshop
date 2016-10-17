@@ -1,3 +1,4 @@
 Django==1.10.2
+django-ckeditor==5.1.1
 django-custom-user==0.6
 Pillow==3.4.1
