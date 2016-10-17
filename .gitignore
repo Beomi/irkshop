@@ -155,3 +155,6 @@ media
 # Data
 envs.json
 uploads/
+
+# MAC
+.Ds_Store
