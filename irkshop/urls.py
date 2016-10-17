@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^$', goods_views.index),
     url('', include('social.apps.django_app.urls', namespace='social')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    url(r'^shopping-cart/', include('shopping.urls')),
 ]

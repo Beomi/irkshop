@@ -1,19 +1,27 @@
 {% extends 'base.html' %}
 {% block title %}Via Noir SEOUL{% endblock %}
-
+{% block css %}
+    <style>
+    .div {
+        margin:0;
+    }
+    </style>
+{% endblock %}
 {% block body %}
-
-    <div class="col-lg-4">
-        <div>
-            col4
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4" style="background-color:yellow;">
+            <div>
+                <p>col4</p>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="jumbotron">
+              <h1>Jumbotron</h1>
+              <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+              <p><a class="btn btn-primary btn-lg">Learn more</a></p>
+            </div>
         </div>
     </div>
-    <div class="col-lg-8">
-        <div class="jumbotron">
-          <h1>Jumbotron</h1>
-          <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-          <p><a class="btn btn-primary btn-lg">Learn more</a></p>
-        </div>
-    </div>
-
+</div>
 {% endblock %}
