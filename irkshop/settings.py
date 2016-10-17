@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'goods',
+    'social.apps.django_app.default',
 ]
 
 MIDDLEWARE = [
@@ -105,6 +106,13 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Social Login
+AUTHENTICATION_BACKENDS = [
+    'social.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 
 
 # Internationalization

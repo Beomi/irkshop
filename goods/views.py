@@ -6,5 +6,4 @@ from .models import Shipping
 
 
 def index(request):
-
     return render(request, 'goods/index.html')
