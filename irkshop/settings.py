@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'custom_user',
     'ckeditor',
     'ckeditor_uploader',
     'goods',
@@ -165,6 +164,3 @@ MEDIA_URL = '/uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
-
-# Django custom User
-# AUTH_USER_MODEL = 'custom_user.EmailUser'
