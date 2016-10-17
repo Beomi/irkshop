@@ -19,6 +19,8 @@ def get_env(setting, envs):
 
 FACEBOOK_KEY = get_env("FACEBOOK_KEY", envs)
 FACEBOOK_SECRET = get_env("FACEBOOK_SECRET", envs)
+GOOGLE_KEY = get_env("GOOGLE_KEY", envs)
+GOOGLE_SECRET = get_env("GOOGLE_SECRET", envs)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -162,5 +164,19 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_deploy/')
 # Media/Upload files
 MEDIA_URL = '/uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
-CKEDITOR_UPLOAD_PATH = "uploads/"
 
+# CKEDITOR Settings
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['RemoveFormat', 'Source']
+        ]
+    },
+}

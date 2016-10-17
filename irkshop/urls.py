@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', goods_views.index),
     url('', include('social.apps.django_app.urls', namespace='social')),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]

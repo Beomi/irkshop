@@ -2,6 +2,8 @@ from django.db import models
 
 from datetime import date
 
+from ckeditor.fields import RichTextField
+
 
 class TimeStampModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -14,7 +16,7 @@ class TimeStampModel(models.Model):
 class Goods(TimeStampModel):
     name = models.CharField(max_length=200)
     price = models.PositiveIntegerField()
-    description = models.TextField()
+    description = RichTextField()
     weight = models.FloatField()
     size = models.FloatField()
     sell_until = models.DateField(null=True, blank=True)
