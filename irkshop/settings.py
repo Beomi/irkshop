@@ -17,6 +17,9 @@ def get_env(setting, envs):
         error_msg = "set env var error at {}".format(setting)
         raise ImproperlyConfigured(error_msg)
 
+FACEBOOK_KEY = get_env("FACEBOOK_KEY", envs)
+FACEBOOK_SECRET = get_env("FACEBOOK_SECRET", envs)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -38,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'custom_user',
+    #'custom_user',
     'ckeditor',
     'ckeditor_uploader',
     'goods',
@@ -110,10 +113,29 @@ AUTH_PASSWORD_VALIDATORS = [
 # Social Login
 AUTHENTICATION_BACKENDS = [
     'social.backends.google.GoogleOAuth2',
+    'social.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.contrib.messages.context_processors.messages',
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
+)
+
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
+# SocialLogin: Facebook
+SOCIAL_AUTH_FACEBOOK_KEY = FACEBOOK_KEY
+SOCIAL_AUTH_FACEBOOK_SECRET = FACEBOOK_SECRET
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+  'fields': 'id, name, email, age_range'
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
@@ -145,4 +167,4 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 
 
 # Django custom User
-AUTH_USER_MODEL = 'custom_user.EmailUser'
+# AUTH_USER_MODEL = 'custom_user.EmailUser'
