@@ -8,7 +8,7 @@ class TimeStampModel(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        abstract=True
+        abstract = True
 
 
 class Goods(TimeStampModel):
@@ -19,9 +19,9 @@ class Goods(TimeStampModel):
     sell_until = models.DateTimeField(blank=True)
     is_valid = models.BooleanField(default=True)
 
-    @@property
+    @property
     def is_available(self):
-        if (date.today() < self.sell_until) and (self.is_valid):
+        if (date.today() < self.sell_until) and self.is_valid:
             return True
         else:
             return False
@@ -31,7 +31,7 @@ class Goods(TimeStampModel):
             status = "구입가능"
         else:
             status = "구입불가"
-        return "{}()".format(
+        return "{}({})".format(
             self.name,
             status
         )
