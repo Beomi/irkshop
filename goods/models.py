@@ -17,21 +17,27 @@ class Goods(TimeStampModel):
     description = models.TextField()
     weight = models.FloatField()
     size = models.FloatField()
-    sell_until = models.DateTimeField(blank=True)
+    sell_until = models.DateField(null=True, blank=True)
     is_valid = models.BooleanField(default=True)
 
     @property
     def is_available(self):
-        if (date.today() < self.sell_until) and self.is_valid:
-            return True
-        else:
-            return False
+        try:
+            if ((date.today() <= self.sell_until) or (self.sell_until==None)) and self.is_valid:
+                return True
+            else:
+                return False
+        except TypeError:
+            if self.is_valid:
+                return True
+            else:
+                return False
 
     def __str__(self):
         if self.is_available:
             status = "구입가능"
         else:
-            status = "구입불가"
+            status = "단종"
         return "{}({})".format(
             self.name,
             status
