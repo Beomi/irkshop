@@ -13,9 +13,10 @@ class TimeStampModel(models.Model):
 
 class Goods(TimeStampModel):
     name = models.CharField(max_length=200)
-    price = models.IntegerField()
+    price = models.PositiveIntegerField()
     description = models.TextField()
-    image = models.ImageField()
+    weight = models.FloatField()
+    size = models.FloatField()
     sell_until = models.DateTimeField(blank=True)
     is_valid = models.BooleanField(default=True)
 
@@ -37,11 +38,19 @@ class Goods(TimeStampModel):
         )
 
 
+class GoodsImage(TimeStampModel):
+    goods = models.ForeignKey(Goods, related_name='images')
+    image = models.ImageField()
+
+    def __str__(self):
+        return self.image.name
+
+
 class Shipping(TimeStampModel):
     name = models.CharField(max_length=200)
     country = models.CharField(max_length=200)
     receive_at = models.CharField(max_length=200)
-    price = models.IntegerField()
+    price = models.PositiveIntegerField()
 
     def __str__(self):
         return "({}){}: {} ({})".format(
