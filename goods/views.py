@@ -13,9 +13,15 @@ def index(request):
 
 def add_cart(request):
     cart = Cart(request.session)
-    goods = Goods.objects.get(id=request.GET.get('goods_id'))
+    goods = Goods.objects.get(id=request.GET.get('id'))
     cart.add(goods, price=goods.price)
     return JsonResponse("Added")
 
 def show_cart(request):
     return render(request, 'shopping/show-cart.html')
+
+def remove_cart(request):
+    cart = Cart(request.session)
+    goods = Goods.objects.get(id=request.GET.get('id'))
+    cart.remove(goods)
+    return JsonResponse("Removed")
