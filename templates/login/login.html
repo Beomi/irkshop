@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}LOGIN{% endblock %}
+{% load staticfiles %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/bootstrap-social.css' %}">
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+{% endblock %}
 {% block body %}
-    <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Login with Facebook</a>
+  <a class="btn btn-block btn-social btn-facebook" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">
+    <span class="fa fa-twitter"></span> Sign in with Facebook
+  </a>
 {% endblock %}

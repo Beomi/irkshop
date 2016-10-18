@@ -9,8 +9,8 @@ from goods import views as goods_views
 
 urlpatterns = [
     url(r'^accounts/login/$', login,
-        {'template_name': 'login/login.html'}),
-    url(r'^accounts/logout/$', logout),
+        {'template_name': 'login/login.html'}, name='login'),
+    url(r'^accounts/logout/$', logout, name='logout'),
     url(r'^admin/', admin.site.urls),
     url(r'^$', goods_views.index),
     url('', include('social.apps.django_app.urls', namespace='social')),
