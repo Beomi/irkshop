@@ -13,9 +13,17 @@ class TimeStampModel(models.Model):
         abstract = True
 
 
-class Goods(TimeStampModel):
+class Category(TimeStampModel):
     name = models.CharField(max_length=200)
-    price = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.name
+
+
+class Goods(TimeStampModel):
+    category = models.ForeignKey(Category, null=True)
+    name = models.CharField(max_length=200)
+    price = models.IntegerField()
     description = RichTextField()
     weight = models.FloatField()
     size = models.FloatField()

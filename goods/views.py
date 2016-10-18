@@ -4,14 +4,21 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Goods
 from .models import Shipping
+from .models import Category
 
 from carton.cart import Cart
 
 
 def index(request):
+    categories = Category.objects.all()
+    categories_list = []
+    for i in categories:
+        categories_list.append(i.name)
     goods = Goods.objects.all()
     return render(request, 'goods/index.html', {
-        'goods': goods
+        'goods': goods,
+        'categories': categories,
+        'categories_list': categories_list
     })
 
 def add_cart(request):

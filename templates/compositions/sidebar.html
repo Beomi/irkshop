@@ -1,3 +1,13 @@
-<div class="iu-text text">
-  <p>Sidebar Area</p>
-</div>
+{% load staticfiles %}
+<nav>
+    <div>
+        <img id="logo" src="{% static 'image/logo_3.gif' %}">
+    </div>
+    <div style="align-content: center">
+        {% for category in categories %}
+        <a class="nav_button btn btn-group-xs" href="#{{ category.name }}">
+            {{ category.name }}
+        </a>
+        {% endfor %}
+    </div>
+</nav>
