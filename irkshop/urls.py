@@ -16,5 +16,5 @@ urlpatterns = [
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^add/$', goods_views.add_cart, name='shopping-cart-add'),
     url(r'^show/$', goods_views.show_cart, name='shopping-cart-show'),
-    url()
+    url(r'^remove/$', goods_views.remove_cart, name='shopping-cart-remove'),
 ]
