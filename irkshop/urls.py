@@ -2,6 +2,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.views import login, logout
 from django.conf import settings
+from django.views.static import serve
 
 from goods import views as goods_views
 
@@ -18,3 +19,7 @@ urlpatterns = [
     url(r'^show/$', goods_views.show_cart, name='shopping-cart-show'),
     url(r'^remove/$', goods_views.remove_cart, name='shopping-cart-remove'),
 ]
+if settings.DEBUG:
+    urlpatterns += [
+        url(r'^uploads/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    ]

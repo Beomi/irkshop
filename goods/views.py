@@ -9,7 +9,10 @@ from carton.cart import Cart
 
 
 def index(request):
-    return render(request, 'goods/index.html')
+    goods = Goods.objects.all()
+    return render(request, 'goods/index.html', {
+        'goods': goods
+    })
 
 def add_cart(request):
     cart = Cart(request.session)
