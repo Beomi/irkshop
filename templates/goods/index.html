@@ -3,7 +3,7 @@
 {% load in_category %}
 {% block title %}Via Noir SEOUL{% endblock %}
 {% block css %}
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" xmlns="http://www.w3.org/1999/html">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.7/jquery.fullPage.min.css">
     <style>
     body{
@@ -63,6 +63,13 @@
     .slide{
         text-align: center;
     }
+    .product-img{
+        border-radius: 10px;
+        width: 100%;
+        max-width: 320px;
+        height: auto;
+        background-color: #f1f1f1;
+    }
 
     
     </style>
@@ -76,7 +83,7 @@
 		$(document).ready(function() {
 			$('#fullpage').fullpage({
                 anchors: {{ categories_list|safe }},
-				sectionsColor: ['#bbb', '#444','#ccc','#1b1b1b'],
+				sectionsColor: ['#111', '#222','#333', '#444'],
        			css3: true
        		});
 		});
@@ -91,10 +98,13 @@
                 <div class="section" id="{{ category }}">
                     {% for good in goods|in_category:category %}
                         <div class="slide">
-                            <h1>{{ good.name }}</h1>
                             {% for image in good.images.all %}
-                                <img src="{{ image.url }}" style="width: 100%; max-width: 320px; height: auto;" />
+                                <img class="product-img" src="{{ image.image.url|safe }}" />
                             {% endfor %}
+                            <h1>{{ good.name }}</h1>
+                            <h2>Price: {{ good.price }}Won</h2>
+                            <h4>{{ good.description|safe }}</h4>
+                            <input class="btn" type="button" value="add to CART">
                         </div>
                     {% endfor %}
                 </div>
