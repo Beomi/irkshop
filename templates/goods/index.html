@@ -68,14 +68,15 @@
     </style>
 {% endblock %}
 {% block js %}
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.7/jquery.fullPage.min.js"></script>
+    <script type="application/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    <script src="{% static 'js/jquery.fullPage.min.js' %}"></script>
+    <script src="{% static 'js/jquery.fullpage.extensions.min.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.7/vendors/scrolloverflow.min.js"></script>
     <script type="text/javascript">
 		$(document).ready(function() {
 			$('#fullpage').fullpage({
                 anchors: {{ categories_list|safe }},
-				sectionsColor: ['#bbb', '#4BBFC3', '#7BAABE'],
+				sectionsColor: ['#bbb', '#444','#ccc','#1b1b1b'],
        			css3: true
        		});
 		});
@@ -91,8 +92,8 @@
                     {% for good in goods|in_category:category %}
                         <div class="slide">
                             <h1>{{ good.name }}</h1>
-                            {% for image in good.good.images %}
-                                <img src="{{ image.image.url }}" style="width: 100%; max-width: 320px; height: auto;" />
+                            {% for image in good.images.all %}
+                                <img src="{{ image.url }}" style="width: 100%; max-width: 320px; height: auto;" />
                             {% endfor %}
                         </div>
                     {% endfor %}

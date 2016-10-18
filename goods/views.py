@@ -13,7 +13,7 @@ def index(request):
     categories = Category.objects.all()
     categories_list = []
     for i in categories:
-        categories_list.append(i.name)
+        categories_list.append('SHOP'+i.name)
     goods = Goods.objects.all()
     return render(request, 'goods/index.html', {
         'goods': goods,
