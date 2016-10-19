@@ -33,6 +33,28 @@
 </script>
 {% block body %}
 {% endblock %}
-
+<script>
+//For doing AJAX post
+$("form.addCart").submit(function(e) {
+    e.preventDefault();
+    $.ajax({
+        url : "{% url 'shopping-cart-add' %}",
+        type : "POST", // http method
+        data : $(this).serialize(), // data sent with the post request
+        // handle a successful response
+        success : function(json) {
+            console.log(json); // another sanity check
+            alert(json['message']);
+            if (json['redirect']){
+                window.location.href = json['redirect'];
+            }
+        },
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+        }
+    });
+});
+</script>
 </body>
 </html>

@@ -23,10 +23,18 @@ def index(request):
     })
 
 def add_cart(request):
-    cart = Cart(request.session)
-    goods = Goods.objects.get(id=request.GET.get('id'))
-    cart.add(goods, price=goods.price)
-    return HttpResponse("Added")
+    if request.method == 'POST':
+        if request.is_ajax():
+            cart = Cart(request.session)
+            goods = Goods.objects.get(id=request.POST.get('good'))
+            print(goods.name)
+            cart.add(goods, price=goods.price)
+            return JsonResponse({
+                'message':"Added {}".format(goods.name)
+            })
+    return JsonResponse({
+        'message':"Please Access with AJAX/POST"
+    })
 
 def show_cart(request):
     cart = Cart(request.session)

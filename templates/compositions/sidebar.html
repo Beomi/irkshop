@@ -5,17 +5,14 @@
     </div>
     <div style="align-content: center">
         {% if user.is_authenticated %}
-          <a style="text-align: center; font-size: 15pt; width: 80%;margin-left: 10%;
-        overflow: hidden; margin-bottom: 5px;" class="btn btn-github" href="{% url 'logout' %}?next=/">
+          <a class="login-btn btn btn-github" href="{% url 'logout' %}?next=/">
             LOGOUT
           </a>
         {% else %}
-          <a style="text-align: center; font-size: 15pt; width: 80%;margin-left: 10%;
-        overflow: hidden; margin-bottom: 5px;" class="btn btn-facebook" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">
+          <a class="login-btn btn btn-facebook" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">
             Sign in with FB
           </a>
-          <a style="text-align: center; font-size: 15pt; width: 80%;margin-left: 10%;
-        overflow: hidden; margin-bottom: 5px;" class="btn btn-google" href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">
+          <a class="login-btn btn btn-google" href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">
             Sign in with Google
           </a>
         {% endif %}
