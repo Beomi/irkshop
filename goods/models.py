@@ -31,8 +31,6 @@ class UserInfo(TimeStampModel):
         return self.user.name
 
 
-
-
 class Goods(TimeStampModel):
     category = models.ForeignKey(Category, null=True)
     name = models.CharField(max_length=200)
