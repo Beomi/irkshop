@@ -19,6 +19,7 @@ REPO_URL = get_env('REPO_URL', envs)
 PROJECT_NAME = get_env('PROJECT_NAME', envs)
 STATIC_ROOT_NAME = 'static_deploy'
 STATIC_URL_NAME = 'static'
+MEDIA_ROOT = 'uploads'
 
 
 # TODO: Server Engineer: you should add env.user as sudo user and NOT be root
@@ -152,32 +153,36 @@ def _ufw_allow():
     sudo("ufw reload")
 
 def _make_virtualhost():
-    if not exists('/etc/apache2/sites-available/{}.conf'.format(PROJECT_NAME)):
-        script = """'<VirtualHost *:80>
-        ServerName {servername}
-        Alias /{static_url} /home/{username}/{project_name}/{static_root}
-        <Directory /home/{username}/{project_name}/{static_root}>
+    script = """'<VirtualHost *:80>
+    ServerName {servername}
+    Alias /{static_url} /home/{username}/{project_name}/{static_root}
+    Alias /{media_url} /home/{username}/{project_name}/{media_url}
+    <Directory /home/{username}/{project_name}/{media_url}>
+        Require all granted
+    </Directory>
+    <Directory /home/{username}/{project_name}/{static_root}>
+        Require all granted
+    </Directory>
+    <Directory /home/{username}/{project_name}/{project_name}>
+        <Files wsgi.py>
             Require all granted
-        </Directory>
-        <Directory /home/{username}/{project_name}/{project_name}>
-            <Files wsgi.py>
-                Require all granted
-            </Files>
-        </Directory>
-        WSGIDaemonProcess {project_name} python-home=/home/{username}/.virtualenvs/{project_name} python-path=/home/{username}/{project_name}
-        WSGIProcessGroup {project_name}
-        WSGIScriptAlias / /home/{username}/{project_name}/{project_name}/wsgi.py
-        ErrorLog ${{APACHE_LOG_DIR}}/error.log
-        CustomLog ${{APACHE_LOG_DIR}}/access.log combined
-        </VirtualHost>'""".format(
-            static_root=STATIC_ROOT_NAME,
-            username=env.user,
-            project_name=PROJECT_NAME,
-            static_url=STATIC_URL_NAME,
-            servername=env.host,
-        )
-        sudo('echo {} > /etc/apache2/sites-available/{}.conf'.format(script, PROJECT_NAME))
-        sudo('a2ensite {}.conf'.format(PROJECT_NAME))
+        </Files>
+    </Directory>
+    WSGIDaemonProcess {project_name} python-home=/home/{username}/.virtualenvs/{project_name} python-path=/home/{username}/{project_name}
+    WSGIProcessGroup {project_name}
+    WSGIScriptAlias / /home/{username}/{project_name}/{project_name}/wsgi.py
+    ErrorLog ${{APACHE_LOG_DIR}}/error.log
+    CustomLog ${{APACHE_LOG_DIR}}/access.log combined
+    </VirtualHost>'""".format(
+        static_root=STATIC_ROOT_NAME,
+        username=env.user,
+        project_name=PROJECT_NAME,
+        static_url=STATIC_URL_NAME,
+        servername=env.host,
+        media_url=MEDIA_ROOT
+    )
+    sudo('echo {} > /etc/apache2/sites-available/{}.conf'.format(script, PROJECT_NAME))
+    sudo('a2ensite {}.conf'.format(PROJECT_NAME))
 
 def _grant_apache2():
     sudo('sudo chown :www-data ~/{}'.format(PROJECT_NAME))
