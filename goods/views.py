@@ -25,13 +25,18 @@ def index(request):
 def add_cart(request):
     if request.method == 'POST':
         if request.is_ajax():
-            cart = Cart(request.session)
-            goods = Goods.objects.get(id=request.POST.get('good'))
-            print(goods.name)
-            cart.add(goods, price=goods.price)
-            return JsonResponse({
-                'message':"Added {}".format(goods.name)
-            })
+            if request.user.is_authenticated:
+                cart = Cart(request.session)
+                goods = Goods.objects.get(id=request.POST.get('good'))
+                print(goods.name)
+                cart.add(goods, price=goods.price)
+                return JsonResponse({
+                    'message':"Added {}".format(goods.name)
+                })
+            else:
+                return JsonResponse({
+                    'message':'Please Login First'
+                })
     return JsonResponse({
         'message':"Please Access with AJAX/POST"
     })

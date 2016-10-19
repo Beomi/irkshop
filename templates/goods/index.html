@@ -89,6 +89,19 @@ You can also use this convinent shortcut:
         text-align: center; font-size: 13pt; width: 80%;margin-left: 10%;
         overflow: hidden; margin-bottom: 5px;
     }
+    #shopping-cart-icon{
+        color: #fff;
+        position: fixed;
+        font-size: 10px;
+        float: right;
+        width: 50px;
+        height: 50px;
+        top: 0;
+        right: 0;
+        z-index: 99999;
+        filter: invert(100%);
+        margin: 10px;
+    }
 
     
     </style>
@@ -102,7 +115,7 @@ You can also use this convinent shortcut:
 		$(document).ready(function() {
 			$('#fullpage').fullpage({
                 anchors: {{ categories_list|safe }},
-				sectionsColor: ['#111', '#222','#333', '#444'],
+				sectionsColor: ['#111', '#222','#333', '#444', '#555', '#666'],
        			css3: true
        		});
 		});
@@ -112,6 +125,7 @@ You can also use this convinent shortcut:
 <div>
     {% include 'compositions/sidebar.html' %}
     <main>
+        <img id="shopping-cart-icon" src="{% static 'image/shopping_cart.png' %}">
         <div id="fullpage">
             {% for category in categories %}
                 <div class="section" id="{{ category }}">
