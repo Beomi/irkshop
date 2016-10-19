@@ -27,6 +27,7 @@ You can also use this convinent shortcut:
         height:100%;
         padding: 0;
         overflow: hidden;
+        background-image: "{% static 'image/background.jpeg' %}";
     }
     nav{
         padding-top: 20px;
@@ -35,7 +36,6 @@ You can also use this convinent shortcut:
         width: 20%;
         height: 100%;
         position: fixed;
-        box-shadow: 0 0 20px 10px grey;
         z-index: auto;
     }
     main{
@@ -44,6 +44,7 @@ You can also use this convinent shortcut:
         width: 80%;
         height: auto;
         position: relative;
+        box-shadow: 0 0 10px 10px #1b1b1b;
     }
     #fullpage{
         padding-left: 20px;
@@ -108,6 +109,9 @@ You can also use this convinent shortcut:
         left: 48%;
         z-index: 9999;
     }
+    #fullPage-nav li a, .fullPage-slidesNav li a{
+        color: #f1f1f1;
+    }
 
     
     </style>
@@ -121,10 +125,10 @@ You can also use this convinent shortcut:
 		$(document).ready(function() {
 			$('#fullpage').fullpage({
                 anchors: {{ categories_list|safe }},
-				sectionsColor: ['#111', '#222','#333', '#444', '#555', '#666'],
        			css3: true,
                 navigation: true,
-				navigationPosition: 'right'
+				navigationPosition: 'right',
+                navigationColor: 'white'
 
        		});
 		});
