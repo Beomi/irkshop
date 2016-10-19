@@ -154,6 +154,7 @@ media
 
 # Data
 envs.json
+deploy.json
 uploads/
 
 # MAC
