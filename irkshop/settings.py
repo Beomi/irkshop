@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'goods',
     'social.apps.django_app.default',
     'carton',
+    'address',
 ]
 
 MIDDLEWARE = [

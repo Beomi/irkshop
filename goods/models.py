@@ -1,8 +1,11 @@
+# Django
 from django.db import models
-
+from django.conf import settings
+# Python
 from datetime import date
-
+# Pip
 from ckeditor.fields import RichTextField
+from address.models import AddressField
 
 
 class TimeStampModel(models.Model):
@@ -18,6 +21,16 @@ class Category(TimeStampModel):
 
     def __str__(self):
         return self.name
+
+
+class UserInfo(TimeStampModel):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    address = AddressField(blank=True, null=True)
+
+    def __str__(self):
+        return self.user.name
+
+
 
 
 class Goods(TimeStampModel):

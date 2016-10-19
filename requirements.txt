@@ -1,7 +1,9 @@
 defusedxml==0.4.1
 Django==1.10.2
+django-address==0.1.5
 django-carton==1.2.1
 django-ckeditor==5.1.1
+django-custom-user==0.6
 oauthlib==2.0.0
 Pillow==3.4.1
 PyJWT==1.4.2
