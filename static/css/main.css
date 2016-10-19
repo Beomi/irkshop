@@ -1,0 +1,95 @@
+body{
+    margin: 0 auto;
+    width:100%;
+    height:100%;
+    padding: 0;
+    overflow: hidden;
+    background-image: "{% static 'image/background.jpeg' %}";
+}
+nav{
+    padding-top: 20px;
+    float: left;
+    max-width: 300px;
+    width: 20%;
+    height: 100%;
+    position: fixed;
+    z-index: auto;
+}
+main{
+    margin:0;
+    float: right;
+    width: 80%;
+    height: auto;
+    position: relative;
+    box-shadow: 0 0 10px 10px #1b1b1b;
+}
+#fullpage{
+    padding-left: 20px;
+}
+#logo{
+    width: 80%;
+    height: auto;
+    margin-left: 10%;
+}
+.container{
+  min-width:320px; /* 최솟값 */
+  max-width:1280px; /* 최댓값 */
+  margin:0 auto;
+}
+.nav_button{
+    font-size: 20pt;
+    font-family: "Bitstream Vera Sans Mono", Monaco, "Courier New", Courier, monospace;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #1b1b1b;
+    color: #FFFFFF;
+    margin: 5px;
+    border: 1px;
+    width: 80%;
+    height: 80px;
+    margin-left: 10%;
+    overflow: hidden;
+}
+.section{
+    padding: 20px;
+}
+.slide{
+    text-align: center;
+}
+.product-img{
+    border-radius: 10px;
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    background-color: #f1f1f1;
+}
+.login-btn{
+    text-align: center; font-size: 13pt; width: 80%;margin-left: 10%;
+    overflow: hidden; margin-bottom: 5px;
+}
+#shopping-cart-icon{
+    position: fixed;
+    float: right;
+    width: 50px;
+    height: 50px;
+    top: 0;
+    right: 0;
+    z-index: 99999;
+    filter: invert(100%);
+    margin: 10px;
+}
+.show-more-under{
+    position: relative;
+    width: 50px;
+    height: 50px;
+    bottom: 50px;
+    left: 48%;
+    z-index: 9999;
+}
+#fp-nav ul li a span, .fp-slidesNav ul li a span{
+    background-color: #FFF;
+}
+.fp-controlArrow.fp-next{
+    right: 50px;
+}
+

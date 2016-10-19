@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% load in_category %}
 {% load carton_tags %}
-{% get_cart as cart %}
+{% get_cart as cart  %}
 
 {% for item in cart.items %}
     {{ item.product.name }}
@@ -19,111 +19,15 @@ You can also use this convinent shortcut:
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" xmlns="http://www.w3.org/1999/html">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.7/jquery.fullPage.min.css">
     <link rel="stylesheet" href="{% static 'css/bootstrap-social.css' %}">
-
-    <style>
-    body{
-        margin: 0 auto;
-        width:100%;
-        height:100%;
-        padding: 0;
-        overflow: hidden;
-        background-image: "{% static 'image/background.jpeg' %}";
-    }
-    nav{
-        padding-top: 20px;
-        float: left;
-        max-width: 300px;
-        width: 20%;
-        height: 100%;
-        position: fixed;
-        z-index: auto;
-    }
-    main{
-        margin:0;
-        float: right;
-        width: 80%;
-        height: auto;
-        position: relative;
-        box-shadow: 0 0 10px 10px #1b1b1b;
-    }
-    #fullpage{
-        padding-left: 20px;
-    }
-    #logo{
-        width: 80%;
-        height: auto;
-        margin-left: 10%;
-    }
-    .container{
-      min-width:320px; /* 최솟값 */
-      max-width:1280px; /* 최댓값 */
-      margin:0 auto;
-    }
-    .nav_button{
-        font-size: 20pt;
-        font-family: "Bitstream Vera Sans Mono", Monaco, "Courier New", Courier, monospace;
-        text-align: center;
-        vertical-align: middle;
-        background-color: #1b1b1b;
-        color: #FFFFFF;
-        margin: 5px;
-        border: 1px;
-        width: 80%;
-        height: 80px;
-        margin-left: 10%;
-        overflow: hidden;
-    }
-    .section{
-        padding: 20px;
-    }
-    .slide{
-        text-align: center;
-    }
-    .product-img{
-        border-radius: 10px;
-        width: 100%;
-        max-width: 320px;
-        height: auto;
-        background-color: #f1f1f1;
-    }
-    .login-btn{
-        text-align: center; font-size: 13pt; width: 80%;margin-left: 10%;
-        overflow: hidden; margin-bottom: 5px;
-    }
-    #shopping-cart-icon{
-        position: fixed;
-        float: right;
-        width: 50px;
-        height: 50px;
-        top: 0;
-        right: 0;
-        z-index: 99999;
-        filter: invert(100%);
-        margin: 10px;
-    }
-    .show-more-under{
-        position: relative;
-        width: 50px;
-        height: 50px;
-        bottom: 50px;
-        left: 48%;
-        z-index: 9999;
-    }
-    #fp-nav ul li a span, .fp-slidesNav ul li a span{
-        background-color: #FFF;
-    }
-    .fp-controlArrow.fp-next{
-        right: 50px;
-    }
-
-    
-    </style>
+    <link rel="stylesheet" href="{% static 'css/iziModal.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
 {% endblock %}
 {% block js %}
     <script type="application/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
     <script src="{% static 'js/jquery.fullPage.min.js' %}"></script>
     <script src="{% static 'js/jquery.fullpage.extensions.min.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.7/vendors/scrolloverflow.min.js"></script>
+    <script src="{% static 'js/iziModal.min.js' %}"></script>
     <script type="text/javascript">
 		$(document).ready(function() {
 			$('#fullpage').fullpage({
@@ -132,22 +36,35 @@ You can also use this convinent shortcut:
                 navigation: true,
 				navigationPosition: 'right',
                 navigationColor: 'white'
-
        		});
 		});
 	</script>
+    <script type="text/javascript">
+        $(document).on('click','.trigger-iframe', function (event) {
+            event.preventDefault();
+            $('#modal').iziModal('open', this);
+        })
+        $("#modal").iziModal({
+                iframe: true,
+                iframeHeight: 400
+            });
+    </script>
 {% endblock %}
 {% block body %}
 <div>
     {% include 'compositions/sidebar.html' %}
     <main>
-        <img id="shopping-cart-icon" src="{% static 'image/shopping_cart.png' %}">
+        <a href="{% url 'shopping-cart-show' %}" class="trigger-iframe"><img id="shopping-cart-icon" src="{% static 'image/shopping_cart.png' %}"></a>
+        <!-- Modal structure -->
+        <div id="modal" style="z-index: 99">
+        <!-- Page content -->
+        </div>
         <div id="fullpage">
             {% for category in categories %}
                 <div class="section" id="{{ category }}">
                     {% for good in goods|in_category:category %}
                         <div class="slide">
-                        <form class="addCart" method="POST" enctype="multipart/form-data">
+                        <form id="add{{ good.name|safe }}" class="addCart" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             {% for image in good.images.all %}
                                 <img class="product-img" src="{{ image.image.url|safe }}" />
@@ -160,7 +77,6 @@ You can also use this convinent shortcut:
                         </form>
                         </div>
                     {% endfor %}
-                <img src="{% static 'image/under_arrow.gif' %}" class="show-more-under" methods="">
                 </div>
             {% endfor %}
         </div>

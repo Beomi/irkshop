@@ -1,12 +1,7 @@
 {% load carton_tags %}
-{% load get_cart %}
+{% get_cart as cart %}
 <html>
 <body>
-
-<h1>Shopping Cart</h1>
-
-{% get_cart as cart %}
-
     <table border="1">
     <tr>
         <th>Product</th>
