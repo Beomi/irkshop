@@ -90,9 +90,7 @@ You can also use this convinent shortcut:
         overflow: hidden; margin-bottom: 5px;
     }
     #shopping-cart-icon{
-        color: #fff;
         position: fixed;
-        font-size: 10px;
         float: right;
         width: 50px;
         height: 50px;
@@ -101,6 +99,14 @@ You can also use this convinent shortcut:
         z-index: 99999;
         filter: invert(100%);
         margin: 10px;
+    }
+    .show-more-under{
+        position: relative;
+        width: 50px;
+        height: 50px;
+        bottom: 50px;
+        left: 48%;
+        z-index: 9999;
     }
 
     
@@ -116,7 +122,10 @@ You can also use this convinent shortcut:
 			$('#fullpage').fullpage({
                 anchors: {{ categories_list|safe }},
 				sectionsColor: ['#111', '#222','#333', '#444', '#555', '#666'],
-       			css3: true
+       			css3: true,
+                navigation: true,
+				navigationPosition: 'right'
+
        		});
 		});
 	</script>
@@ -144,6 +153,7 @@ You can also use this convinent shortcut:
                         </form>
                         </div>
                     {% endfor %}
+                <img src="{% static 'image/under_arrow.gif' %}" class="show-more-under" methods="">
                 </div>
             {% endfor %}
         </div>
