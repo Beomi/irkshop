@@ -9,17 +9,17 @@
             LOGOUT
           </a>
         {% else %}
-        <div class="login-btn">
-          <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">
-            <img src="{% static 'image/facebook_login.png' %}">
-          </a>
-            &nbsp;&nbsp;
-          <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">
-            <img src="{% static 'image/google_login.png' %}">
-          </a>
-        </div>
+            <div class="login-btn">Login with</div>
+            <div class="login-btn">
+              <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">
+                <img class="login-btn-img" src="{% static 'image/facebook_login.png' %}">
+              </a>
+                &nbsp;&nbsp;
+              <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">
+                <img class="login-btn-img" src="{% static 'image/google_login.png' %}">
+              </a>
+            </div>
         {% endif %}
-
 
         {% for category in categories %}
         <a class="nav_button btn btn-group-xs" href="#SHOP{{ category.name }}">
