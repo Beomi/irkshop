@@ -1,10 +1,27 @@
+html { font-size: 62.5%; }
+body { font-size: 1em;}
+
+@media (max-width: 300px) {
+    html { font-size: 70%; }
+}
+
+@media (min-width: 500px) {
+    html { font-size: 80%; }
+}
+
+@media (min-width: 700px) {
+    html { font-size: 120%; }
+}
+
+@media (min-width: 1200px) {
+    html { font-size: 200%; }
+}
 body{
     margin: 0 auto;
     width:100%;
     height:100%;
     padding: 0;
     overflow: hidden;
-    background-image: "{% static 'image/background.jpeg' %}";
 }
 nav{
     padding-top: 20px;
@@ -37,21 +54,21 @@ main{
   margin:0 auto;
 }
 .nav_button{
-    font-size: 20pt;
-    font-family: "Bitstream Vera Sans Mono", Monaco, "Courier New", Courier, monospace;
+    font-size: 2em;
     text-align: center;
     vertical-align: middle;
     background-color: #1b1b1b;
     color: #FFFFFF;
-    margin: 5px;
-    border: 1px;
+    margin: 0.2em;
+    border: 0.2em;
     width: 80%;
-    height: 80px;
+    height: 2em;
     margin-left: 10%;
     overflow: hidden;
 }
 .section{
     padding: 20px;
+    width: 100%;
 }
 .slide{
     text-align: center;
@@ -64,8 +81,11 @@ main{
     background-color: #f1f1f1;
 }
 .login-btn{
-    text-align: center; width: 80%;margin-left: 10%;
-    overflow: hidden; margin-bottom: 10px;
+    text-align: center;
+    width: 80%;
+    margin-left: 10%;
+    overflow: hidden;
+    margin-bottom: 10px;
 }
 .login-btn-img{
     width: 50px; height: 50px;
