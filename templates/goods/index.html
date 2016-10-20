@@ -4,16 +4,6 @@
 {% load carton_tags %}
 {% get_cart as cart  %}
 
-{% for item in cart.items %}
-    {{ item.product.name }}
-    {{ item.quantity }}
-    {{ item.subtotal }}
-{% endfor %}
-
-You can also use this convinent shortcut:
-{% for product in cart.products %}
-    {{ product.name }}
-{% endfor %}
 {% block title %}Via Noir SEOUL{% endblock %}
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" xmlns="http://www.w3.org/1999/html">
