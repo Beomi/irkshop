@@ -39,26 +39,15 @@ You can also use this convinent shortcut:
        		});
 		});
 	</script>
-    <script type="text/javascript">
-        $(document).on('click','.trigger-iframe', function (event) {
-            event.preventDefault();
-            $('#modal').iziModal('open', this);
-        })
-        $("#modal").iziModal({
-                iframe: true,
-                iframeHeight: 400
-            });
-    </script>
 {% endblock %}
 {% block body %}
 <div>
     {% include 'compositions/sidebar.html' %}
     <main>
-        <a href="{% url 'shopping-cart-show' %}" class="trigger-iframe"><img id="shopping-cart-icon" src="{% static 'image/shopping_cart.png' %}"></a>
-        <!-- Modal structure -->
-        <div id="modal" style="z-index: 99">
-        <!-- Page content -->
+        <a href="" class="trigger"><img id="shopping-cart-icon" src="{% static 'image/shopping_cart.png' %}"></a>
+        <div id="modal">
         </div>
+
         <div id="fullpage">
             {% for category in categories %}
                 <div class="section" id="{{ category }}">
@@ -82,5 +71,27 @@ You can also use this convinent shortcut:
         </div>
     </main>
 </div>
+{% if user.is_authenticated %}
+<script type="text/javascript">
+$("#modal").iziModal({
+    iframe: true,
+    iframeHeight: 400,
+    iframeURL: "{% url 'shopping-cart-show' %}"
+});
+</script>
+<script type="text/javascript">
+    $(document).on('click', '.trigger', function (event) {
+        event.preventDefault();
+        $('#modal').iziModal('open'); // Use "this" to get URL href or option 'iframeURL'
+    });
+</script>
+{% else %}
+<script type="text/javascript">
+    $(document).on('click', '.trigger', function (event) {
+        event.preventDefault();
+        alert("Please Login First");
+    });
+</script>
+{% endif %}
 
 {% endblock %}
