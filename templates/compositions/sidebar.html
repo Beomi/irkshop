@@ -9,12 +9,15 @@
             LOGOUT
           </a>
         {% else %}
-          <a class="login-btn btn btn-facebook" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">
-            Sign in with FB
+        <div class="login-btn">
+          <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">
+            <img src="{% static 'image/facebook_login.png' %}">
           </a>
-          <a class="login-btn btn btn-google" href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">
-            Sign in with Google
+            &nbsp;&nbsp;
+          <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">
+            <img src="{% static 'image/google_login.png' %}">
           </a>
+        </div>
         {% endif %}
 
 

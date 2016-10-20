@@ -64,8 +64,8 @@ main{
     background-color: #f1f1f1;
 }
 .login-btn{
-    text-align: center; font-size: 13pt; width: 80%;margin-left: 10%;
-    overflow: hidden; margin-bottom: 5px;
+    text-align: center; width: 80%;margin-left: 10%;
+    overflow: hidden; margin-bottom: 10px;
 }
 #shopping-cart-icon{
     position: fixed;
