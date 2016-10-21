@@ -1,0 +1,141 @@
+{% load staticfiles %}
+{% load carton_tags %}
+{% get_cart as cart %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Cart | VIA NOIR | IRK Shop</title>
+<meta name="description" content="Prepare for the battle before VIA NOIR XM Anomaly, with us."/>
+<link rel="stylesheet" type="text/css" href="{% static 'modal/css/style_cart.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'modal/css/default.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'modal/css/component.css' %}"/>
+<script src="{% static 'modal/js/modernizr.custom.js' %}"></script>
+</head>
+<body class="cart-modal">
+<header class="cart-header">
+<div class="cart-headerwrap">
+	<div class="cart-logo">
+	<!-- shopping cart image, H x W: 50 x 50 px -->
+	<img src="{% static 'modal/images/icons/shopping_cart.png' %}" alt="shopping cart icon">
+	</div>
+	<div class="cart-title">
+	<!-- title -->
+		<h1>I R K&nbsp;&nbsp;S H O P</h1>
+	</div>
+</div>
+</header>
+<hr>
+<div id="cart-mainwrap">
+	<div id="cart-subtitle">
+		<h2>Your shopping cart:</h2>
+	</div>
+	<table class="cart-data-table">
+	<thead>
+	<tr>
+		<th class="cart-left cart-table-index">
+			 Item
+		</th>
+		<th class="cart-left cart-table-index">
+			<!-- item description -->
+			 &nbsp;
+		</th>
+		<th class="cart-left cart-table-index">
+			 Price
+		</th>
+		<th class="cart-center cart-table-index">
+			 Qty
+		</th>
+		<th class="cart-left cart-table-index">
+			 Subtotal
+		</th>
+		<th class="cart-center cart-table-index">
+			 Remove
+		</th>
+	</tr>
+	</thead>
+	<tbody>
+    {% for item in cart.items %}
+	<tr>
+		<td class="cart-left cart-item-view-image">
+			<!-- thumbnail image, H x W: 50 x 50 px -->
+            {% for image in item.product.images.all %}
+			<a href="http://dev.1magine.net/#SHOPSoap/1" class="item-image"><img src="{{ image.image.url|safe }}" alt="name of item here" width="50" height="50"></a>
+            {% endfor %}
+		</td>
+		<td class="cart-left cart-item-view-name">
+			<h3 class="item-name">
+			<!-- name of item, with link -->
+			<a href="http://dev.1magine.net/#SHOPSoap/1">{{ item.product.name }}</a>
+			</h3>
+		</td>
+		<td class="cart-left cart-price">
+			<!-- item price, per one -->
+			 ${{ item.product.price }}
+		</td>
+		<td class="cart-center cart-item-view-qty">
+			<!-- quantity -->
+			<input value="1" size="4" class="qty" maxlength="100" type="number">
+			<a href="#" title="Update Qty" class="update">UPDATE</a>
+		</td>
+		<td class="cart-left cart-price">
+			<!-- item price, subtotal -->
+			 ${{ item.subtotal }}
+		</td>
+		<td id="btn-click" class="cart-center cart-item-remove">
+			<!-- remove button, animated -->
+			<button class="btn btn-animated btn-d btn-icon-only icon-remove">Remove</button>
+		</td>
+	</tr>
+    {% endfor %}
+	</tbody>
+	<tfoot>
+	<!-- total price area -->
+	<tr>
+		<td colspan="10" class="cart-right">
+			<div class="cart-subtotal-price">
+				 Subtotal: ${{ cart.total }}
+			</div>
+			<div class="cart-subtotal-price">
+				 Shipping: $50.00
+			</div>
+			<div class="cart-subtotal-price">
+				 Estimated Tax: $50.00
+			</div>
+			<div class="cart-total-price">
+				 Total: $370.00
+			</div>
+		</td>
+	</tr>
+	<!-- button area -->
+	<tr>
+		<td colspan="10" class="cart-buttons" id="btn-click">
+			<div class="cart-buttons-wrapper">
+				<div class="cart-empty">
+					<button class="btn btn-animated btn-b icon-remove">Empty Cart</button>
+				</div>
+				<div class="cart-checkout">
+					<button class="btn btn-animated btn-a icon-truck">Checkout</button>
+				</div>
+			</div>
+		</td>
+	</tr>
+	</tfoot>
+	</table>
+</div>
+<!-- scripts for animated buttons -->
+<script src="{% static 'modal/js/classie.js' %}"></script>
+<script>
+	var buttonsClick = Array.prototype.slice.call( document.querySelectorAll( '#btn-click button' ) ),
+		totalButtonsClick = buttonsClick.length;
+		buttonsClick.forEach( function( el, i ) { el.addEventListener( 'click', activate, false ); } );
+			function activate() {
+				var self = this, activatedClass = 'btn-activated';
+				if( !classie.has( this, activatedClass ) ) {
+					classie.add( this, activatedClass );
+					setTimeout( function() { classie.remove( self, activatedClass ) }, 1000 );
+				}
+			}
+</script>
+</body>
+</html>
