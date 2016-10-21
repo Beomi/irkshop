@@ -44,7 +44,7 @@ def add_cart(request):
 def show_cart(request):
     cart = Cart(request.session)
     context = {"items": cart.items}
-    return render(request, 'shopping/show-cart.html', context=context)
+    return render(request, 'shopping/shopping-cart.html', context=context)
 
 def remove_cart(request):
     cart = Cart(request.session)

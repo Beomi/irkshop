@@ -64,6 +64,9 @@ class Goods(TimeStampModel):
             status
         )
 
+    def get_first_image(self):
+        return self.images.all()[0]
+
 
 class GoodsImage(TimeStampModel):
     goods = models.ForeignKey(Goods, related_name='images')

@@ -8,9 +8,9 @@
 <title>Cart | VIA NOIR | IRK Shop</title>
 <meta name="description" content="Prepare for the battle before VIA NOIR XM Anomaly, with us."/>
 <link rel="stylesheet" type="text/css" href="{% static 'modal/css/style_cart.css' %}"/>
-<link rel="stylesheet" type="text/css" href="{% static 'modal/css/default.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'modal/css/component.css' %}"/>
 <script src="{% static 'modal/js/modernizr.custom.js' %}"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 </head>
 <body class="cart-modal">
 <header class="cart-header">
@@ -59,14 +59,14 @@
 	<tr>
 		<td class="cart-left cart-item-view-image">
 			<!-- thumbnail image, H x W: 50 x 50 px -->
-            {% for image in item.product.images.all %}
-			<a href="http://dev.1magine.net/#SHOPSoap/1" class="item-image"><img src="{{ image.image.url|safe }}" alt="name of item here" width="50" height="50"></a>
-            {% endfor %}
+			<a href="/#SHOP{{ item.product.category }}/{{ item.product.id }}" class="item-image iziModal-button-close">
+                <img src="{{ item.product.get_first_image.image.url }}" alt="name of item here" style="width: 50px; height: auto;">
+            </a>
 		</td>
 		<td class="cart-left cart-item-view-name">
 			<h3 class="item-name">
 			<!-- name of item, with link -->
-			<a href="http://dev.1magine.net/#SHOPSoap/1">{{ item.product.name }}</a>
+			<a href="/#SHOP{{ item.product.category }}/{{ item.product.id }}">{{ item.product.name }}</a>
 			</h3>
 		</td>
 		<td class="cart-left cart-price">
@@ -75,7 +75,7 @@
 		</td>
 		<td class="cart-center cart-item-view-qty">
 			<!-- quantity -->
-			<input value="1" size="4" class="qty" maxlength="100" type="number">
+			<input value="{{ item.quantity }}" size="4" class="qty" maxlength="100" type="number">
 			<a href="#" title="Update Qty" class="update">UPDATE</a>
 		</td>
 		<td class="cart-left cart-price">
@@ -88,6 +88,7 @@
 		</td>
 	</tr>
     {% endfor %}
+    <button id="close-modal" data-izimodal-close="" data-izimodal-transitionout="bounceOutDown">Close</button>
 	</tbody>
 	<tfoot>
 	<!-- total price area -->
@@ -97,13 +98,13 @@
 				 Subtotal: ${{ cart.total }}
 			</div>
 			<div class="cart-subtotal-price">
-				 Shipping: $50.00
+				 Shipping: $0
 			</div>
 			<div class="cart-subtotal-price">
-				 Estimated Tax: $50.00
+				 Estimated Tax: $0
 			</div>
 			<div class="cart-total-price">
-				 Total: $370.00
+				 Total: ${{ cart.total }}
 			</div>
 		</td>
 	</tr>
@@ -136,6 +137,18 @@
 					setTimeout( function() { classie.remove( self, activatedClass ) }, 1000 );
 				}
 			}
+</script>
+<script type="text/javascript">
+    $(document).on('click', '#close-modal', function (event) {
+        window.parent.closeModal();
+    })
+</script>
+<script type="text/javascript">
+    $(document).on('click', 'a', function (event) {
+        window.parent.closeModal(
+                $(this).attr('href')
+        );
+    })
 </script>
 </body>
 </html>
