@@ -62,7 +62,7 @@
                             <h2>Price: ${{ good.price }}</h2>
                             <h4>{{ good.description|safe }}</h4>
                             <input name="good" value="{{ good.pk }}" type="hidden">
-                            <input style="z-index: 99" class="btn-lg" name="submit" type="submit" value="add to CART">
+                            <button style="z-index: 99" class="btn-lg" name="submit" type="submit" value="add to CART">add to CART</button>
                         </form>
                         </div>
                     {% endfor %}
