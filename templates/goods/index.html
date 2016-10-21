@@ -53,7 +53,7 @@
                 <div class="section" id="{{ category }}">
                     {% for good in goods|in_category:category %}
                         <div class="slide">
-                        <form id="add{{ good.name|safe }}" class="addCart" method="POST" enctype="multipart/form-data">
+                        <form id="add{{ good.name|safe }}" action="" class="addCart" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             {% for image in good.images.all %}
                                 <img class="product-img" src="{{ image.image.url|safe }}" />
@@ -62,7 +62,7 @@
                             <h2>Price: ${{ good.price }}</h2>
                             <h4>{{ good.description|safe }}</h4>
                             <input name="good" value="{{ good.pk }}" type="hidden">
-                            <input class="btn-lg" name="submit" type="submit" value="add to CART">
+                            <input style="z-index: 99" class="btn-lg" name="submit" type="submit" value="add to CART">
                         </form>
                         </div>
                     {% endfor %}
@@ -80,14 +80,14 @@ $("#modal").iziModal({
 });
 </script>
 <script type="text/javascript">
-    $(document).on('click', '.trigger', function (event) {
+    $(document).on('click touchstart', '.trigger', function (event) {
         event.preventDefault();
         $('#modal').iziModal('open'); // Use "this" to get URL href or option 'iframeURL'
     });
 </script>
 {% else %}
 <script type="text/javascript">
-    $(document).on('click', '.trigger', function (event) {
+    $(document).on('click touchstart', '.trigger', function (event) {
         event.preventDefault();
         alert("Please Login First");
     });
