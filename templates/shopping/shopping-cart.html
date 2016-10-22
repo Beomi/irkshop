@@ -75,10 +75,12 @@
 		</td>
 		<td class="cart-center cart-item-view-qty">
 			<!-- quantity -->
-			<input value="{{ item.quantity }}" size="4" class="qty" maxlength="100" type="number">
-			<a href="#" title="Update Qty" class="update">UPDATE</a>
+            <form>
+            {% csrf_token %}
+			<input value="{{ item.quantity }}" size="4" class="qty update-quantity" maxlength="100" type="number">
+            </form>
 		</td>
-		<td class="cart-left cart-price">
+		<td class="cart-left cart-price cart-subtotal-each">
 			<!-- item price, subtotal -->
 			 ${{ item.subtotal }}
 		</td>
@@ -149,6 +151,23 @@
                 $(this).attr('href')
         );
     })
+    $(document).on('tap click touchstart', '.update', function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: {% url 'shopping-cart-update' %},
+            type: "POST",
+            data: $(this.form).serialize(),
+            success : function(json) {
+                console.log(json); // another sanity check
+                alert(json['message']);
+            }
+        })
+    });
+    $('.update-quantity').change(function () {
+        var input_value = $(this).val();
+        var output_value = input_value * Number($(this).parent('form').parent().prev().text().replace('$',''));
+        $('.cart-subtotal-each').text('$'+output_value)
+    });
 </script>
 </body>
 </html>

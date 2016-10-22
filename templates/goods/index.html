@@ -78,7 +78,7 @@
         $.ajax({
             url: {% url 'shopping-cart-add' %},
             type: "POST",
-            data: $(this).serialize(),
+            data: $(this.form).serialize(),
             success : function(json) {
                 console.log(json); // another sanity check
                 alert(json['message']);
@@ -89,6 +89,7 @@
 <script type="text/javascript">
 $("#modal").iziModal({
     iframe: true,
+    iframeWidth:200,
     iframeHeight: 500,
     iframeURL: "{% url 'shopping-cart-show' %}"
 });

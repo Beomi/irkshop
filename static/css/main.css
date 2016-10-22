@@ -11,6 +11,15 @@ body { font-size: 1em;}
 
 @media (min-width: 700px) {
     html { font-size: 120%; }
+    .iziModal-iframe
+    {
+
+    }
+
+    #modal
+    {
+
+    }
 }
 
 @media (min-width: 1200px) {
@@ -62,7 +71,6 @@ main{
     margin: 0.2em;
     border: 0.2em;
     width: 80%;
-    height: 2em;
     margin-left: 10%;
     overflow: hidden;
 }

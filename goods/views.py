@@ -28,7 +28,6 @@ def add_cart(request):
             if request.user.is_authenticated:
                 cart = Cart(request.session)
                 goods = Goods.objects.get(id=request.POST.get('good'))
-                print(goods.name)
                 cart.add(goods, price=goods.price)
                 return JsonResponse({
                     'message':"Added {}".format(goods.name)
@@ -40,6 +39,20 @@ def add_cart(request):
     return JsonResponse({
         'message':"Please Access with AJAX/POST"
     })
+
+def update_cart(request):
+    if request.method == 'POST':
+        if request.is_ajax():
+            if request.user.is_authenticated:
+                cart = Cart(request.session)
+                quantity = request.POST.get('quantity')
+                goods = Goods.objects.get(id=request.POST.get('good'))
+                cart.set_quantity(goods, quantity)
+                return JsonResponse({
+                    'message':'update {} for {}'.format(
+                        goods.name, quantity
+                    )
+                })
 
 def show_cart(request):
     cart = Cart(request.session)
