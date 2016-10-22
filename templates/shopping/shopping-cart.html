@@ -77,6 +77,10 @@
 			<!-- quantity -->
             <form>
             {% csrf_token %}
+                <div hidden class="cart-item-id">{{ item.product.id }}</div>
+                <div hidden class="cart-item-name">{{ item.product.name }}</div>
+                <div hidden class="cart-item-price">{{ item.product.price }}</div>
+                <div hidden class="cart-item-subtotal">{{ item.subtotal }}</div>
 			<input value="{{ item.quantity }}" size="4" class="qty update-quantity" maxlength="100" type="number">
             </form>
 		</td>
@@ -141,32 +145,55 @@
 			}
 </script>
 <script type="text/javascript">
+    function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
     $(document).on('click', '#close-modal', function (event) {
         window.parent.closeModal();
     })
-</script>
-<script type="text/javascript">
     $(document).on('click', 'a', function (event) {
         window.parent.closeModal(
                 $(this).attr('href')
         );
     })
-    $(document).on('tap click touchstart', '.update', function (event) {
-        event.preventDefault();
+    $('.update-quantity').change(function () {
+
+        var input_value = $(this).val();
+        console.log(input_value)
+        var price = Number($(this).siblings('.cart-item-price').text())
+        console.log(price)
+        var total_price = input_value * price
+        console.log(total_price)
+        var good = Number($(this).siblings('.cart-item-id').text());
+        console.log(good)
+        $(this).parent().parent().siblings('.cart-subtotal-each').text('$'+total_price)
         $.ajax({
             url: {% url 'shopping-cart-update' %},
             type: "POST",
-            data: $(this.form).serialize(),
+            data: {
+                'quantity': input_value,
+                'csrfmiddlewaretoken' : csrftoken,
+                'good': good
+            },
             success : function(json) {
                 console.log(json); // another sanity check
-                alert(json['message']);
+                $()
             }
         })
-    });
-    $('.update-quantity').change(function () {
-        var input_value = $(this).val();
-        var output_value = input_value * Number($(this).parent('form').parent().prev().text().replace('$',''));
-        $('.cart-subtotal-each').text('$'+output_value)
     });
 </script>
 </body>

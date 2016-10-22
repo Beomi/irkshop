@@ -59,6 +59,10 @@ def show_cart(request):
     context = {"items": cart.items}
     return render(request, 'shopping/shopping-cart.html', context=context)
 
+def current_cart(request):
+    cart = Cart(request.session)
+    return JsonResponse(dict(data=cart.items_serializable))
+
 def remove_cart(request):
     cart = Cart(request.session)
     goods = Goods.objects.get(id=request.GET.get('id'))

@@ -18,7 +18,8 @@ urlpatterns = [
     url(r'^add/$', goods_views.add_cart, name='shopping-cart-add'),
     url(r'^show/$', goods_views.show_cart, name='shopping-cart-show'),
     url(r'^remove/$', goods_views.remove_cart, name='shopping-cart-remove'),
-    url(r'^update/$', goods_views.update_cart, name='shopping-cart-update')
+    url(r'^update/$', goods_views.update_cart, name='shopping-cart-update'),
+    url(r'^current/$', goods_views.current_cart, name='shopping-cart-current'),
 ]
 if settings.DEBUG:
     urlpatterns += [
