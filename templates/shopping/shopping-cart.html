@@ -109,6 +109,7 @@
 			<div class="cart-subtotal-price">
 				 Estimated Tax: $0
 			</div>
+            <div class="refresh-total"><u>REFRESH TOTALPRICE</u></div>
 			<div class="cart-total-price">
 				 Total: ${{ cart.total }}
 			</div>
@@ -195,6 +196,10 @@
             }
         })
     });
+    $('.refresh-total').click(function(){
+        location.reload();
+        //document.getElementsByClassName('iziModal-iframe')[0].contentWindow.location.reload();
+    })
 </script>
 </body>
 </html>
