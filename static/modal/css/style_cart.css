@@ -378,7 +378,8 @@ tbody td {
 }
 
 .cart-buttons-wrapper {
-	width:100%;
+	width: 100%;
+	max-width:500px;
 	margin:0 auto;
 	padding:0;
 	text-transform:uppercase;
