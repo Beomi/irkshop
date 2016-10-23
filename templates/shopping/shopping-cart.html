@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'modal/css/component.css' %}"/>
 <style>
     @media (max-width: 640px) {
-        header {
+        .mobile-disabled {
             display: none;
         }
     }
@@ -20,7 +20,7 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 </head>
 <body class="cart-modal">
-<header class="cart-header">
+<header class="cart-header mobile-disabled">
 <div class="cart-headerwrap">
 	<div class="cart-logo">
 	<!-- shopping cart image, H x W: 50 x 50 px -->
@@ -43,7 +43,7 @@
 		<th class="cart-left cart-table-index">
 			 Item
 		</th>
-		<th hidden class="cart-left cart-table-index">
+		<th class="cart-left cart-table-index mobile-disabled">
 			<!-- item description -->
 			 &nbsp;
 		</th>
@@ -70,7 +70,7 @@
             <div hidden class="cart-item-price">{{ item.product.price }}</div>
             <div hidden class="cart-item-subtotal">{{ item.subtotal }}</div>
         </td>
-		<td hidden class="cart-left cart-item-view-image">
+		<td class="cart-left cart-item-view-image mobile-disabled">
 			<!-- thumbnail image, H x W: 50 x 50 px -->
 			<a href="/#SHOP{{ item.product.category }}/{{ item.product.id }}" class="item-image iziModal-button-close">
                 <img src="{{ item.product.get_first_image.image.url }}" alt="name of item here" style="width: 50px; height: auto;">
