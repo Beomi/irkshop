@@ -86,11 +86,17 @@
     });
 </script>
 <script type="text/javascript">
+var current_width = Number(window.innerWidth)
+if (current_width < 600){
+    iframe_width = 480
+} else {
+    iframe_width = current_width * 0.8
+}
 $("#modal").iziModal({
     iframe: true,
     iframeHeight: Number(window.innerHeight) * 0.9,
     iframeURL: "{% url 'shopping-cart-show' %}",
-    width: Number(window.innerWidth) * 0.6
+    width: iframe_width
 });
 </script>
 <script type="text/javascript">
