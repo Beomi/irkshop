@@ -89,7 +89,8 @@
 $("#modal").iziModal({
     iframe: true,
     iframeHeight: Number(window.innerHeight) * 0.9,
-    iframeURL: "{% url 'shopping-cart-show' %}"
+    iframeURL: "{% url 'shopping-cart-show' %}",
+    width: Number(window.innerWidth) * 0.6
 });
 </script>
 <script type="text/javascript">
