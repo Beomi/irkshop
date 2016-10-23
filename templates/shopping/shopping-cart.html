@@ -64,6 +64,12 @@
 	<tbody>
     {% for item in cart.items %}
 	<tr>
+        <td hidden class="item-values">
+            <div hidden class="cart-item-id">{{ item.product.id }}</div>
+            <div hidden class="cart-item-name">{{ item.product.name }}</div>
+            <div hidden class="cart-item-price">{{ item.product.price }}</div>
+            <div hidden class="cart-item-subtotal">{{ item.subtotal }}</div>
+        </td>
 		<td hidden class="cart-left cart-item-view-image">
 			<!-- thumbnail image, H x W: 50 x 50 px -->
 			<a href="/#SHOP{{ item.product.category }}/{{ item.product.id }}" class="item-image iziModal-button-close">
@@ -204,6 +210,22 @@
     });
     $('.refresh-total').click(function(){
         location.reload();
+    })
+    $('.cart-item-remove').click(function(){
+        var good = Number($(this).siblings('.item-values').children('.cart-item-id').text());
+        console.log(good)
+        $.ajax({
+            url: {% url 'shopping-cart-remove' %},
+            type: "POST",
+            data: {
+                'good': good,
+                'csrfmiddlewaretoken' : csrftoken
+            },
+            success : function(json) {
+                console.log(json); // another sanity check
+                location.reload();
+            }
+        })
     })
 </script>
 </body>

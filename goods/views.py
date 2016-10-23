@@ -58,7 +58,11 @@ def current_cart(request):
     return JsonResponse(dict(data=cart.items_serializable))
 
 def remove_cart(request):
-    cart = Cart(request.session)
-    goods = Goods.objects.get(id=request.GET.get('id'))
-    cart.remove(goods)
-    return HttpResponse("Removed")
+    if request.method == 'POST':
+        if request.is_ajax():
+            cart = Cart(request.session)
+            goods = Goods.objects.get(pk=request.POST.get('good'))
+            cart.remove(goods)
+            return JsonResponse({
+                'message': "Removed"
+            })
