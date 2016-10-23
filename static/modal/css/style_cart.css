@@ -42,7 +42,11 @@ html, body div, span, div, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote
 	font-size:100%;
 	vertical-align:baseline;
 	background:transparent;
-}									
+}
+
+html {
+	min-width: 320px;
+}
 
 * {
 	-webkit-box-sizing:border-box;
@@ -334,7 +338,6 @@ td {
 	text-align:center;
 	text-indent:0;
 	padding:5px;
-	width:auto;
 	border:1px solid #ccc;
 	color:#000;
 	font-weight:400;
@@ -365,7 +368,6 @@ tbody td {
 	display:block;
 }
 
-
 /**
  * 5.3 Buttons
  * ----------------------------------------------------------------------------
@@ -376,7 +378,7 @@ tbody td {
 }
 
 .cart-buttons-wrapper {
-	width:500px;
+	width:100%;
 	margin:0 auto;
 	padding:0;
 	text-transform:uppercase;
@@ -387,9 +389,27 @@ tbody td {
 	margin:0;
 	padding:0;
 }
-
 .cart-buttons .cart-checkout {
 	float:right;
 	margin:0;
 	padding:0;
+}
+
+@media (max-width: 500px) {
+	.cart-buttons .cart-empty {
+		float:none;
+		margin:0;
+		padding:0;
+	}
+	.cart-buttons .cart-checkout {
+		float:none;
+		margin:0;
+		padding:0;
+	}
+	div.cart-buttons-wrapper {
+	text-align: center;
+	}
+	div.cart-buttons-wrapper.cart-empty, div.cart-buttons-wrapper.cart-checkout {
+		display: inline-block;
+	}
 }
