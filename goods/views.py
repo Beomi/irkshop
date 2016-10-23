@@ -66,3 +66,12 @@ def remove_cart(request):
             return JsonResponse({
                 'message': "Removed"
             })
+
+def clear_cart(request):
+    if request.method == 'POST':
+        if request.is_ajax():
+            cart = Cart(request.session)
+            cart.clear()
+            return JsonResponse({
+                'message': 'cleared cart'
+            })

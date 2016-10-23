@@ -133,10 +133,10 @@
 		<td colspan="10" class="cart-buttons" id="btn-click">
 			<div class="cart-buttons-wrapper">
 				<div class="cart-empty">
-					<button class="btn btn-animated btn-b icon-remove">Empty Cart</button>
+					<button class="btn btn-animated btn-b icon-remove" id="cart-empty-btn">Empty Cart</button>
 				</div>
 				<div class="cart-checkout">
-					<button class="btn btn-animated btn-a icon-truck">Checkout</button>
+					<button class="btn btn-animated btn-a icon-truck" id="checkout-btn">Checkout</button>
 				</div>
 			</div>
 		</td>
@@ -219,6 +219,19 @@
             type: "POST",
             data: {
                 'good': good,
+                'csrfmiddlewaretoken' : csrftoken
+            },
+            success : function(json) {
+                console.log(json); // another sanity check
+                location.reload();
+            }
+        })
+    })
+    $('#cart-empty-btn').click(function () {
+        $.ajax({
+            url: {% url 'shopping-cart-clear' %},
+            type: "POST",
+            data: {
                 'csrfmiddlewaretoken' : csrftoken
             },
             success : function(json) {

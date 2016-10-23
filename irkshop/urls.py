@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^remove/$', goods_views.remove_cart, name='shopping-cart-remove'),
     url(r'^update/$', goods_views.update_cart, name='shopping-cart-update'),
     url(r'^current/$', goods_views.current_cart, name='shopping-cart-current'),
+    url(r'^clear/$', goods_views.clear_cart, name='shopping-cart-clear'),
 ]
 if settings.DEBUG:
     urlpatterns += [
