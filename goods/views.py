@@ -25,17 +25,12 @@ def index(request):
 def add_cart(request):
     if request.method == 'POST':
         if request.is_ajax():
-            if request.user.is_authenticated:
-                cart = Cart(request.session)
-                goods = Goods.objects.get(id=request.POST.get('good'))
-                cart.add(goods, price=goods.price)
-                return JsonResponse({
-                    'message':"Added {}".format(goods.name)
-                })
-            else:
-                return JsonResponse({
-                    'message':'Please Login First'
-                })
+            cart = Cart(request.session)
+            goods = Goods.objects.get(id=request.POST.get('good'))
+            cart.add(goods, price=goods.price)
+            return JsonResponse({
+                'message':"Added {}".format(goods.name)
+            })
     return JsonResponse({
         'message':"Please Access with AJAX/POST"
     })
@@ -43,16 +38,15 @@ def add_cart(request):
 def update_cart(request):
     if request.method == 'POST':
         if request.is_ajax():
-            if request.user.is_authenticated:
-                cart = Cart(request.session)
-                quantity = request.POST.get('quantity')
-                goods = Goods.objects.get(id=request.POST.get('good'))
-                cart.set_quantity(goods, quantity)
-                return JsonResponse({
-                    'message':'update {} for {}'.format(
-                        goods.name, quantity
-                    )
-                })
+            cart = Cart(request.session)
+            quantity = request.POST.get('quantity')
+            goods = Goods.objects.get(id=request.POST.get('good'))
+            cart.set_quantity(goods, quantity)
+            return JsonResponse({
+                'message':'update {} for {}'.format(
+                    goods.name, quantity
+                )
+            })
 
 def show_cart(request):
     cart = Cart(request.session)

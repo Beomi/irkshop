@@ -9,6 +9,13 @@
 <meta name="description" content="Prepare for the battle before VIA NOIR XM Anomaly, with us."/>
 <link rel="stylesheet" type="text/css" href="{% static 'modal/css/style_cart.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'modal/css/component.css' %}"/>
+<style>
+    @media (max-width: 640px) {
+        header {
+            display: none;
+        }
+    }
+</style>
 <script src="{% static 'modal/js/modernizr.custom.js' %}"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 </head>
@@ -24,8 +31,8 @@
 		<h1>I R K&nbsp;&nbsp;S H O P</h1>
 	</div>
 </div>
-</header>
 <hr>
+</header>
 <div id="cart-mainwrap">
 	<div id="cart-subtitle">
 		<h2>Your shopping cart:</h2>
@@ -164,11 +171,11 @@
     var csrftoken = getCookie('csrftoken');
 
     $(document).on('click', '#close-modal', function (event) {
-        window.parent.closeModal();
+        window.parent.closeModal('/');
     })
     $(document).on('click', 'a', function (event) {
         window.parent.closeModal(
-                $(this).attr('href')
+            $(this).attr('href')
         );
     })
     $('.update-quantity').change(function () {
@@ -192,13 +199,11 @@
             },
             success : function(json) {
                 console.log(json); // another sanity check
-                $()
             }
         })
     });
     $('.refresh-total').click(function(){
         location.reload();
-        //document.getElementsByClassName('iziModal-iframe')[0].contentWindow.location.reload();
     })
 </script>
 </body>

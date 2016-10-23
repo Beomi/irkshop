@@ -44,8 +44,8 @@
 <div>
     {% include 'compositions/sidebar.html' %}
     <main>
-        <a href="" class="trigger"><img id="shopping-cart-icon" src="{% static 'image/shopping_cart.png' %}"></a>
-        <div id="modal">
+        <img id="shopping-cart-icon" src="{% static 'image/shopping_cart.png' %}">
+        <div id="modal" style="overflow: auto; -webkit-overflow-scrolling: touch">
         </div>
 
         <div id="fullpage">
@@ -62,7 +62,7 @@
                             <h2>Price: ${{ good.price }}</h2>
                             <h4>{{ good.description|safe }}</h4>
                             <input name="good" value="{{ good.pk }}" type="hidden">
-                            <input class="btn-lg addCartButton" name="submit" type="submit" value="add to CART">
+                            <button class="btn btn-xs addCartButton" name="submit" type="button" value="add to CART">add to CART</button>
                         </form>
                         </div>
                     {% endfor %}
@@ -71,10 +71,9 @@
         </div>
     </main>
 </div>
-{% if user.is_authenticated %}
 <script type="text/javascript">
-    $(document).on('tap click touchstart', '.addCartButton', function (event) {
-        event.preventDefault();
+    $('.addCartButton').on('click touchstart',function () {
+        console.log("clicked/touched")
         $.ajax({
             url: {% url 'shopping-cart-add' %},
             type: "POST",
@@ -89,24 +88,16 @@
 <script type="text/javascript">
 $("#modal").iziModal({
     iframe: true,
-    iframeWidth:200,
-    iframeHeight: 500,
+    iframeHeight: Number(window.innerHeight) * 0.9,
     iframeURL: "{% url 'shopping-cart-show' %}"
 });
 </script>
 <script type="text/javascript">
-    $(document).on('tap click touchstart', '.trigger', function (event) {
-        event.preventDefault();
+    console.log(window.innerWidth)
+    console.log(window.innerHeight)
+    $('#shopping-cart-icon').click(function () {
         $('#modal').iziModal('open'); // Use "this" to get URL href or option 'iframeURL'
     });
 </script>
-{% else %}
-<script type="text/javascript">
-    $(document).on('tap click touchstart', '.trigger', function (event) {
-        event.preventDefault();
-        alert("Please Login First");
-    });
-</script>
-{% endif %}
 
 {% endblock %}

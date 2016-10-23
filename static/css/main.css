@@ -11,15 +11,6 @@ body { font-size: 1em;}
 
 @media (min-width: 700px) {
     html { font-size: 120%; }
-    .iziModal-iframe
-    {
-
-    }
-
-    #modal
-    {
-
-    }
 }
 
 @media (min-width: 1200px) {
@@ -105,7 +96,7 @@ main{
     height: 50px;
     top: 0;
     right: 0;
-    z-index: 99999;
+    z-index: 99;
     filter: invert(100%);
     margin: 10px;
 }
@@ -115,11 +106,17 @@ main{
     height: 50px;
     bottom: 50px;
     left: 48%;
-    z-index: 9999;
+    z-index: 99;
 }
 #fp-nav ul li a span, .fp-slidesNav ul li a span{
     background-color: #FFF;
 }
 .fp-controlArrow.fp-next{
     right: 50px;
+}
+
+.addCartButton {
+    cursor: pointer;
+    color: #000000;
+    background: #fffef2;
 }
