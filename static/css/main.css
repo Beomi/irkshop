@@ -26,7 +26,6 @@ body{
 nav{
     padding-top: 20px;
     float: left;
-    max-width: 300px;
     width: 20%;
     height: 100%;
     position: fixed;
