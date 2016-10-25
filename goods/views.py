@@ -81,6 +81,7 @@ def clear_cart(request):
                 'message': 'cleared cart'
             })
 
+@login_required
 def payment_local(request):
     if request.method == 'POST':
         form = UserInfoForm(request.POST)
