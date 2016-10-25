@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load carton_tags %}
+{% get_cart as cart %}
+{% block title %}ORDER{% endblock %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'modal/css/style_cart.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'modal/css/component.css' %}"/>
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="order-list">
+        {% for item in cart.items %}
+            <div>
+
+            </div>
+        {% endfor %}
+    </div>
+    <div class="userinfo-form">
+        <form id="order-form">
+            <div>
+                <input name="o" type="text">
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+</script>
+
+{% endblock %}

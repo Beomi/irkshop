@@ -1,11 +1,13 @@
 # Django
 from django.db import models
+from django.contrib.postgres.fields import JSONField
 from django.conf import settings
 # Python
 from datetime import date
 # Pip
 from ckeditor.fields import RichTextField
 from address.models import AddressField
+from carton.cart import Cart
 
 
 class TimeStampModel(models.Model):
@@ -24,7 +26,7 @@ class Category(TimeStampModel):
 
 
 class UserInfo(TimeStampModel):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='usermodel')
     address = AddressField(blank=True, null=True)
 
     def __str__(self):
@@ -89,3 +91,8 @@ class Shipping(TimeStampModel):
             self.price,
             self.country
         )
+
+
+class Order(TimeStampModel):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    order = JSONField()

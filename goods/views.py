@@ -6,8 +6,12 @@ from django.contrib.auth.decorators import login_required
 from .models import Goods
 from .models import Shipping
 from .models import Category
+from .models import Order
+from .forms import UserInfoForm
 
 from carton.cart import Cart
+
+import json
 
 
 def index(request):
@@ -75,3 +79,23 @@ def clear_cart(request):
             return JsonResponse({
                 'message': 'cleared cart'
             })
+
+def payment_local(request):
+    if request.method == 'POST':
+        form = UserInfoForm(request.POST)
+        if form.is_valid():
+            order = Order()
+            cart = Cart(request.session)._items_dict
+            f = form.save(commit=False)
+            f.user = request.user
+            f.save()
+            order.user = request.user
+            order.order = json.dump(cart)
+            order.save()
+
+    elif request.method == 'GET':
+        form = UserInfoForm()
+
+    return render(request, 'payment/payment_local.html', {
+        'form': form,
+    })
