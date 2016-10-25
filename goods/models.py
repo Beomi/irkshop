@@ -98,7 +98,7 @@ class Order(TimeStampModel):
     is_paid = models.BooleanField(default=False)
 
     @property
-    def price(self):
+    def total_price(self):
         total = 0
         order_details = self.orderdetail.all()
         for order in order_details:

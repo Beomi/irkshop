@@ -7,6 +7,7 @@ from .models import Goods
 from .models import Shipping
 from .models import Category
 from .models import Order
+from .models import OrderDetail
 from .forms import UserInfoForm
 
 from carton.cart import Cart
@@ -84,16 +85,19 @@ def payment_local(request):
     if request.method == 'POST':
         form = UserInfoForm(request.POST)
         if form.is_valid():
-            order = Order()
-            cart = Cart(request.session)._items_dict
+            this_order = Order()
+            cart = Cart(request.session).cart_serializable
             f = form.save(commit=False)
             f.user = request.user
             f.save()
-            order.user = request.user
-            order.order = json.dump(cart)
-            order.save()
-
-    elif request.method == 'GET':
+            this_order.user = request.user
+            this_order.save()
+            for k, v in cart:
+                order_detail = OrderDetail()
+                order_detail.good = Goods.objects.get(pk=v.product_pk)
+                order_detail.count = v.quantity
+                order_detail.order = this_order
+    else:
         form = UserInfoForm()
 
     return render(request, 'payment/payment_local.html', {
