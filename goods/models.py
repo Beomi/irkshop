@@ -36,10 +36,10 @@ class UserInfo(TimeStampModel):
 class Goods(TimeStampModel):
     category = models.ForeignKey(Category, null=True)
     name = models.CharField(max_length=200)
-    price = models.IntegerField()
+    price = models.DecimalField(decimal_places=2, max_digits=10)
     description = RichTextField()
-    weight = models.FloatField()
-    size = models.FloatField()
+    weight = models.DecimalField(decimal_places=2, max_digits=10)
+    size = models.DecimalField(decimal_places=2, max_digits=10)
     sell_until = models.DateField(null=True, blank=True)
     is_valid = models.BooleanField(default=True)
 
@@ -82,7 +82,7 @@ class Shipping(TimeStampModel):
     name = models.CharField(max_length=200)
     country = models.CharField(max_length=200)
     receive_at = models.CharField(max_length=200)
-    price = models.PositiveIntegerField()
+    price = models.DecimalField(decimal_places=2, max_digits=10)
 
     def __str__(self):
         return "({}){}: {} ({})".format(
@@ -95,4 +95,22 @@ class Shipping(TimeStampModel):
 
 class Order(TimeStampModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    order = JSONField()
+    is_paid = models.BooleanField(default=False)
+
+    @property
+    def price(self):
+        total = 0
+        order_details = self.orderdetail.all()
+        for order in order_details:
+            total += order.order_price
+        return total
+
+
+class OrderDetail(TimeStampModel):
+    order = models.ForeignKey(Order, related_name='orderdetail')
+    good = models.ForeignKey(Goods)
+    count = models.PositiveSmallIntegerField()
+
+    @property
+    def order_price(self):
+        return self.good.price * self.count
