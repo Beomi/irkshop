@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
+from django.shortcuts import reverse
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -8,7 +10,7 @@ from .models import Shipping
 from .models import Category
 from .models import Order
 from .models import OrderDetail
-from .forms import UserInfoForm
+from .forms import AddressForm
 
 from carton.cart import Cart
 
@@ -84,13 +86,12 @@ def clear_cart(request):
 @login_required
 def payment_local(request):
     if request.method == 'POST':
-        form = UserInfoForm(request.POST)
+        form = AddressForm(request.POST)
         if form.is_valid():
             this_order = Order()
             cart = Cart(request.session).cart_serializable
-            f = form.save(commit=False)
-            f.user = request.user
-            f.save()
+            this_order.address = form.address
+            this_order.additional_address = request.POST.get('AdditionalAddress')
             this_order.user = request.user
             this_order.save()
             for k, v in cart:
@@ -98,9 +99,13 @@ def payment_local(request):
                 order_detail.good = Goods.objects.get(pk=v.product_pk)
                 order_detail.count = v.quantity
                 order_detail.order = this_order
+            return redirect(reverse(thank_you))
     else:
-        form = UserInfoForm()
+        form = AddressForm()
 
     return render(request, 'payment/payment_local.html', {
         'form': form,
     })
+
+def thank_you(request):
+    return render(request, 'payment/thankyou.html')

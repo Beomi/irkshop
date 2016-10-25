@@ -25,14 +25,6 @@ class Category(TimeStampModel):
         return self.name
 
 
-class UserInfo(TimeStampModel):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='usermodel')
-    address = AddressField(blank=True, null=True)
-
-    def __str__(self):
-        return self.user.name
-
-
 class Goods(TimeStampModel):
     category = models.ForeignKey(Category, null=True)
     name = models.CharField(max_length=200)
@@ -96,6 +88,8 @@ class Shipping(TimeStampModel):
 class Order(TimeStampModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     is_paid = models.BooleanField(default=False)
+    address = AddressField(blank=True, null=True)
+    additional_address = models.TextField(blank=True, null=True)
 
     @property
     def total_price(self):

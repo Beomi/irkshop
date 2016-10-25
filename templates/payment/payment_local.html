@@ -1,28 +1,120 @@
-{% extends 'base.html' %}
 {% load staticfiles %}
 {% load carton_tags %}
 {% get_cart as cart %}
-{% block title %}ORDER{% endblock %}
-{% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'modal/css/style_cart.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'modal/css/component.css' %}"/>
-{% endblock %}
-{% block body %}
-<div class="container">
-    <div class="order-list">
-        {% for item in cart.items %}
-            <div>
-
-            </div>
-        {% endfor %}
-    </div>
-    <div class="userinfo-form">
-        {{ form }}
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>ORDER | VIA NOIR | IRK Shop</title>
+<meta name="description" content="Prepare for the battle before VIA NOIR XM Anomaly, with us."/>
+<link rel="stylesheet" type="text/css" href="{% static 'modal/css/style_cart.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'modal/css/component.css' %}"/>
+<script src="{% static 'modal/js/modernizr.custom.js' %}"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+{{ form.media }}
+</head>
+<body class="cart-modal">
+<header class="cart-header mobile-disabled">
+<div class="cart-headerwrap">
+	<div class="cart-logo">
+	<!-- shopping cart image, H x W: 50 x 50 px -->
+	<img src="{% static 'modal/images/icons/shopping_cart.png' %}" alt="shopping cart icon">
+	</div>
+	<div class="cart-title">
+	<!-- title -->
+		<h1>I R K&nbsp;&nbsp;S H O P</h1>
+	</div>
+</div>
+<hr>
+</header>
+<div id="cart-mainwrap">
+	<div id="cart-subtitle">
+		<h2>Your shopping cart:</h2>
+	</div>
+	<table class="cart-data-table">
+	<thead>
+	<tr>
+		<th class="cart-left cart-table-index">
+			 Item
+		</th>
+		<th class="cart-left cart-table-index mobile-disabled">
+			<!-- item description -->
+			 &nbsp;
+		</th>
+		<th class="cart-left cart-table-index">
+			 Price
+		</th>
+		<th class="cart-center cart-table-index">
+			 Qty
+		</th>
+		<th class="cart-left cart-table-index">
+			 Subtotal
+		</th>
+	</tr>
+	</thead>
+	<tbody>
+    {% for item in cart.items %}
+	<tr>
+		<td class="cart-left cart-item-view-image mobile-disabled">
+			<!-- thumbnail image, H x W: 50 x 50 px -->
+			<a href="/#SHOP{{ item.product.category }}/{{ item.product.id }}" target="_blank" class="item-image iziModal-button-close">
+                <img src="{{ item.product.get_first_image.image.url }}" alt="name of item here" style="width: 50px; height: auto;">
+            </a>
+		</td>
+		<td class="cart-left cart-item-view-name">
+			<h3 class="item-name">
+			<!-- name of item, with link -->
+			<a href="/#SHOP{{ item.product.category }}/{{ item.product.id }}" target="_blank">{{ item.product.name }}</a>
+			</h3>
+		</td>
+		<td class="cart-left cart-price">
+			<!-- item price, per one -->
+			 ${{ item.product.price }}
+		</td>
+		<td class="cart-center cart-item-view-qty">
+            {{ item.quantity }}
+		</td>
+		<td class="cart-left cart-price cart-subtotal-each">
+			<!-- item price, subtotal -->
+			 ${{ item.subtotal }}
+		</td>
+	</tr>
+    {% endfor %}
+	</tbody>
+	<tfoot>
+	<!-- total price area -->
+	<tr>
+		<td colspan="10" class="cart-right">
+			<div class="cart-total-price">
+				 Total: ${{ cart.total }}
+			</div>
+		</td>
+	</tr>
+	<!-- button area -->
+	<tr>
+		<td colspan="10" class="cart-buttons" id="btn-click">
+			<div class="cart-buttons-wrapper">
+				<div class="cart-checkout" style="align-content: center">
+					<a href="{% url 'payment-local' %}"><button class="btn btn-animated btn-a icon-truck" id="checkout-btn">ORDER</button></a>
+				</div>
+			</div>
+		</td>
+	</tr>
+	</tfoot>
+	</table>
 </div>
 
-<script>
+<div>
+<h2>Shipping Address:</h2>
+    <form action="" method="post">
+      {% csrf_token %}
+      {{ form }}
+        <input name="AdditionalAddress" type="text" placeholder="Additional Address">
+      <input type="submit">
+    </form>
+</div>
 
-</script>
-
-{% endblock %}
+<!-- scripts for animated buttons -->
+<script src="{% static 'modal/js/classie.js' %}"></script>
+</body>
+</html>
