@@ -99,6 +99,17 @@ class Order(TimeStampModel):
             total += order.order_price
         return total
 
+    def __str__(self):
+        if self.is_paid:
+            paid = '결제완료'
+        else:
+            paid = '결제대기'
+        return '{} / {} / ${}'.format(
+            self.user,
+            paid,
+            self.total_price
+        )
+
 
 class OrderDetail(TimeStampModel):
     order = models.ForeignKey(Order, related_name='orderdetail')
@@ -108,3 +119,9 @@ class OrderDetail(TimeStampModel):
     @property
     def order_price(self):
         return self.good.price * self.count
+
+    def __str__(self):
+        return '{} / ${}'.format(
+            self.order.pk,
+            self.order_price
+        )

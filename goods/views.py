@@ -90,15 +90,17 @@ def payment_local(request):
         if form.is_valid():
             this_order = Order()
             cart = Cart(request.session).cart_serializable
-            this_order.address = form.address
+            this_order.address = form.cleaned_data['address']
             this_order.additional_address = request.POST.get('AdditionalAddress')
             this_order.user = request.user
             this_order.save()
-            for k, v in cart:
+            print(cart)
+            for v in cart.values():
                 order_detail = OrderDetail()
-                order_detail.good = Goods.objects.get(pk=v.product_pk)
-                order_detail.count = v.quantity
+                order_detail.good = Goods.objects.get(pk=v['product_pk'])
+                order_detail.count = v['quantity']
                 order_detail.order = this_order
+                order_detail.save()
             return redirect(reverse(thank_you))
     else:
         form = AddressForm()

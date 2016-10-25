@@ -4,6 +4,8 @@ from .models import Goods
 from .models import GoodsImage
 from .models import Category
 from .models import Shipping
+from .models import Order
+from .models import OrderDetail
 
 
 class GoodsImageInline(admin.TabularInline):
@@ -18,3 +20,5 @@ class GoodsAdmin(admin.ModelAdmin):
 admin.site.register(Category)
 admin.site.register(Goods, GoodsAdmin)
 admin.site.register(Shipping)
+admin.site.register(Order)
+admin.site.register(OrderDetail)
