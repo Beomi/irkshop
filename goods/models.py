@@ -99,15 +99,26 @@ class Order(TimeStampModel):
             total += order.order_price
         return total
 
+    @property
+    def get_orderdetail_for_this_order(self):
+        order_details = self.orderdetail.all()
+        details = {}
+        for detail in order_details:
+            details[detail.good.name] = detail.count
+        return details
+
+
     def __str__(self):
         if self.is_paid:
             paid = '결제완료'
         else:
             paid = '결제대기'
-        return '{} / {} / ${}'.format(
+        return '#{} / {} / {} / ${} / 주문내역: {}'.format(
+            self.pk,
             self.user,
             paid,
-            self.total_price
+            self.total_price,
+            self.get_orderdetail_for_this_order
         )
 
 
@@ -121,7 +132,7 @@ class OrderDetail(TimeStampModel):
         return self.good.price * self.count
 
     def __str__(self):
-        return '{} / ${}'.format(
+        return '#{} / ${}'.format(
             self.order.pk,
             self.order_price
         )
