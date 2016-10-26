@@ -1,0 +1,572 @@
+/*--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+--*/
+/* reset */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,dl,dt,dd,ol,nav ul,nav li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
+article, aside, details, figcaption, figure,footer, header, hgroup, menu, nav, section {display: block;}
+ol,ul{list-style:none;margin:0px;padding:0px;}
+blockquote,q{quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+table{border-collapse:collapse;border-spacing:0;}
+/* start editing from here */
+a{text-decoration:none;}
+.txt-rt{text-align:right;}/* text align right */
+.txt-lt{text-align:left;}/* text align left */
+.txt-center{text-align:center;}/* text align center */
+.float-rt{float:right;}/* float right */
+.float-lt{float:left;}/* float left */
+.clear{clear:both;}/* clear float */
+.pos-relative{position:relative;}/* Position Relative */
+.pos-absolute{position:absolute;}/* Position Absolute */
+.vertical-base{	vertical-align:baseline;}/* vertical align baseline */
+.vertical-top{	vertical-align:top;}/* vertical align top */
+nav.vertical ul li{	display:block;}/* vertical menu */
+nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
+img{max-width:100%;}
+/*end reset*/
+body{
+	padding:0;
+	margin:0;
+	background: url(../images/bg.jpg)no-repeat; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	-ms-background-size: cover;
+	background-size: cover;
+	font-family: 'Roboto Condensed', sans-serif;
+	background-attachment: fixed; 
+}
+
+h1,h2,h3,h4,h5,h6{
+	margin:0;			   
+}	
+p{
+	margin:0;
+}
+ul{
+	margin:0;
+	padding:0;
+}
+label{
+	margin:0;
+}
+a{ 
+	-webkit-transition: 0.5s all;
+	-moz-transition: 0.5s all;
+	-o-transition: 0.5s all;
+	-ms-transition: 0.5s all;
+	transition: 0.5s all;
+	outline: none;
+	text-decoration:none;
+}
+a:hover{
+	transition: 0.5s all;
+	-webkit-transition: 0.5s all;
+	-moz-transition: 0.5s all;
+	-o-transition: 0.5s all;
+} 
+/*-- widget start here --*/
+.login {
+    margin-top: 3em;
+}
+.login h2 {
+    font-size: 3em;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 1em;
+}
+.login h3 {
+    font-size: 1em;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 0.5em;
+    font-weight: 100;
+}
+.login h3 a {
+    color: #ecba65;
+	margin-left: 6px;
+}
+.login h3 a:hover{
+    color: #fff;
+}
+.login-main {
+    width: 30%;
+    margin: 0 auto;
+    border: 1px solid #fff;
+    padding: 3em;
+    background: rgba(0, 0, 0, 0.45);
+}
+.login h1, h5.w3ls-title {
+    text-align: center;
+    font-size:1.7em;
+    color: #d6921e;
+    margin-bottom: 1em;
+	font-weight:100;
+} 
+.login input[type="text"],.login input[type="password"] {
+    display: block;
+    background: none;
+	border: none;
+    border-bottom: 1px solid #ffffff;
+    width: 100%;  
+    outline: none;
+    font-size: 0.95em;
+    color: #ffffff;
+    font-weight: 400;
+    -webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-o-border-radius: 3px;
+	-ms-border-radius: 3px;
+    border-radius: 3px;
+    padding: 10px 0px;
+    text-align: center;
+    margin: 0 0 2em 0em;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+.login input[type="text"]:focus ,.login input[type="password"]:focus{
+    border-color: #d6921e;
+} 
+.login input[type="submit"] {
+    font-size: 1em;
+    color: #FFFFFF;
+    padding: 0.6em 1em 0.6em 1em;
+    display: block;
+    border: none;
+    margin: 3em auto 0em;
+    outline: none;
+    background:#d6921e;
+	border: 1px solid #d6921e;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-o-border-radius: 3px;
+	-ms-border-radius: 3px;
+    border-radius: 3px;
+    text-align: center;
+    width: 30%;
+    cursor: pointer;
+    font-family: 'Roboto Condensed', sans-serif;
+	transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+}
+.login input[type="submit"]:hover {
+    background: transparent; 
+    color: #d6921e;
+}
+.login p {
+    font-size: 1em;
+    color: #fff;
+}
+::-webkit-input-placeholder{
+   color:#d4d2d2 !important;
+} 
+.social-btns {
+    margin: 2.5em 0;
+}
+.social-btns a {
+    font-size: 1em;
+    color: #fff;
+    background: #000;
+    width: 46%;
+    padding: 0.9em 0.5em;
+    display: inline-block;
+    text-align: center;
+}
+.social-btns a.fa {
+    background: url(../images/face.png)no-repeat 61px center #354c80;
+}
+.social-btns a.fa:hover{
+    background-color:#263965;
+}
+.social-btns a.g {
+    background: url(../images/google.png)no-repeat 67px center #b53f31;
+}
+.social-btns a.g:hover {
+	background-color:#9a372b; 
+}
+/*-- //widget end here --*/
+/*-- copyrights --*/
+.copy-rights {
+    text-align: center;
+    padding: 3em 0;
+}
+.copy-rights p {
+    font-size: 1em;
+    color: #fff;
+    text-align: center;
+    line-height: 1.7em;
+}
+.copy-rights p a{
+  color:#FFC562; 
+} 
+.copy-rights p a:hover{
+  color: #fff; 
+} 
+/*-- //copyrights --*/
+/*-- //widget end here --*/ 
+.login-modal.login {
+    width: 50%;
+    margin: 5em auto 0;
+}
+/*-- Magnific Popup CSS --*/
+.mfp-bg {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1042;
+  overflow: hidden;
+  position: fixed;
+  background: #0b0b0b;
+  opacity: 0.8;
+  filter: alpha(opacity=80); }
+
+.mfp-wrap {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1043;
+  position: fixed;
+  outline: none !important;
+  -webkit-backface-visibility: hidden; }
+
+.mfp-container {
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    height: inherit;
+    left: 0;
+    top: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background:#000;
+    background-size: cover;
+    padding: 0 !important;
+    overflow-y: scroll;
+}
+.mfp-container:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle; }
+
+.mfp-align-top .mfp-container:before {
+  display: none; }
+
+.mfp-content {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 auto;
+  text-align: left;
+  z-index: 1045; }
+
+.mfp-inline-holder .mfp-content,
+.mfp-ajax-holder .mfp-content {
+  width: 80%;
+  cursor: auto; }
+
+.mfp-ajax-cur {
+  cursor: progress; }
+
+.mfp-zoom-out-cur,
+.mfp-zoom-out-cur .mfp-image-holder .mfp-close {
+  cursor: -moz-zoom-out;
+  cursor: -webkit-zoom-out;
+  cursor: zoom-out; }
+.mfp-zoom {
+  cursor: pointer;
+  cursor: -webkit-zoom-in;
+  cursor: -moz-zoom-in;
+  cursor: zoom-in; }
+
+.mfp-auto-cursor .mfp-content {
+    cursor: auto;
+}
+.mfp-close,
+.mfp-arrow,
+.mfp-preloader,
+.mfp-counter {
+  -webkit-user-select: none;
+  -moz-user-select: none; 
+}
+
+.mfp-loading.mfp-figure {
+  display: none; }
+
+.mfp-hide {
+  display: none !important; }
+
+button.mfp-close,
+button.mfp-arrow {
+    overflow: visible;
+    cursor: pointer;
+    border: 0;
+    -webkit-appearance: none;
+    display: block;
+    padding: 0;
+    z-index: 1046;
+ } 
+.mfp-close {
+    width: 44px;
+    height: 44px;
+    line-height: 44px;
+    position: absolute;
+    right: 0;
+    top: 0px;
+    text-decoration: none;
+    text-align: center;
+    padding: 0 0 18px 10px;
+    color: #fff;
+    font-style: normal;
+    font-size: 35px;
+    outline: none;
+}
+  .mfp-close:hover, .mfp-close:focus {
+    opacity: 1; }
+
+.mfp-close-btn-in .mfp-close {
+	    background: none;
+  } 
+/**
+ * Fade-zoom animation for first dialog
+ */
+
+/* start state */
+.my-mfp-zoom-in #small-dialog{
+	opacity: 0;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	-o-transition: all 0.3s;
+	transition: all 0.3s;
+	-webkit-transform: translateY(-100px);
+	-moz-transform: translateY(-100px);
+	-o-transform: translateY(-100px);
+	-ms-transform: translateY(-100px);
+	transform: translateY(-100px);
+	padding:6em 0;
+} 
+/* animate in */
+.my-mfp-zoom-in.mfp-ready #small-dialog {
+	opacity: 1;
+	-webkit-transform: translateY(0);
+	-moz-transform: translateY(0);
+	-o-transform: translateY(0);
+	-ms-transform: translateY(0);
+    transform: translateY(0);
+}
+/*-- //Magnific Popup CSS --*/
+/*-- responsive-design --*/
+@media(max-width:1440px){
+.social-btns a { 
+    width: 45.5%; 
+} 
+.login-main {
+    width: 35%; 
+}
+} 
+@media(max-width:1280px){
+.login-main {
+    width: 40%;
+    padding: 2.5em;
+} 
+}
+@media(max-width:1080px){
+.login {
+    margin-top: 2em;
+}
+.login-main {
+    width: 47%;
+}
+.login-modal.login {
+    width: 60%; 
+} 
+}
+@media(max-width:1024px){ 
+.login h2 {
+    font-size: 2.5em; 
+} 
+}
+@media(max-width:991px){
+.login-main {
+    width: 51%;
+}
+.social-btns {
+    margin: 2em 0;
+}
+.login-modal.login {
+    width: 65%;
+    margin: 4em auto 0;
+}
+}
+@media(max-width:800px){
+.login h2 {
+    font-size: 2.2em;
+} 
+.social-btns a.fa,.social-btns a.g{
+    background-position:52px center;
+}
+.my-mfp-zoom-in #small-dialog { 
+    padding: 1em 0;
+} 
+.login-main {
+    width: 58%;
+}
+.login-modal.login {
+    margin: 3em auto 0;
+    width: 73%;
+}
+}
+@media(max-width:736px){
+.login-main {
+    width: 60%; 
+}
+.social-btns a { 
+    padding: 0.8em 0.5em; 
+}
+.login input[type="submit"] { 
+    margin: 2.5em auto 0; 
+}
+.social-btns {
+    margin: 2em 0;
+}
+.login-modal.login {
+    width: 84%;
+}
+}
+@media(max-width:667px){
+.login-main {
+    width: 63%;
+} 
+.copy-rights { 
+    padding: 2.5em 0;
+}
+}
+@media(max-width:640px){
+.login h2 {
+    font-size: 2.2em;
+	margin-bottom: 0.8em;
+}
+.login-main {
+    width: 65%;
+    padding: 2em;
+}
+.login-modal.login {
+    width: 92%;
+}
+}
+@media(max-width:600px){
+.login-main {
+    width: 70%;
+    padding: 1.5em;
+}
+}
+@media(max-width:568px){ 
+.social-btns a.fa, .social-btns a.g {
+    background-position: 43px center;
+}
+.social-btns a {
+    width: 45%;
+}
+}
+@media(max-width:480px){
+.social-btns a {
+    width: 44%;
+}
+.social-btns a.fa, .social-btns a.g {
+    background-position: 25px center;
+}
+.copy-rights p {
+    font-size: 0.9em;
+    padding: 0 1em;
+}
+.login {
+    margin-top: 1.5em;
+}
+.login input[type="submit"] {
+    margin: 2em auto 0;
+}
+}
+@media(max-width:414px){
+.login h2 {
+    font-size: 2em; 
+}
+.login-main {
+    width: 67%;
+    padding: 1.5em;
+}
+.login p {
+    font-size: 0.9em; 
+}
+.login input[type="text"], .login input[type="password"] { 
+    font-size: 0.9em; 
+	padding: 5px 0px;
+}
+.login input[type="submit"] {
+    margin: 2em auto 0;
+    width: 55%;
+    font-size: 0.9em;
+}
+.social-btns a {
+    padding: 0.6em 0.5em;
+	 width: 93%;
+}
+.social-btns a.g {
+    margin-top: 9px;
+}
+.login-modal.login {
+    width: 95%;
+}
+.social-btns {
+    margin: 1.5em 0;
+}
+.social-btns a.fa, .social-btns a.g {
+    background-position: 74px center;
+}
+}
+@media(max-width:384px){
+.login h3 {
+    font-size: 0.9em; 
+}
+.login h2 {
+    font-size: 1.8em;
+}
+}
+@media(max-width:375px){
+.login h2 {
+    font-size: 1.8em;
+}
+.login-main {
+    width: 76%;
+    padding: 1em;
+}
+.login h1, h5.w3ls-title { 
+    font-size: 1.5em; 
+    margin-bottom: 0.5em; 
+}
+.login input[type="text"], .login input[type="password"] { 
+    margin: 0 0 1.5em 0; 
+}
+.login input[type="submit"] { 
+    width: 60%; 
+} 
+.copy-rights {
+    padding: 1.5em 0;
+}
+.login-modal.login {
+    width: 99%;
+    margin: 2em auto 0;
+}   
+}
+@media(max-width:320px){
+.social-btns a.fa, .social-btns a.g {
+    background-position: 60px center;
+} 
+} 
+/*-- //responsive-design --*/
