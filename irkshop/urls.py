@@ -9,7 +9,7 @@ from goods import views as goods_views
 
 urlpatterns = [
     url(r'^accounts/login/$', login,
-        {'template_name': 'login/login.html'}, name='login'),
+        {'template_name': 'login_page/login.html'}, name='login'),
     url(r'^accounts/logout/$', logout, name='logout'),
     url(r'^admin/', admin.site.urls),
     url(r'^$', goods_views.index, name='index'),
