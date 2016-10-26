@@ -121,7 +121,7 @@ def payment_local(request):
             Cart(request.session).clear()
             return JsonResponse({
                 'message': "Sucessfully Ordered!",
-                'redirect': reverse('payment-paypal') + '/{}'.format(order_number)
+                'redirect': '/payment-paypal' + '/{}'.format(order_number)
             })
         else:
             return JsonResponse({
