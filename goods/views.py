@@ -148,8 +148,8 @@ def payment_paypal(request, order_number):
         "amount": "{}".format(order.total_price),
         "item_name": "{}".format(order.orderdetail.all()[0].good),
         "invoice": "{}".format(order.pk),
-        "notify_url": "http://dev.1magine.net" + reverse('paypal-ipn'),
-        "return_url": "http://dev.1magine.net/check_payment/",
+        "notify_url": "http://dev.1magine.net/paypal/",
+        "return_url": "http://dev.1magine.net/thank-you/",
         "cancel_return": "http://dev.1magine.net/cancel_payment/",
         "custom": "Upgrade all users!",  # Custom command to correlate to some function later (optional)
     }
@@ -161,7 +161,7 @@ def payment_paypal(request, order_number):
 def check_payment(sender, **kwargs):
     ipn_obj = sender
     if ipn_obj.payment_status == ST_PP_COMPLETED:
-        if ipn_obj.receiver_email != "receiver_email@example.com":
+        if ipn_obj.receiver_email != settings.PAYPAL_ID:
             return None
         try:
             order = Order.objects.get(pk=ipn_obj.invoice)
