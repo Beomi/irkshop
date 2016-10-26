@@ -12,7 +12,7 @@ urlpatterns = [
         {'template_name': 'login/login.html'}, name='login'),
     url(r'^accounts/logout/$', logout, name='logout'),
     url(r'^admin/', admin.site.urls),
-    url(r'^$', goods_views.index),
+    url(r'^$', goods_views.index, name='index'),
     url('', include('social.apps.django_app.urls', namespace='social')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^add/$', goods_views.add_cart, name='shopping-cart-add'),

@@ -13,6 +13,7 @@ from .models import OrderDetail
 from .forms import AddressForm
 
 from carton.cart import Cart
+from address import models as address_model
 
 import json
 
@@ -88,20 +89,37 @@ def payment_local(request):
     if request.method == 'POST':
         form = AddressForm(request.POST)
         if form.is_valid():
+            print(form.cleaned_data)
             this_order = Order()
             cart = Cart(request.session).cart_serializable
             this_order.address = form.cleaned_data['address']
-            this_order.additional_address = request.POST.get('AdditionalAddress')
+            print(this_order.address)
+            try:
+                this_order.additional_address = form.cleaned_data['AdditionalAddress']
+                print(this_order.additional_address)
+            except:
+                return JsonResponse({
+                    'message': 'Please Select more specific Location'
+                })
+
             this_order.user = request.user
-            this_order.save()
             print(cart)
+            this_order.save()
             for v in cart.values():
                 order_detail = OrderDetail()
                 order_detail.good = Goods.objects.get(pk=v['product_pk'])
                 order_detail.count = v['quantity']
                 order_detail.order = this_order
                 order_detail.save()
-            return redirect(reverse(thank_you))
+            Cart(request.session).clear()
+            return JsonResponse({
+                'message': "Sucessfully Ordered!",
+                'redirect': reverse('index')
+            })
+        else:
+            return JsonResponse({
+                'message': 'Please Input valid Address'
+            })
     else:
         form = AddressForm()
 

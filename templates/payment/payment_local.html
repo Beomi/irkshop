@@ -15,9 +15,12 @@
 <script type="text/javascript" src="/static/js/jquery.geocomplete.min.js"></script>
 <script type="text/javascript" src="/static/address/js/address.js"></script>
 <style>
-  .address {
-    width: 300px;
-  }
+    .address {
+    width: 100%;
+    }
+    .address-input {
+        width: 80%;
+    }
 </style>
 </head>
 <body class="cart-modal">
@@ -97,31 +100,42 @@
 			</div>
 		</td>
 	</tr>
-	<!-- button area -->
-	<tr>
-		<td colspan="10" class="cart-buttons" id="btn-click">
-			<div class="cart-buttons-wrapper">
-				<div class="cart-center">
-					<a href="{% url 'payment-local' %}"><button class="btn btn-animated btn-a icon-truck" id="checkout-btn">ORDER NOW</button></a>
-				</div>
-			</div>
-		</td>
-	</tr>
 	</tfoot>
 	</table>
 </div>
-
-<div>
-<h2>Shipping Address:</h2>
-    <form action="" method="post">
-      {% csrf_token %}
-      {{ form }}
-        <input name="AdditionalAddress" type="text" placeholder="Additional Address">
-      <input type="submit">
-    </form>
+<form id="order-now">
+    <h2>Shipping Address:</h2>
+    {% csrf_token %}
+    <div class="address-input">
+        <label about="address">Location:</label>
+        <input class="address" id="id_address" name="address" type="text" required placeholder="Search Street Name with Google" autocomplete="on">
+        <label about="AdditionalAddress">Additoanl Address:</label>
+        <input name="AdditionalAddress" type="text" placeholder="Additional Address" style="width: 100%;">
+    </div>
+</form>
+<div class="cart-buttons-wrapper" style="margin-top: 20px">
+    <div class="cart-center">
+        <button class="btn btn-animated btn-a icon-truck" id="checkout-btn">ORDER NOW</button>
+    </div>
 </div>
 
 <!-- scripts for animated buttons -->
 <script src="{% static 'modal/js/classie.js' %}"></script>
+<script>
+    $('#checkout-btn').click(function () {
+        $.ajax({
+            url : window.location.href,
+            type: "POST",
+            data: $('#order-now').serialize(),
+            success : function(json) {
+                console.log(json); // another sanity check
+                alert(json['message']);
+                if (json['redirect']){
+                window.location.href = json['redirect'];
+            }
+            }
+        })
+    })
+</script>
 </body>
 </html>
