@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^current/$', goods_views.current_cart, name='shopping-cart-current'),
     url(r'^clear/$', goods_views.clear_cart, name='shopping-cart-clear'),
     url(r'^payment-local/$', goods_views.payment_local, name='payment-local'),
+    url(r'^payment-paypal/(?P<order_number>[0-9]+)$', goods_views.payment_paypal, name='payment-paypal'),
     url(r'^thankyou/$', goods_views.thank_you, name='thank-you'),
     url(r'^paypal/', include('paypal.standard.ipn.urls')),
 ]

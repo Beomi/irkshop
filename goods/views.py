@@ -97,6 +97,7 @@ def payment_local(request):
         if form.is_valid():
             print(form.cleaned_data)
             this_order = Order()
+            order_number = this_order.pk
             cart = Cart(request.session).cart_serializable
             this_order.address = form.cleaned_data['address']
             print(this_order.address)
@@ -120,7 +121,7 @@ def payment_local(request):
             Cart(request.session).clear()
             return JsonResponse({
                 'message': "Sucessfully Ordered!",
-                'redirect': reverse('index')
+                'redirect': reverse('payment-paypal') + '/{}'.format(order_number)
             })
         else:
             return JsonResponse({
