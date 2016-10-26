@@ -97,7 +97,6 @@ def payment_local(request):
         if form.is_valid():
             print(form.cleaned_data)
             this_order = Order()
-            order_number = this_order.pk
             cart = Cart(request.session).cart_serializable
             this_order.address = form.cleaned_data['address']
             print(this_order.address)
@@ -112,6 +111,7 @@ def payment_local(request):
             this_order.user = request.user
             print(cart)
             this_order.save()
+            order_number = this_order.pk
             for v in cart.values():
                 order_detail = OrderDetail()
                 order_detail.good = Goods.objects.get(pk=v['product_pk'])
