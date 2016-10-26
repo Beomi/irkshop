@@ -22,6 +22,7 @@ FACEBOOK_KEY = get_env("FACEBOOK_KEY", envs)
 FACEBOOK_SECRET = get_env("FACEBOOK_SECRET", envs)
 GOOGLE_KEY = get_env("GOOGLE_KEY", envs)
 GOOGLE_SECRET = get_env("GOOGLE_SECRET", envs)
+PAYPAL_ID = get_env("PAYPAL_ID", envs)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     'social.apps.django_app.default',
     'carton',
     'address',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [

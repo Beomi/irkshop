@@ -4,6 +4,8 @@ from django.shortcuts import reverse
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 
 from .models import Goods
 from .models import Shipping
@@ -14,6 +16,10 @@ from .forms import AddressForm
 
 from carton.cart import Cart
 from address import models as address_model
+
+from paypal.standard.forms import PayPalPaymentsForm
+from paypal.standard.models import ST_PP_COMPLETED
+from paypal.standard.ipn.signals import valid_ipn_received
 
 import json
 
@@ -127,5 +133,48 @@ def payment_local(request):
         'form': form,
     })
 
+@login_required
+def payment_paypal(request, order_number):
+    order = Order.objects.get(pk=order_number)
+    if order.is_paid:
+        return JsonResponse({
+            'message': 'Already Paid purchase'
+        })
+
+    # What you want the button to do.
+    paypal_dict = {
+        "business": "{}".format(settings.PAYPAL_ID),
+        "amount": "{}".format(order.total_price),
+        "item_name": "{}".format(order.orderdetail.all()[0].good),
+        "invoice": "{}".format(order.pk),
+        "notify_url": "http://dev.1magine.net" + reverse('paypal-ipn'),
+        "return_url": "http://dev.1magine.net/check_payment/",
+        "cancel_return": "http://dev.1magine.net/cancel_payment/",
+        "custom": "Upgrade all users!",  # Custom command to correlate to some function later (optional)
+    }
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    context = {"form": form}
+    return render(request, "payment/payment_paypal.html", context)
+
+@csrf_exempt
+def check_payment(sender, **kwargs):
+    ipn_obj = sender
+    if ipn_obj.payment_status == ST_PP_COMPLETED:
+        if ipn_obj.receiver_email != "receiver_email@example.com":
+            return None
+        try:
+            order = Order.objects.get(pk=ipn_obj.invoice)
+            if ipn_obj.amount == order.total_price:
+                order.is_paid = True
+        except:
+            pass
+
+@csrf_exempt
+def cancel_payment(request):
+    pass
+
 def thank_you(request):
     return render(request, 'payment/thankyou.html')
+
+
+valid_ipn_received.connect(check_payment)

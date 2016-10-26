@@ -22,7 +22,8 @@ urlpatterns = [
     url(r'^current/$', goods_views.current_cart, name='shopping-cart-current'),
     url(r'^clear/$', goods_views.clear_cart, name='shopping-cart-clear'),
     url(r'^payment-local/$', goods_views.payment_local, name='payment-local'),
-    url(r'^thankyou/$', goods_views.thank_you, name='thank-you')
+    url(r'^thankyou/$', goods_views.thank_you, name='thank-you'),
+    url(r'^paypal/', include('paypal.standard.ipn.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += [
