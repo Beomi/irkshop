@@ -14,7 +14,7 @@ body { font-size: 1em;}
 }
 
 @media (min-width: 1200px) {
-    html { font-size: 200%; }
+    html { font-size: 150%; }
 }
 body{
     margin: 0 auto;

@@ -150,7 +150,8 @@ def payment_paypal(request, order_number):
         "invoice": "{}".format(order.pk),
         "notify_url": "http://dev.1magine.net/paypal/",
         "return_url": "http://dev.1magine.net/thankyou/",
-        "cancel_return": "http://dev.1magine.net/cancel_payment/"
+        "cancel_return": "http://dev.1magine.net/cancel_payment/",
+        "custom": "{}".format(order.user)
     }
     form = PayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form}
