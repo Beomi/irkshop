@@ -123,4 +123,7 @@ main{
     .mobile-disabled {
         display: none;
     }
+    main{
+        width: 100%;
+    }
 }
