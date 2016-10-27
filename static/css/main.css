@@ -119,3 +119,8 @@ main{
     color: #000000;
     background: #fffef2;
 }
+@media (max-width: 640px) {
+    .mobile-disabled {
+        display: none;
+    }
+}
