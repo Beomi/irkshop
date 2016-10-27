@@ -159,6 +159,7 @@ def payment_paypal(request, order_number):
 
 @csrf_exempt
 def check_payment(sender, **kwargs):
+    print(sender)
     ipn_obj = sender
     if ipn_obj.payment_status == ST_PP_COMPLETED:
         if ipn_obj.receiver_email != settings.PAYPAL_ID:
