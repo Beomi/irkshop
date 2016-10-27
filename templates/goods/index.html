@@ -53,12 +53,12 @@
                 <div class="section" id="{{ category }}">
                     {% for good in goods|in_category:category %}
                         <div class="slide">
+                        {% for image in good.images.all %}
+                            <img class="product-img" src="{{ image.image.url|safe }}" />
+                        {% endfor %}
                         <form id="add{{ good.name|safe }}" class="addCart" method="POST" enctype="multipart/form-data">
                         <button class="btn btn-xs addCartButton" name="submit" type="button" value="add to CART">add to CART</button>
                             {% csrf_token %}
-                            {% for image in good.images.all %}
-                                <img class="product-img" src="{{ image.image.url|safe }}" />
-                            {% endfor %}
                             <h1>{{ good.name }}</h1>
                             <h2>Price: ${{ good.price }}</h2>
                             <h4>{{ good.description|safe }}</h4>
