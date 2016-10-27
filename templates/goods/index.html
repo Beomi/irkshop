@@ -45,7 +45,7 @@
     {% include 'compositions/sidebar.html' %}
     <main>
         <img id="shopping-cart-icon" src="{% static 'image/shopping_cart.png' %}">
-        <div id="modal" style="overflow: auto; -webkit-overflow-scrolling: touch">
+        <div id="modal" style="overflow: scroll; -webkit-overflow-scrolling: touch">
         </div>
 
         <div id="fullpage">
@@ -54,6 +54,7 @@
                     {% for good in goods|in_category:category %}
                         <div class="slide">
                         <form id="add{{ good.name|safe }}" class="addCart" method="POST" enctype="multipart/form-data">
+                        <button class="btn btn-xs addCartButton" name="submit" type="button" value="add to CART">add to CART</button>
                             {% csrf_token %}
                             {% for image in good.images.all %}
                                 <img class="product-img" src="{{ image.image.url|safe }}" />
@@ -62,7 +63,6 @@
                             <h2>Price: ${{ good.price }}</h2>
                             <h4>{{ good.description|safe }}</h4>
                             <input name="good" value="{{ good.pk }}" type="hidden">
-                            <button class="btn btn-xs addCartButton" name="submit" type="button" value="add to CART">add to CART</button>
                         </form>
                         </div>
                     {% endfor %}
