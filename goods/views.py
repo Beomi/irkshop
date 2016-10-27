@@ -162,13 +162,15 @@ def check_payment(sender, **kwargs):
     ipn_obj = sender
     if ipn_obj.payment_status == ST_PP_COMPLETED:
         if ipn_obj.receiver_email != settings.PAYPAL_ID:
-            return None
+            return False
         try:
             order = Order.objects.get(pk=ipn_obj.invoice)
             if ipn_obj.amount == order.total_price:
                 order.is_paid = True
+                order.save()
+                return True
         except:
-            pass
+            return False
 
 @csrf_exempt
 def cancel_payment(request):
