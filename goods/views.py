@@ -149,9 +149,8 @@ def payment_paypal(request, order_number):
         "item_name": "{}".format(order.orderdetail.all()[0].good),
         "invoice": "{}".format(order.pk),
         "notify_url": "http://dev.1magine.net/paypal/",
-        "return_url": "http://dev.1magine.net/paypal-complete/",
-        "cancel_return": "http://dev.1magine.net/cancel_payment/",
-        "custom": "Upgrade all users!",  # Custom command to correlate to some function later (optional)
+        "return_url": "http://dev.1magine.net/thankyou/",
+        "cancel_return": "http://dev.1magine.net/cancel_payment/"
     }
     form = PayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form}
@@ -166,23 +165,12 @@ def check_payment(sender, **kwargs):
             return False
         try:
             order = Order.objects.get(pk=ipn_obj.invoice)
-            if ipn_obj.amount == order.total_price:
+            if ipn_obj.mc_gross == order.total_price:
                 order.is_paid = True
                 order.save()
                 return True
         except:
             return False
-
-def check_payment_paypal(request):
-    if request.method == 'GET':
-        r = request.GET
-        transaction_number = r['tx']
-        status = r['st']
-        amount = r['amt']
-        currency = r['cc']
-        print(r)
-    else:
-        pass
 
 @csrf_exempt
 def cancel_payment(request):
