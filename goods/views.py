@@ -176,6 +176,7 @@ def check_payment(sender, **kwargs):
 def cancel_payment(request):
     pass
 
+@csrf_exempt
 def thank_you(request):
     return render(request, 'payment/thankyou.html')
 
