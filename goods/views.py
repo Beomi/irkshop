@@ -149,7 +149,7 @@ def payment_paypal(request, order_number):
         "item_name": "{}".format(order.orderdetail.all()[0].good),
         "invoice": "{}".format(order.pk),
         "notify_url": "http://dev.1magine.net/paypal/",
-        "return_url": "http://dev.1magine.net/thank-you/",
+        "return_url": "http://dev.1magine.net/paypal-complete/",
         "cancel_return": "http://dev.1magine.net/cancel_payment/",
         "custom": "Upgrade all users!",  # Custom command to correlate to some function later (optional)
     }
@@ -172,6 +172,17 @@ def check_payment(sender, **kwargs):
                 return True
         except:
             return False
+
+def check_payment_paypal(request):
+    if request.method == 'GET':
+        r = request.GET
+        transaction_number = r['tx']
+        status = r['st']
+        amount = r['amt']
+        currency = r['cc']
+        print(r)
+    else:
+        pass
 
 @csrf_exempt
 def cancel_payment(request):
