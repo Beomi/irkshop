@@ -58,7 +58,11 @@ class Goods(TimeStampModel):
         )
 
     def get_first_image(self):
-        return self.images.all()[0]
+        try:
+            image = self.images.all()[0]
+        except:
+            image = ''
+        return image
 
 
 class GoodsImage(TimeStampModel):

@@ -73,7 +73,9 @@
 		<td class="cart-left cart-item-view-image mobile-disabled">
 			<!-- thumbnail image, H x W: 50 x 50 px -->
 			<a href="/#SHOP{{ item.product.category }}/{{ item.product.id }}" class="item-image iziModal-button-close">
+                {% if item.product.get_first_image %}
                 <img src="{{ item.product.get_first_image.image.url }}" alt="name of item here" style="width: 50px; height: auto;">
+                {% endif %}
             </a>
 		</td>
 		<td class="cart-left cart-item-view-name">
