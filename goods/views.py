@@ -119,9 +119,21 @@ def payment_local(request):
                 order_detail.order = this_order
                 order_detail.save()
             Cart(request.session).clear()
+            this_order = Order.objects.get(pk=order_number)
+            paypal_dict = {
+                "business": "{}".format(settings.PAYPAL_ID),
+                "amount": "{}".format(this_order.total_price),
+                "item_name": "{}".format(this_order.orderdetail.all()[0].good),
+                "invoice": "{}".format(this_order.pk),
+                "notify_url": "http://dev.1magine.net/paypal/",
+                "return_url": "http://dev.1magine.net/thankyou/",
+                "cancel_return": "http://dev.1magine.net/cancel_payment/",
+                "custom": "{}".format(this_order.user)
+            }
+            paypal_form = PayPalPaymentsForm(initial=paypal_dict).cleaned_data
             return JsonResponse({
                 'message': "Sucessfully Ordered!",
-                'redirect': '/payment-paypal' + '/{}'.format(order_number)
+                'paypal-form': paypal_form
             })
         else:
             return JsonResponse({

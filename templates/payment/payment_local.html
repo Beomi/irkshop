@@ -130,8 +130,8 @@
             success : function(json) {
                 console.log(json); // another sanity check
                 alert(json['message']);
-                if (json['redirect']){
-                window.location.href = json['redirect'];
+                if (json['paypal-form']){
+                $.post("https://www.sandbox.paypal.com/cgi-bin/webscr", json['paypal-form'])
             }
             }
         })
