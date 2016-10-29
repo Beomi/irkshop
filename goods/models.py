@@ -93,6 +93,7 @@ class Order(TimeStampModel):
     is_paid = models.BooleanField(default=False)
     address = AddressField(blank=True, null=True)
     additional_address = models.TextField(blank=True, null=True)
+    custom_order = models.TextField(blank=True, null=True)
 
     @property
     def total_price(self):
@@ -116,12 +117,13 @@ class Order(TimeStampModel):
             paid = '결제완료'
         else:
             paid = '결제대기'
-        return '#{} / {} / {} / ${} / 주문내역: {}'.format(
+        return '#{} / {} / {} / ${} / 주문내역: {}{}'.format(
             self.pk,
             self.user,
             paid,
             self.total_price,
-            self.get_orderdetail_for_this_order
+            self.get_orderdetail_for_this_order,
+            self.custom_order
         )
 
 

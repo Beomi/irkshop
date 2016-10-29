@@ -99,6 +99,7 @@ def payment_local(request):
             this_order = Order()
             cart = Cart(request.session).cart_serializable
             this_order.address = form.cleaned_data['address']
+            this_order.custom_order = form.cleaned_data['AdditionalOption']
             print(this_order.address)
             try:
                 this_order.additional_address = form.cleaned_data['AdditionalAddress']
