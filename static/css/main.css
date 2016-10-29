@@ -83,7 +83,7 @@ main{
     right: 0;
     z-index: 99;
     filter: invert(100%);
-    margin: 10px;
+    margin: 5px;
 }
 .show-more-under{
     position: relative;
@@ -115,7 +115,7 @@ main{
     border-style: double;
     border-color: #f1f1f1;
     border-radius: 10px;
-    margin: 20px;
+    margin: 5px;
 }
 @media (max-width: 640px) {
     .mobile-disabled {
