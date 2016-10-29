@@ -46,8 +46,10 @@
                     }
 				 },
                 afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex){
-                    $('.fp-slide.active').next('.fp-slide').addClass('slider_next');
-			        $('.fp-slide.active').prev('.fp-slide').addClass('slider_prev');
+                    if (index > 0){
+                        $('.fp-slide.active').next('.fp-slide').addClass('slider_next');
+			            $('.fp-slide.active').prev('.fp-slide').addClass('slider_prev');
+                    }
                 }
        		});
 
