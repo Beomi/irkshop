@@ -4,22 +4,22 @@ body { font-size: 1em;}
 @media (max-width: 300px) {
     html { font-size: 70%; }
     .fp-controlArrow {
-        display: none;
+        display: none !important;
     }
 }
 
-@media (min-width: 500px) {
+@media (max-width: 500px) {
     html { font-size: 80%; }
     .fp-controlArrow {
-        display: none;
+        display: none !important;
     }
 }
 
-@media (min-width: 700px) {
+@media (max-width: 700px) {
     html { font-size: 120%; }
 }
 
-@media (min-width: 1200px) {
+@media (max-width: 1200px) {
     html { font-size: 150%; }
 }
 body{
