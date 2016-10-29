@@ -31,31 +31,24 @@
                 controlArrows: true,
                 onSlideLeave: function(anchorLink, index, slideIndex, direction, nextSlideIndex){
                     $('.slider_prev').removeClass('slider_prev');
-                    $('.slider_next').removeClass('slider_next');
-                    if(direction=='left'){
-                        $('.fp-slide').eq(nextSlideIndex-1).addClass('slider_prev');
-                        setTimeout(function(){
-                            $('.fp-slide').eq(slideIndex).addClass('slider_next');
-                        },300);
-                    }else if(direction=='right'){
-
-                        $('.fp-slide').eq(nextSlideIndex+1).addClass('slider_next');
-                        setTimeout(function(){
-                            $('.fp-slide').eq(slideIndex).addClass('slider_prev');
-                        },300);
-                    }
+                    $('.slider_next').removeClass('slider_next')
+                    var slides = $('div.active').children('.fp-slides')[0].children[0].children.length
+                    console.log(slides)
 				 },
                 afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex){
-                    if (index > 0){
+                    var slides = $('div.active').children('.fp-slides')[0].children[0].children.length
+                    console.log(slides)
+                    if (length > 1) {
                         $('.fp-slide.active').next('.fp-slide').addClass('slider_next');
-			            $('.fp-slide.active').prev('.fp-slide').addClass('slider_prev');
+                        $('.fp-slide.active').prev('.fp-slide').addClass('slider_prev');
+                        console.log('aaa')
                     }
                 }
        		});
 
             $('.fp-slide.active').next('.fp-slide').addClass('slider_next');
             $('.fp-slide.active').prev('.fp-slide').addClass('slider_prev');
-		});
+        });
 	</script>
 
 <script type="text/javascript">
