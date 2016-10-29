@@ -73,8 +73,8 @@ main{
 }
 .product-img{
     border-radius: 10px;
-    width: 100%;
-    max-width: 320px;
+    width: 60%;
+    max-width: 500px;
     height: auto;
     background-color: #f1f1f1;
 }

@@ -59,8 +59,8 @@
                         <form id="add{{ good.name|safe }}" class="addCart" method="POST" enctype="multipart/form-data">
                         <button class="btn btn-xs addCartButton" name="submit" type="button" value="add to CART">add to CART</button>
                             {% csrf_token %}
-                            <h2>{{ good.name }}</h2>
-                            <h4>Price: ${{ good.price }}</h4>
+                            <p><strong>[ {{ good.name }} ]</strong></p>
+                            <p><u>Price: ${{ good.price }}</u></p>
                             <p>{{ good.description|safe }}</p>
                             <input name="good" value="{{ good.pk }}" type="hidden">
                         </form>
