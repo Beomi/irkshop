@@ -27,17 +27,47 @@
 				navigationPosition: 'right',
                 slidesToSections: true,
                 slidesNavigation: true,
-                controlArrows: false
+                loopHorizontal: false,
+                controlArrows: false,
+                onSlideLeave: function(anchorLink, index, slideIndex, direction, nextSlideIndex){
+                    $('.slider_prev').removeClass('slider_prev');
+                    $('.slider_next').removeClass('slider_next');
+                    if(direction=='left'){
+                        $('.fp-slide').eq(nextSlideIndex-1).addClass('slider_prev');
+                        setTimeout(function(){
+                            $('.fp-slide').eq(slideIndex).addClass('slider_next');
+                        },300);
+                    }else if(direction=='right'){
+
+                        $('.fp-slide').eq(nextSlideIndex+1).addClass('slider_next');
+                        setTimeout(function(){
+                            $('.fp-slide').eq(slideIndex).addClass('slider_prev');
+                        },300);
+                    }
+				 }
        		});
+            $('.fp-slide.active').next('.fp-slide').addClass('slider_next');
+			$('.fp-slide.active').prev('.fp-slide').addClass('slider_prev');
 		});
 	</script>
-    <script type="text/javascript">
+
+<script type="text/javascript">
     window.closeModal = function closeModal(redirect_url){
         $('#modal').iziModal('close');
         if (redirect_url){
             window.location.href = redirect_url
         }
     };
+</script>
+<script>
+    $(document).ready(function(){
+        $('#toggleHeader').click(function(){
+            $('#header').toggleClass('open');
+        })
+        $('#fullpage').click(function(){
+            $('#header').removeClass('open');
+        })
+    });
 </script>
 {% endblock %}
 {% block body %}
@@ -53,17 +83,19 @@
                 <div class="section" id="{{ category }}">
                     {% for good in goods|in_category:category %}
                         <div class="slide">
-                        {% for image in good.images.all %}
-                            <img class="product-img" src="{{ image.image.url|safe }}" />
-                        {% endfor %}
-                        <form id="add{{ good.name|safe }}" class="addCart" method="POST" enctype="multipart/form-data">
-                        <button class="btn btn-xs addCartButton" name="submit" type="button" value="add to CART">add to CART</button>
-                            {% csrf_token %}
-                            <p><strong>[ {{ good.name }} ]</strong></p>
-                            <p><u>Price: ${{ good.price }}</u></p>
-                            <p>{{ good.description|safe }}</p>
-                            <input name="good" value="{{ good.pk }}" type="hidden">
-                        </form>
+                            <div class="box" style='background-image: url("{{ good.get_first_image.image.url }}");'>
+                                <div class="shadow-box">
+                                    <div style="height: 60%"></div>
+                                    <form id="add{{ good.name|safe }}" class="addCart" method="POST" enctype="multipart/form-data">
+                                    <button class="btn btn-xs addCartButton" name="submit" type="button" value="add to CART">add to CART</button>
+                                        {% csrf_token %}
+                                        <p><strong>[ {{ good.name }} ]</strong></p>
+                                        <p><u>Price: ${{ good.price }}</u></p>
+                                        <p>{{ good.description|safe }}</p>
+                                        <input name="good" value="{{ good.pk }}" type="hidden">
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     {% endfor %}
                 </div>
