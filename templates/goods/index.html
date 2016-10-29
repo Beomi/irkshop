@@ -90,7 +90,7 @@
                         <div class="slide">
                             <div class="box" style='background-image: url("{{ good.get_first_image.image.url }}");'>
                                 <div class="shadow-box">
-                                    <div style="height: 50%; float: inherit;"></div>
+                                    <div class="blank-box"></div>
                                     <form id="add{{ good.name|safe }}" class="addCart" method="POST" enctype="multipart/form-data">
                                     <button class="btn btn-xs addCartButton" name="submit" type="button" value="add to CART">add to CART</button>
                                         {% csrf_token %}

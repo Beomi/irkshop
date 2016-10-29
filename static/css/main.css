@@ -124,7 +124,16 @@ main{
     main{
         width: 100%;
     }
+    .blank-box {
+        height: 30%;
+        float: inherit;
+    }
 }
+
+.blank-box {
+        height: 50%;
+        float: inherit;
+    }
 
 
 .box{
