@@ -2,7 +2,7 @@ html {
     font-size: 16px !important;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
     .fp-controlArrow {
         display: none !important;
     }
@@ -15,7 +15,11 @@ html {
     #header.open{height:300px;width:100%;}
     #fullpage{padding-left:0;}
     #toggleHeader{display:block;}
-    #headerBlank{height:61px;}
+    #headerBlank{height:61px; position: fixed; background: #000000; z-index: 9999}
+
+    nav{
+        margin-top: 61px;
+    }
 }
 
 body{
@@ -130,11 +134,12 @@ main{
     }
 }
 
-.blank-box {
+@media (min-width: 640px) {
+    .blank-box {
         height: 50%;
         float: inherit;
     }
-
+}
 
 .box{
     transition: all 300ms;
