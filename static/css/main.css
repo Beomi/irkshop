@@ -3,10 +3,16 @@ body { font-size: 1em;}
 
 @media (max-width: 300px) {
     html { font-size: 70%; }
+    .fp-controlArrow {
+        display: none;
+    }
 }
 
 @media (min-width: 500px) {
     html { font-size: 80%; }
+    .fp-controlArrow {
+        display: none;
+    }
 }
 
 @media (min-width: 700px) {
@@ -95,6 +101,7 @@ main{
 #fp-nav ul li a span, .fp-slidesNav ul li a span{
     background-color: #FFF;
 }
+
 .fp-controlArrow.fp-next{
     right: 50px;
 }

@@ -28,7 +28,7 @@
                 slidesToSections: true,
                 slidesNavigation: true,
                 loopHorizontal: false,
-                controlArrows: false,
+                controlArrows: true,
                 onSlideLeave: function(anchorLink, index, slideIndex, direction, nextSlideIndex){
                     $('.slider_prev').removeClass('slider_prev');
                     $('.slider_next').removeClass('slider_next');
@@ -44,10 +44,12 @@
                             $('.fp-slide').eq(slideIndex).addClass('slider_prev');
                         },300);
                     }
-				 }
+				 },
+                afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex){
+                    $('.fp-slide.active').next('.fp-slide').addClass('slider_next');
+			        $('.fp-slide.active').prev('.fp-slide').addClass('slider_prev');
+                }
        		});
-            $('.fp-slide.active').next('.fp-slide').addClass('slider_next');
-			$('.fp-slide.active').prev('.fp-slide').addClass('slider_prev');
 		});
 	</script>
 
