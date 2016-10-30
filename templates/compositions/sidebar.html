@@ -5,7 +5,7 @@
     </div>
     <div style="align-content: center; margin-top: 20px">
         {% if user.is_authenticated %}
-            <div class="menu-btn-wrap">
+            <div class="menu-btn-wrap" style="text-align: center">
                 <a href="{% url 'logout' %}"><img class="menu-btn login-btn-img" src="{% static 'image/logout.png' %}" alt="HOME" /></a>
             </div>
         {% else %}

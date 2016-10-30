@@ -69,7 +69,7 @@ main{
     width: 100%;
     margin-left: 10%;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 .menu-btn {
@@ -80,7 +80,7 @@ main{
 .menu-btn-wrap-category .nav_button{
     text-align: right;
     width: 70%;
-    color: deepskyblue;
+    color: #c4c4c4;
     overflow: hidden;
     font-size: 1.3rem;
     padding: 0;
@@ -88,6 +88,12 @@ main{
     margin-right: 20%;
     border: hidden;
 }
+
+.menu-btn-wrap-category .nav_button:hover{
+    color: deepskyblue;
+}
+
+
 .slide{
     text-align: center;
 }
