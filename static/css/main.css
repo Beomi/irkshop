@@ -73,7 +73,8 @@ main{
 }
 
 .menu-btn {
-    width: 30%;
+    width: 25%;
+    max-width: 80px;
     display: inline;
 }
 
