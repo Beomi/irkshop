@@ -125,6 +125,11 @@ main{
 .addCartButton {
     margin: 20px 20px 0 20px;
 }
+
+.addcartbutton-push {
+    display: inline-block;
+}
+
 @media (max-width: 640px) {
     .mobile-disabled {
         display: none;
