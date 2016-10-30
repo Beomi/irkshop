@@ -141,8 +141,9 @@
                 console.log(json); // another sanity check
                 alert(json['message']);
                 if (json['paypal-form']){
-                $('#paypal-btn').html(json['paypal-form'])
-            }
+                    $('.cart-buttons-wrapper').hide();
+                    $('#paypal-btn').html(json['paypal-form']);
+                }
             }
         })
     })
