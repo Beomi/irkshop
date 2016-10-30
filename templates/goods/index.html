@@ -92,7 +92,7 @@
                                     </div>
                                     <form id="add{{ good.name|safe }}" class="addCart" method="POST" enctype="multipart/form-data">
                                         {% csrf_token %}
-                                        <h2><strong>{{ good.name }}</strong></>
+                                        <h2><strong>{{ good.name }}</strong></h2>
                                         <h4><u>Price: ${{ good.price }}</u></h4>
                                         <p>{{ good.description|safe }}</p>
                                         <input name="good" value="{{ good.pk }}" type="hidden">

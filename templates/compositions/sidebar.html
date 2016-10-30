@@ -9,7 +9,7 @@
                 <a href="{% url 'logout' %}"><img class="menu-btn login-btn-img" src="{% static 'image/logout.png' %}" alt="HOME" /></a>
             </div>
         {% else %}
-            <div class="menu-btn-wrap">
+            <div class="menu-btn-wrap-login">
                 <a href=""><img class="menu-btn login-btn-img" src="{% static 'image/home.png' %}" alt="HOME" /></a>
                 <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"><img class="menu-btn login-btn-img" src="{% static 'image/fb.png' %}" alt="Facebook Login"/></a>
                 <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}"><img class="menu-btn login-btn-img" src="{% static 'image/gopl.png' %}" alt="Google Login"/></a>
@@ -17,7 +17,7 @@
         {% endif %}
 
         {% for category in categories %}
-            <div class="menu-btn-wrap">
+            <div class="menu-btn-wrap-category">
                 <a class="nav_button btn btn-group-xs" href="#SHOP{{ category.name }}">
                     {{ category.name }}
                 </a>
