@@ -21,7 +21,7 @@
     .address {
     width: 100%;
     }
-    .address-input {
+    input {
         width: 100%;
     }
 </style>
@@ -117,18 +117,16 @@
     <h2>Shipping Address:</h2>
     {% csrf_token %}
     <div class="address-input">
-        <label about="address">Location:</label>
-        <input class="address" id="id_address" name="address" type="text" required placeholder="Search Street Name with Google" autocomplete="on">
-        <label about="AdditionalAddress">Additoanl Address:</label>
-        <input name="AdditionalAddress" type="text" placeholder="Additional Address" style="width: 100%;">
-        <label about="AdditionalOption">Order Options:</label>
-        <input name="AdditionalOption" type="text" placeholder="Please write your custom orders in Here. ex: Shirts Sizes" style="width: 100%;">
+        {{ form.as_table }}
     </div>
 </form>
 <div class="cart-buttons-wrapper" style="margin-top: 20px">
     <div class="cart-center">
         <button class="btn btn-animated btn-a icon-truck" id="checkout-btn">ORDER NOW</button>
     </div>
+</div>
+<div style="text-align: center; width: 100%; margin-top: 25px">
+<div id="paypal-btn" style="width: 200px; display: inline-block"></div>
 </div>
 
 <!-- scripts for animated buttons -->
@@ -143,7 +141,7 @@
                 console.log(json); // another sanity check
                 alert(json['message']);
                 if (json['paypal-form']){
-                $.post("https://www.sandbox.paypal.com/cgi-bin/webscr", json['paypal-form'])
+                $('#paypal-btn').html(json['paypal-form'])
             }
             }
         })

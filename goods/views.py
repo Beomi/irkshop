@@ -94,12 +94,16 @@ def clear_cart(request):
 def payment_local(request):
     if request.method == 'POST':
         form = AddressForm(request.POST)
+        print(form.is_valid())
         if form.is_valid():
             print(form.cleaned_data)
             this_order = Order()
             cart = Cart(request.session).cart_serializable
             this_order.address = form.cleaned_data['address']
-            this_order.custom_order = form.cleaned_data['AdditionalOption']
+            try:
+                this_order.custom_order = form.cleaned_data['AdditionalOption']
+            except:
+                pass
             print(this_order.address)
             try:
                 this_order.additional_address = form.cleaned_data['AdditionalAddress']
@@ -121,17 +125,23 @@ def payment_local(request):
                 order_detail.save()
             Cart(request.session).clear()
             this_order = Order.objects.get(pk=order_number)
-            paypal_dict = {
-                "business": "{}".format(settings.PAYPAL_ID),
-                "amount": "{}".format(this_order.total_price),
-                "item_name": "{}".format(this_order.orderdetail.all()[0].good),
-                "invoice": "{}".format(this_order.pk),
-                "notify_url": "http://dev.1magine.net/paypal/",
-                "return_url": "http://dev.1magine.net/thankyou/",
-                "cancel_return": "http://dev.1magine.net/cancel_payment/",
-                "custom": "{}".format(this_order.user)
-            }
-            paypal_form = PayPalPaymentsForm(initial=paypal_dict).cleaned_data
+            try:
+                paypal_dict = {
+                    "business": "{}".format(settings.PAYPAL_ID),
+                    "amount": "{}".format(this_order.total_price),
+                    "item_name": "{}".format(this_order.orderdetail.all()[0].good),
+                    "invoice": "{}".format(this_order.pk),
+                    "notify_url": "http://shop.resist.kr/paypal/",
+                    "return_url": "http://shop.resist.kr/thankyou/",
+                    "cancel_return": "http://shop.resist.kr/cancel_payment/",
+                    "custom": "{}".format(this_order.user)
+                }
+            except:
+                return JsonResponse({
+                    'message': 'please checkout with more than 1 items'
+                })
+            paypal_form = PayPalPaymentsForm(initial=paypal_dict).render()
+            print(paypal_form)
             return JsonResponse({
                 'message': "Sucessfully Ordered!",
                 'paypal-form': paypal_form
@@ -161,9 +171,9 @@ def payment_paypal(request, order_number):
         "amount": "{}".format(order.total_price),
         "item_name": "{}".format(order.orderdetail.all()[0].good),
         "invoice": "{}".format(order.pk),
-        "notify_url": "http://dev.1magine.net/paypal/",
-        "return_url": "http://dev.1magine.net/thankyou/",
-        "cancel_return": "http://dev.1magine.net/cancel_payment/",
+        "notify_url": "http://shop.resist.kr/paypal/",
+        "return_url": "http://shop.resist.kr/thankyou/",
+        "cancel_return": "http://shop.resist.kr/cancel_payment/",
         "custom": "{}".format(order.user)
     }
     form = PayPalPaymentsForm(initial=paypal_dict)

@@ -3,6 +3,6 @@ from address.forms import AddressField
 
 
 class AddressForm(forms.Form):
-    address = AddressField()
-    AdditionalAddress = forms.CharField(max_length=255)
-    AdditionalOptioin = forms.CharField(max_length=255)
+    address = AddressField(required=True)
+    AdditionalAddress = forms.CharField(max_length=255, required=True)
+    AdditionalOptioin = forms.CharField(max_length=255, label='Order Options', required=False)
