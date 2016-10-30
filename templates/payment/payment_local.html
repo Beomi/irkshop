@@ -15,6 +15,9 @@
 <script type="text/javascript" src="{% static 'js/jquery.geocomplete.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'address/js/address.js' %}"></script>
 <style>
+    html{
+        width: 100%;
+    }
     .address {
     width: 100%;
     }
@@ -22,9 +25,16 @@
         width: 100%;
     }
 </style>
+<style>
+@media (max-width: 640px) {
+    .mobile-disabled {
+        display: none;
+    }
+}
+</style>
 </head>
 <body class="cart-modal">
-<header class="cart-header mobile-disabled">
+<header class="cart-header">
 <div class="cart-headerwrap">
 	<div class="cart-logo">
 	<!-- shopping cart image, H x W: 50 x 50 px -->

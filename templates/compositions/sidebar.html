@@ -5,9 +5,9 @@
     </div>
     <div style="align-content: center; margin-top: 20px">
         {% if user.is_authenticated %}
-          <a class="nav_button btn btn-group-xs" style="background-color: darkgrey;" href="{% url 'logout' %}?next=/">
-            LOGOUT
-          </a>
+            <div class="menu-btn-wrap">
+                <a href="{% url 'logout' %}"><img class="menu-btn login-btn-img" src="{% static 'image/logout.png' %}" alt="HOME" /></a>
+            </div>
         {% else %}
             <div class="menu-btn-wrap">
                 <a href=""><img class="menu-btn login-btn-img" src="{% static 'image/home.png' %}" alt="HOME" /></a>

@@ -45,11 +45,10 @@ main{
     position: relative;
 }
 #logo{
-    width: 80%;
+    width: 60%;
     height: auto;
-    margin-left: 10%;
+    margin-left: 20%;
     margin-top: 20px;
-    margin-bottom: 30px;
 }
 .container{
   min-width:320px; /* 최솟값 */
@@ -59,12 +58,14 @@ main{
 
 .menu-btn-wrap {
     overflow: hidden;
-    width: 100%;
+    width: 80%;
+    margin-left: 10%;
     text-align: center;
     margin-bottom: 30px;
 }
 .menu-btn {
-    width: 33.3%;
+    width: 30%;
+    display: inline;
 }
 
 .menu-btn-wrap .nav_button{
@@ -86,9 +87,6 @@ main{
     margin-left: 10%;
     overflow: hidden;
     margin-bottom: 10px;
-}
-.login-btn-img{
-    width: 50px; height: 50px;
 }
 #shopping-cart-icon{
     position: fixed;
@@ -124,6 +122,7 @@ main{
 
 .addCartButton {
     margin: 20px 20px 0 20px;
+    width: 80px;
 }
 
 .addcartbutton-push {
@@ -138,14 +137,14 @@ main{
         width: 100%;
     }
     .blank-box {
-        height: 30%;
+        height: 20%;
         float: inherit;
     }
 }
 
 @media (min-width: 640px) {
     .blank-box {
-        height: 50%;
+        height: 40%;
         float: inherit;
     }
 }
