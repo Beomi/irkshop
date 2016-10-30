@@ -107,13 +107,12 @@
     </main>
 </div>
 <script type="text/javascript">
-    $('.addCartButton-push').on('click touchstart',function () {
-        console.log("clicked/touched")
-        console.log($(this).next('form').serialize())
+    $('img.addCartButton').on('click touchstart',function () {
+        var form = $(this).parent().next('form').serialize()
         $.ajax({
             url: {% url 'shopping-cart-add' %},
             type: "POST",
-            data: $(this).next('form').serialize(),
+            data: form,
             success : function(json) {
                 console.log(json); // another sanity check
                 alert(json['message']);
