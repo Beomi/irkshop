@@ -48,22 +48,34 @@ main{
     width: 80%;
     height: auto;
     margin-left: 10%;
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
 .container{
   min-width:320px; /* 최솟값 */
   max-width:1280px; /* 최댓값 */
   margin:0 auto;
 }
-.nav_button{
-    text-align: center;
-    vertical-align: middle;
-    background-color: #1b1b1b;
-    color: #FFFFFF;
-    margin: 0.2em;
-    border: 0.2em;
-    width: 80%;
-    margin-left: 10%;
+
+.menu-btn-wrap {
     overflow: hidden;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.menu-btn {
+    width: 33.3%;
+}
+
+.menu-btn-wrap .nav_button{
+    text-align: right;
+    width: 80%;
+    color: deepskyblue;
+    overflow: hidden;
+    font-size: 2rem;
+    padding: 0;
+    margin: 0;
+    border: hidden;
 }
 .slide{
     text-align: center;
@@ -111,15 +123,7 @@ main{
 }
 
 .addCartButton {
-    cursor: pointer;
-    color: #c4e3f3;
-    background: #222;
-    width: 200px;
-    height: 50px;
-    border-style: double;
-    border-color: #f1f1f1;
-    border-radius: 10px;
-    margin: 5px;
+    margin: 20px 20px 0 20px;
 }
 @media (max-width: 640px) {
     .mobile-disabled {
@@ -142,7 +146,7 @@ main{
 }
 
 .box{
-    transition: all 300ms;
+    transition: all 200ms;
     width:100%;
     height:100%;
     -webkit-background-size: cover;
@@ -154,13 +158,13 @@ main{
 }
 
 .shadow-box{
-    z-index: 99999;
+    z-index: 999;
     width: 100%;
     height: 100%;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+0,0+51,1+100 */
-    background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,1) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top,   rgba(0,0,0,0) 0%,rgba(0,0,0,0) 25%,rgba(0,0,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 25%,rgba(0,0,0,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 25%, rgba(0,0,0,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,   rgba(0,0,0,0) 0%,rgba(0,0,0,0.2) 25%,rgba(0,0,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.2) 25%,rgba(0,0,0,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
     vertical-align: middle;
     overflow: hidden;
@@ -171,3 +175,4 @@ html body .slider_next .box{transform:scale(0.7) translateX(-40%);  opacity: 0.8
 html body .slider_prev .box{transform:scale(0.7) translateX(40%);   opacity: 0.8;}
 
 #toggleHeader{display:none;position: fixed;top:0;left:0;width:100%;height:60px; z-index: 10000;border-bottom:1px solid #e0e0e0;}
+

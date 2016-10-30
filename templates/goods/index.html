@@ -86,11 +86,14 @@
                             <div class="box" style='background-image: url("{{ good.get_first_image.image.url }}");'>
                                 <div class="shadow-box">
                                     <div class="blank-box"></div>
+                                    <div class="addCartButton-push">
+                                        <img class="btn btn-xs addCartButton" name="submit" src="{% static 'image/addcart.png' %}">
+                                        <h4>ADD TO CART</h4>
+                                    </div>
                                     <form id="add{{ good.name|safe }}" class="addCart" method="POST" enctype="multipart/form-data">
-                                    <button class="btn btn-xs addCartButton" name="submit" type="button" value="add to CART">add to CART</button>
                                         {% csrf_token %}
-                                        <p><strong>[ {{ good.name }} ]</strong></p>
-                                        <p><u>Price: ${{ good.price }}</u></p>
+                                        <h1><strong>{{ good.name }}</strong></h1>
+                                        <h3><u>Price: ${{ good.price }}</u></h3>
                                         <p>{{ good.description|safe }}</p>
                                         <input name="good" value="{{ good.pk }}" type="hidden">
                                     </form>
@@ -104,12 +107,13 @@
     </main>
 </div>
 <script type="text/javascript">
-    $('.addCartButton').on('click touchstart',function () {
+    $('.addCartButton-push').on('click touchstart',function () {
         console.log("clicked/touched")
+        console.log($(this).next('form').serialize())
         $.ajax({
             url: {% url 'shopping-cart-add' %},
             type: "POST",
-            data: $(this.form).serialize(),
+            data: $(this).next('form').serialize(),
             success : function(json) {
                 console.log(json); // another sanity check
                 alert(json['message']);
