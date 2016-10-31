@@ -120,15 +120,21 @@ def payment_local(request):
                 order_detail.count = v['quantity']
                 order_detail.order = this_order
                 order_detail.save()
+
+            # clear cart
             Cart(request.session).clear()
+
+            # paypal
             this_order = Order.objects.get(pk=order_number)
-            try:
-                if this_order.address != None:
-                    total_price = this_order.total_price + 8
-                else:
-                    total_price = this_order.total_price
-            except:
-                total_price = this_order.total_price
+
+            if this_order.address != None:
+                shipping_fee_order = OrderDetail()
+                shipping_fee_order.good = Goods.objects.get(pk=10)
+                shipping_fee_order.count = 1
+                shipping_fee_order.order = this_order
+                shipping_fee_order.save()
+
+            total_price = this_order.total_price
             try:
                 paypal_dict = {
                     "business": "{}".format(settings.PAYPAL_ID),
@@ -137,7 +143,7 @@ def payment_local(request):
                     "invoice": "{}".format(this_order.pk),
                     "notify_url": "http://shop.resist.kr/paypal/",
                     "return_url": "http://shop.resist.kr/thankyou/",
-                    "cancel_return": "http://shop.resist.kr/cancel_payment/",
+                    "cancel_return": "http://shop.resist.kr/",
                     "custom": "{}".format(this_order.user)
                 }
             except:
