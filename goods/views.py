@@ -12,7 +12,7 @@ from .models import Shipping
 from .models import Category
 from .models import Order
 from .models import OrderDetail
-from .forms import AddressForm
+from .forms import OrderForm
 
 from carton.cart import Cart
 from address import models as address_model
@@ -93,28 +93,24 @@ def clear_cart(request):
 @login_required
 def payment_local(request):
     if request.method == 'POST':
-        form = AddressForm(request.POST)
+        form = OrderForm(request.POST)
         print(form.is_valid())
         if form.is_valid():
             print(form.cleaned_data)
             this_order = Order()
             cart = Cart(request.session).cart_serializable
-            this_order.address = form.cleaned_data['address']
+            try: # get Address
+                this_order.address = form.cleaned_data['address']
+                this_order.additional_address = form.cleaned_data['AdditionalAddress']
+                print(this_order.additional_address)
+            except:
+                pass
             try:
                 this_order.custom_order = form.cleaned_data['AdditionalOption']
             except:
                 pass
-            print(this_order.address)
-            try:
-                this_order.additional_address = form.cleaned_data['AdditionalAddress']
-                print(this_order.additional_address)
-            except:
-                return JsonResponse({
-                    'message': 'Please Select more specific Location'
-                })
 
             this_order.user = request.user
-            print(cart)
             this_order.save()
             order_number = this_order.pk
             for v in cart.values():
@@ -141,17 +137,16 @@ def payment_local(request):
                     'message': 'please checkout with more than 1 items'
                 })
             paypal_form = PayPalPaymentsForm(initial=paypal_dict).render()
-            print(paypal_form)
             return JsonResponse({
                 'message': "Sucessfully Ordered!",
                 'paypal-form': paypal_form
             })
         else:
             return JsonResponse({
-                'message': 'Please Input valid Address'
+                'message': 'form is not Valid'
             })
     else:
-        form = AddressForm()
+        form = OrderForm()
 
     return render(request, 'payment/payment_local.html', {
         'form': form,
