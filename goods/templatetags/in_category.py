@@ -7,5 +7,5 @@ def in_category(things, category):
     return things.filter(category=category)
 
 @register.filter
-def is_available(things, avail):
+def is_available(things):
     return things.filter(is_available=True)
