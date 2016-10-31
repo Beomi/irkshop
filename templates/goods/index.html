@@ -82,6 +82,7 @@
             {% for category in categories %}
                 <div class="section" id="{{ category }}">
                     {% for good in goods|in_category:category %}
+                        {% if good|is_available %}
                         <div class="slide">
                             <div class="box" style='background-image: url("{{ good.get_first_image.image.url }}");'>
                                 <div class="shadow-box">
@@ -100,6 +101,7 @@
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
             {% endfor %}
