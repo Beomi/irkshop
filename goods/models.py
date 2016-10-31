@@ -49,9 +49,9 @@ class Goods(TimeStampModel):
 
     def __str__(self):
         if self.is_available:
-            status = "구입가능"
+            status = "available"
         else:
-            status = "단종"
+            status = "NOT_AVAILABLE"
         return "{}({})".format(
             self.name,
             status
