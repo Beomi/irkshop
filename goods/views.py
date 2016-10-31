@@ -22,6 +22,7 @@ from paypal.standard.models import ST_PP_COMPLETED
 from paypal.standard.ipn.signals import valid_ipn_received
 
 import json
+from decimal import *
 
 
 def index(request):
@@ -122,9 +123,16 @@ def payment_local(request):
             Cart(request.session).clear()
             this_order = Order.objects.get(pk=order_number)
             try:
+                if this_order.address != None:
+                    total_price = this_order.total_price + 8
+                else:
+                    total_price = this_order.total_price
+            except:
+                total_price = this_order.total_price
+            try:
                 paypal_dict = {
                     "business": "{}".format(settings.PAYPAL_ID),
-                    "amount": "{}".format(this_order.total_price),
+                    "amount": "{}".format(total_price),
                     "item_name": "{}".format(this_order.orderdetail.all()[0].good),
                     "invoice": "{}".format(this_order.pk),
                     "notify_url": "http://shop.resist.kr/paypal/",
