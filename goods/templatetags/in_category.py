@@ -8,4 +8,7 @@ def in_category(things, category):
 
 @register.filter
 def is_available(things):
-    return things.filter(is_available=True)
+    if things.is_available:
+        return things
+    else:
+        return None
