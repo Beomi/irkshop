@@ -183,8 +183,7 @@ def payment_paypal(request, order_number):
         "notify_url": "http://shop.resist.kr/paypal/",
         "return_url": "http://shop.resist.kr/thankyou/",
         "cancel_return": "http://shop.resist.kr/cancel_payment/",
-        "custom": "{}".format(order.user),
-        "charset": "windows-1252"
+        "custom": "{}".format(order.user)
     }
     form = PayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form}
