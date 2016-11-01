@@ -16,6 +16,9 @@ from .forms import OrderForm
 
 from carton.cart import Cart
 from address import models as address_model
+from django.contrib.auth.models import User
+
+from core.send_mail import send_mail
 
 from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.models import ST_PP_COMPLETED
@@ -151,6 +154,32 @@ def payment_local(request):
                     'message': 'please checkout with more than 1 items'
                 })
             paypal_form = PayPalPaymentsForm(initial=paypal_dict).render()
+
+            orders = this_order.orderdetail.all()
+            orders_detail = ''
+            for order in orders:
+                orders_detail += (
+                    '{} x {}\n'.format(
+                        order.good,
+                        order.count
+                    )
+                )
+
+            send_mail(
+                user=settings.GMAIL_ID,
+                pwd=settings.GMAIL_PW,
+                recipient=User.objects.get(username=this_order.user).email,
+                subject="Order to SHOPIRK: Via Noir Seoul",
+                body="Hello {},\n We've Just got your order from SHOPIRK: Via Noir Seoul.\nThis is how you've ordered, Please check carefully.\n"
+                     "YOUR ORDERS:\n"
+                     "{}\n"
+                     "Thanks again for your Order.\n"
+                     "Sincerely, IRK.".format(
+                    this_order.user,
+                    orders_detail
+                ),
+            )
+
             return JsonResponse({
                 'message': "Sucessfully Ordered!",
                 'paypal-form': paypal_form

@@ -24,6 +24,9 @@ GOOGLE_KEY = get_env("GOOGLE_KEY", envs)
 GOOGLE_SECRET = get_env("GOOGLE_SECRET", envs)
 PAYPAL_ID = get_env("PAYPAL_ID", envs)
 
+GMAIL_ID = get_env("GMAIL_ID", envs)
+GMAIL_PW = get_env("GMAIL_PW", envs)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
