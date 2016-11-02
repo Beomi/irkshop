@@ -110,7 +110,7 @@ def payment_local(request):
             except:
                 pass
             try:
-                this_order.custom_order = form.cleaned_data['AdditionalOption']
+                this_order.custom_order = form.cleaned_data['OrderOptioin']
             except:
                 pass
 
