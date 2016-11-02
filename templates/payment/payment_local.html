@@ -176,6 +176,7 @@
                 console.log(json); // another sanity check
                 alert(json['message']);
                 if (json['paypal-form']){
+                    $('.loading-paypal').hide();
                     $('#paypal-btn').html(json['paypal-form']);
                 }
             }
