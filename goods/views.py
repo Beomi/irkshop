@@ -103,16 +103,9 @@ def payment_local(request):
             print(form.cleaned_data)
             this_order = Order()
             cart = Cart(request.session).cart_serializable
-            try: # get Address
-                this_order.address = form.cleaned_data['address']
-                this_order.additional_address = form.cleaned_data['AdditionalAddress']
-                print(this_order.additional_address)
-            except:
-                pass
-            try:
-                this_order.custom_order = form.cleaned_data['OrderOptioin']
-            except:
-                pass
+            this_order.address = form.cleaned_data['address']
+            this_order.additional_address = form.cleaned_data['AdditionalAddress']
+            this_order.custom_order = form.cleaned_data['OrderOptioin']
 
             this_order.user = request.user
             this_order.save()
