@@ -181,7 +181,9 @@ def payment_local(request):
             )
 
             return JsonResponse({
-                'message': "Sucessfully Ordered!",
+                'message': "Sucessfully Ordered!\n"
+                           "Please Continue with Paypal Payment.\n"
+                           "(Paypal Checkout will show soon.",
                 'paypal-form': paypal_form
             })
         else:
