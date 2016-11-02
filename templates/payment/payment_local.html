@@ -153,8 +153,11 @@
                 <button class="btn btn-animated btn-a icon-truck" id="checkout-btn">ORDER NOW</button>
             </div>
         </div>
+        <div class="loading-paypal" style="margin-top: 25px; display:none; text-align: center">
+            <img src="{% static 'image/loading_HiDPI.gif' %}" style="width: 99px; display: inline-block">
+        </div>
         <div style="text-align: center; width: 100%; margin-top: 25px">
-        <div id="paypal-btn" style="width: 200px; display: inline-block"></div>
+            <div id="paypal-btn" style="width: 200px; display: inline-block"></div>
         </div>
     </div>
 
@@ -163,6 +166,8 @@
 <script src="{% static 'modal/js/classie.js' %}"></script>
 <script>
     $('#checkout-btn').click(function () {
+        $('.cart-buttons-wrapper').hide();
+        $('.loading-paypal').show();
         $.ajax({
             url : window.location.href,
             type: "POST",
@@ -171,7 +176,6 @@
                 console.log(json); // another sanity check
                 alert(json['message']);
                 if (json['paypal-form']){
-                    $('.cart-buttons-wrapper').hide();
                     $('#paypal-btn').html(json['paypal-form']);
                 }
             }
