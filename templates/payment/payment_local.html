@@ -124,7 +124,7 @@
         <form id="order-now">
             {% csrf_token %}
             <div class="address-input">
-                <div class="avail-for-shipping">
+                <div class="avail-for-shipping" style="display: none;">
                     <h2>Shipping Address:</h2>
                     <p>
                         <label for="id_address">Address:</label> <input class="address" id="id_address" name="address" type="text" />
@@ -166,6 +166,7 @@
 <script src="{% static 'modal/js/classie.js' %}"></script>
 <script>
     $('#checkout-btn').click(function () {
+        alert('Your Order is Processing.\nPlease Wait For a while.')
         $('.cart-buttons-wrapper').hide();
         $('.loading-paypal').show();
         $.ajax({
@@ -194,9 +195,6 @@
         }
 
     });
-
-    $(".avail-for-shipping").hide()
-
 });
 </script>
 </body>
