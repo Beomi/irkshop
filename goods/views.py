@@ -290,6 +290,6 @@ def orderlist(request):
             else:
                 address = ''
 
-            writer.writerow([order.pk, order.user.email, order_details, order.custom_order, address])
+            writer.writerow([order.pk, order.user.email, order.total_price, order_details, order.custom_order, address])
 
     return response
