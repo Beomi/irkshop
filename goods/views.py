@@ -26,6 +26,8 @@ from paypal.standard.models import ST_PP_COMPLETED
 from paypal.standard.ipn.signals import valid_ipn_received
 
 import json
+import csv
+from datetime import datetime
 from decimal import *
 
 
@@ -261,28 +263,27 @@ valid_ipn_received.connect(check_payment)
 # Staff Order View Page
 @staff_member_required
 def orderlist(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; ' \
+                                      'filename="SHOPIRK_ORDERLIST_{}.csv"'.format(
+                                        datetime.now().strftime("%Y%m%d%H%M")
+                                      )
+
+    writer = csv.writer(response)
+    writer.writerow(['Invoice Number', 'User Email', 'Pay Amount', 'Order Details', 'Custom Orders', 'Shipping Address'])
+
     orders_all = Order.objects.all()
-    data = []
     for order in orders_all:
-        orderdetail = order.orderdetail.all()
+        if order.is_paid==True:
+            orderdetail = order.orderdetail.all()
 
-        order_details = {}
-        try:
-            for i in orderdetail:
-                order_details[i.good.name] = i.count
-        except TypeError:
-            order_details[orderdetail.good.name] = orderdetail.count
+            order_details = {}
+            try:
+                for i in orderdetail:
+                    order_details[i.good.name] = i.count
+            except TypeError:
+                order_details[orderdetail.good.name] = orderdetail.count
 
-        data.append({
-            'is_paid': order.is_paid,
-            'invoice': order.pk,
-            'user_email': order.user.email,
-            'pay_amount': order.total_price,
-            'order_detail': order_details,
-            'custom': order.custom_order
-            }
-        )
+            writer.writerow([order.pk, order.user.email, order_details, order.custom_order, order.address + ' // ' + order.additional_address])
 
-    return render(request, 'payment/orderlist.html', {
-        'data': data
-    })
+    return response
