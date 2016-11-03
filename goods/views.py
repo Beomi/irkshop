@@ -4,6 +4,7 @@ from django.shortcuts import reverse
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
@@ -213,6 +214,7 @@ def payment_paypal(request, order_number):
     context = {"form": form}
     return render(request, "payment/payment_paypal.html", context)
 
+# Paypal Payment Checking
 @csrf_exempt
 def check_payment(sender, **kwargs):
     ipn_obj = sender
@@ -230,10 +232,11 @@ def check_payment(sender, **kwargs):
                     user=settings.GMAIL_ID,
                     pwd=settings.GMAIL_PW,
                     recipient=user.email,
-                    subject="Order to SHOPIRK: Via Noir Seoul",
-                    body="Hello {},\n We've Just got your order from SHOPIRK: Via Noir Seoul.\nThis is how you've ordered, Please check carefully.\n"
-                         "YOUR ORDERS:\n"
-                         "Invoice Number: #{}\n"
+                    subject="Payment to SHOPIRK: Via Noir Seoul",
+                    body="Hello {},\n"
+                         "We've Just got your PAYMENT from PAYPAL.\n"
+                         "This is the notice for of Payment.\n"
+                         "Your Order Invoice Number: #{}\n"
                          "Thanks again for your Order.\n"
                          "Sincerely, IRK.".format(
                         user,
@@ -252,5 +255,34 @@ def cancel_payment(request):
 def thank_you(request):
     return render(request, 'payment/thankyou.html')
 
-
 valid_ipn_received.connect(check_payment)
+
+
+# Staff Order View Page
+@staff_member_required
+def orderlist(request):
+    orders_all = Order.objects.all()
+    data = []
+    for order in orders_all:
+        orderdetail = order.orderdetail.all()
+
+        order_details = {}
+        try:
+            for i in orderdetail:
+                order_details[i.good.name] = i.count
+        except TypeError:
+            order_details[orderdetail.good.name] = orderdetail.count
+
+        data.append({
+            'is_paid': order.is_paid,
+            'invoice': order.pk,
+            'user_email': order.user.email,
+            'pay_amount': order.total_price,
+            'order_detail': order_details,
+            'custom': order.custom_order
+            }
+        )
+
+    return render(request, 'payment/orderlist.html', {
+        'data': data
+    })
