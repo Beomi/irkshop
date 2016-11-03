@@ -284,6 +284,12 @@ def orderlist(request):
             except TypeError:
                 order_details[orderdetail.good.name] = orderdetail.count
 
-            writer.writerow([order.pk, order.user.email, order_details, order.custom_order, order.address + ' // ' + order.additional_address])
+
+            if order.address != None:
+                address = order.address + ' // ' + order.additional_address
+            else:
+                address = ''
+
+            writer.writerow([order.pk, order.user.email, order_details, order.custom_order, address])
 
     return response
