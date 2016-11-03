@@ -215,7 +215,6 @@ def payment_paypal(request, order_number):
 
 @csrf_exempt
 def check_payment(sender, **kwargs):
-    print(sender)
     ipn_obj = sender
     if ipn_obj.payment_status == ST_PP_COMPLETED:
         if ipn_obj.receiver_email != settings.PAYPAL_ID:
@@ -225,6 +224,22 @@ def check_payment(sender, **kwargs):
             if ipn_obj.mc_gross == order.total_price:
                 order.is_paid = True
                 order.save()
+                invoice_pk = ipn_obj.invoice
+                user = Order.objects.get(pk=invoice_pk).user
+                send_mail(
+                    user=settings.GMAIL_ID,
+                    pwd=settings.GMAIL_PW,
+                    recipient=user.email,
+                    subject="Order to SHOPIRK: Via Noir Seoul",
+                    body="Hello {},\n We've Just got your order from SHOPIRK: Via Noir Seoul.\nThis is how you've ordered, Please check carefully.\n"
+                         "YOUR ORDERS:\n"
+                         "Invoice Number: #{}\n"
+                         "Thanks again for your Order.\n"
+                         "Sincerely, IRK.".format(
+                        user,
+                        invoice_pk
+                    ),
+                )
                 return True
         except:
             return False
