@@ -286,7 +286,7 @@ def orderlist(request):
 
 
             if order.address != None:
-                address = order.address + ' // ' + order.additional_address
+                address = order.address.__str__() + ' // ' + order.additional_address
             else:
                 address = ''
 
