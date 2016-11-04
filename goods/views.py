@@ -167,7 +167,7 @@ def payment_local(request):
                 recipient=User.objects.get(username=this_order.user).email,
                 subject="Order to SHOPIRK: Via Noir Seoul",
                 body="Hello {},\n We've Just got your order from SHOPIRK: Via Noir Seoul.\nThis is how you've ordered, Please check carefully.\n"
-                     "Invoice Number: #{}"
+                     "Invoice Number: #{}\n"
                      "YOUR ORDERS:\n"
                      "{}\n"
                      "Thanks again for your Order.\n"
