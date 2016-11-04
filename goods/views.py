@@ -140,9 +140,9 @@ def payment_local(request):
                     "amount": "{}".format(total_price),
                     "item_name": "{}".format(this_order.orderdetail.all()[0].good),
                     "invoice": "{}".format(this_order.pk),
-                    "notify_url": "http://shop.resist.kr/paypal/",
-                    "return_url": "http://shop.resist.kr/thankyou/",
-                    "cancel_return": "http://shop.resist.kr/",
+                    "notify_url": "http://irk.testi.kr/paypal/",
+                    "return_url": "http://irk.testi.kr/thankyou/",
+                    "cancel_return": "http://irk.testi.kr/",
                     "custom": "{}".format(this_order.user)
                 }
             except:
@@ -207,9 +207,9 @@ def payment_paypal(request, order_number):
         "amount": "{}".format(order.total_price),
         "item_name": "{}".format(order.orderdetail.all()[0].good),
         "invoice": "{}".format(order.pk),
-        "notify_url": "http://shop.resist.kr/paypal/",
-        "return_url": "http://shop.resist.kr/thankyou/",
-        "cancel_return": "http://shop.resist.kr/cancel_payment/",
+        "notify_url": "http://irk.testi.kr/paypal/",
+        "return_url": "http://irk.testi.kr/thankyou/",
+        "cancel_return": "http://irk.testi.kr/cancel_payment/",
         "custom": "{}".format(order.user)
     }
     form = PayPalPaymentsForm(initial=paypal_dict)
