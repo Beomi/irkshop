@@ -1,6 +1,4 @@
 from django.shortcuts import render
-from django.shortcuts import redirect
-from django.shortcuts import reverse
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -16,7 +14,6 @@ from .models import OrderDetail
 from .forms import OrderForm
 
 from carton.cart import Cart
-from address import models as address_model
 from django.contrib.auth.models import User
 
 from core.send_mail import send_mail
@@ -25,10 +22,8 @@ from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.models import ST_PP_COMPLETED
 from paypal.standard.ipn.signals import valid_ipn_received
 
-import json
 import csv
 from datetime import datetime
-from decimal import *
 
 
 def index(request):
