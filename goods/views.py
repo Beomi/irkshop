@@ -167,11 +167,13 @@ def payment_local(request):
                 recipient=User.objects.get(username=this_order.user).email,
                 subject="Order to SHOPIRK: Via Noir Seoul",
                 body="Hello {},\n We've Just got your order from SHOPIRK: Via Noir Seoul.\nThis is how you've ordered, Please check carefully.\n"
+                     "Invoice Number: #{}"
                      "YOUR ORDERS:\n"
                      "{}\n"
                      "Thanks again for your Order.\n"
                      "Sincerely, IRK.".format(
                     this_order.user,
+                    this_order.pk,
                     orders_detail
                 ),
             )
@@ -237,12 +239,14 @@ def check_payment(sender, **kwargs):
                     subject="Payment to SHOPIRK: Via Noir Seoul",
                     body="Hello {},\n"
                          "We've Just got your PAYMENT from PAYPAL.\n"
-                         "This is the notice for of Payment.\n"
+                         "This is the confirm of your Order's payment.\n"
                          "Your Order Invoice Number: #{}\n"
+                         "Total Payment Amount: ${}\n"
                          "Thanks again for your Order.\n"
                          "Sincerely, IRK.".format(
                         user,
-                        invoice_pk
+                        invoice_pk,
+                        ipn_obj.mc_gross
                     ),
                 )
                 return True
