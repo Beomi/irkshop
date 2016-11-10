@@ -12,6 +12,7 @@ from .models import Category
 from .models import Order
 from .models import OrderDetail
 from .forms import OrderForm
+from .tasks import check_payment
 
 from carton.cart import Cart
 from django.contrib.auth.models import User
@@ -24,6 +25,8 @@ from paypal.standard.ipn.signals import valid_ipn_received
 
 import csv
 from datetime import datetime
+import requests
+import json
 
 
 def index(request):
@@ -292,3 +295,24 @@ def orderlist(request):
             writer.writerow([order.pk, order.user.email, order.total_price, order_details, order.custom_order, address])
 
     return response
+
+
+# Korea Bank Check
+def korea_bank_payment(request, order_number):
+    order = Order.objects.get(pk=order_number)
+    currency = requests.get('http://www.floatrates.com/daily/usd.json')
+    today_usd_to_krw = int(json.loads(currency)['krw']['rate'] / 10) * 10  # NOT to get 1won but 10won
+    if request.method == 'POST':
+        pass
+    else:
+        if order.is_paid:
+            return JsonResponse({
+                'message': 'This transaction is already paid!'
+            })
+        data = {
+            "amount": order.total_price * today_usd_to_krw,
+            "order_number": order_number,
+            "today_usd_to_krw": today_usd_to_krw
+        }
+
+        return render(request, 'payment/korea_bank_payment.html', data)
