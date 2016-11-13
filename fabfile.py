@@ -72,6 +72,7 @@ def deploy():
 
 def _put_envs():
     put('envs.json', '~/{}/envs.json'.format(PROJECT_NAME))
+    put('bank_envs.json', '~/{}/bank_envs.json'.format(PROJECT_NAME))
 
 def _get_latest_apt():
     update_or_not = input('would you update?: [y/n]')
