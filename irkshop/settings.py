@@ -214,4 +214,4 @@ CKEDITOR_CONFIGS = {
 
 CART_PRODUCT_MODEL = 'goods.models.Goods'
 
-PAYPAL_TEST = False
+PAYPAL_TEST = True
