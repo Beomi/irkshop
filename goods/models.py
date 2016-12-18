@@ -118,7 +118,7 @@ class Order(TimeStampModel):
         html = ""
         order_details = self.orderdetail.all()
         for detail in order_details:
-            html += "<span>{} x {}</span>\n".format(detail.good.__str__(), detail.count)
+            html += "<span>{} x {}</span><br>\n".format(detail.good.__str__(), detail.count)
         return format_html(html)
 
 
