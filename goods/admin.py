@@ -22,7 +22,7 @@ class GoodsAdmin(admin.ModelAdmin):
 class OrderAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'user', 'created_at', 'is_paid',
-        'address', 'additioinal_address', 'custom_order',
+        'address', 'additional_address', 'custom_order',
         'get_orderdetail_for_this_order',
     )
     actions = [export_as_csv_action("CSV Export")]
