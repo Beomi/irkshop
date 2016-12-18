@@ -1,6 +1,7 @@
 # Django
 from django.db import models
 from django.conf import settings
+from django.utils.html import format_html
 # Python
 from datetime import date
 # Pip
@@ -110,6 +111,15 @@ class Order(TimeStampModel):
         for detail in order_details:
             details[detail.good.name] = detail.count
         return details
+
+
+    @property
+    def order_detail(self):
+        html = ""
+        order_details = self.orderdetail.all()
+        for detail in order_details:
+            html += "<span>{} x {}</span>\n".format(detail.good.__str__(), detail.count)
+        return format_html(html)
 
 
     def __str__(self):
