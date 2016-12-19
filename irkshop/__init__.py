@@ -1,7 +1,5 @@
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import
 
-# This will make sure the app is always imported when
-# Django starts so that shared_task will use this app.
-from .celery import app as celery_app
-
-__all__ = ['celery_app']
+# 아래 import는 장고가 시작될 때 항상 import되기 때문에
+# shared_task가 장고에서 작동하는 것을 가능하게 해 줍니다.
+from .celery import app as celery_app # Celery를 import합니다.

@@ -1,20 +1,20 @@
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import
+
 import os
+
 from celery import Celery
 
-# set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'proj.settings')
+# Django의 세팅 모듈을 Celery의 기본으로 사용하도록 등록합니다.
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'irkshop.settings')
 
-app = Celery('proj')
+from django.conf import settings  # noqa
 
-# Using a string here means the worker don't have to serialize
-# the configuration object to child processes.
-# - namespace='CELERY' means all celery-related configuration keys
-#   should have a `CELERY_` prefix.
-app.config_from_object('django.conf:settings', namespace='CELERY')
+app = Celery('irkshop')
 
-# Load task modules from all registered Django app configs.
-app.autodiscover_tasks()
+# 문자열로 등록한 이유는 Celery Worker가 Windows를 사용할 경우
+# 객체를 pickle로 묶을 필요가 없다는 것을 알려주기 위함입니다.
+app.config_from_object('django.conf:settings')
+app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
 
 @app.task(bind=True)

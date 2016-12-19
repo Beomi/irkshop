@@ -25,7 +25,8 @@ urlpatterns = [
     url(r'^payment-paypal/(?P<order_number>[0-9]+)$', goods_views.payment_paypal, name='payment-paypal'),
     url(r'^thankyou/$', goods_views.thank_you, name='thank-you'),
     url(r'^paypal/', include('paypal.standard.ipn.urls')),
-    url(r'^orderlist/$', goods_views.orderlist, name='orderlist')
+    url(r'^orderlist/$', goods_views.orderlist, name='orderlist'),
+    url(r'^ht/', include('health_check.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += [

@@ -48,14 +48,30 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # ckeditor for admin
     'ckeditor',
     'ckeditor_uploader',
+    # My Apps
     'goods',
+    # Social Login
     'social.apps.django_app.default',
+    # Cart and Google Address
     'carton',
     'address',
+    # Paypal
     'paypal.standard.ipn',
+    # django health check
+    'health_check',
+    'health_check_celery3',
+    'health_check_db',
+    'health_check_cache',
+    'health_check_storage',
+    # Celery
+    'djcelery',
 ]
+
+#CELERY_RESULT_BACKEND = 'django-db'
+CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
