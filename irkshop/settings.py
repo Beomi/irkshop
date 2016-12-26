@@ -8,24 +8,35 @@ from django.utils.translation import ugettext_lazy as _
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-with open(os.path.join(BASE_DIR, "envs.json")) as f:
-    envs = json.loads(f.read())
 
-def get_env(setting, envs):
-    try:
-        return envs[setting]
-    except KeyError:
-        error_msg = "set env var error at {}".format(setting)
-        raise ImproperlyConfigured(error_msg)
+if os.path.exists(os.path.join(BASE_DIR, "envs.json")):
+    with open(os.path.join(BASE_DIR, "envs.json")) as f:
+        envs = json.loads(f.read())
 
-FACEBOOK_KEY = get_env("FACEBOOK_KEY", envs)
-FACEBOOK_SECRET = get_env("FACEBOOK_SECRET", envs)
-GOOGLE_KEY = get_env("GOOGLE_KEY", envs)
-GOOGLE_SECRET = get_env("GOOGLE_SECRET", envs)
-PAYPAL_ID = get_env("PAYPAL_ID", envs)
+    def get_env(setting, envs):
+        try:
+            return envs[setting]
+        except KeyError:
+            error_msg = "set env var error at {}".format(setting)
+            raise ImproperlyConfigured(error_msg)
 
-GMAIL_ID = get_env("GMAIL_ID", envs)
-GMAIL_PW = get_env("GMAIL_PW", envs)
+    FACEBOOK_KEY = get_env("FACEBOOK_KEY", envs)
+    FACEBOOK_SECRET = get_env("FACEBOOK_SECRET", envs)
+    GOOGLE_KEY = get_env("GOOGLE_KEY", envs)
+    GOOGLE_SECRET = get_env("GOOGLE_SECRET", envs)
+    PAYPAL_ID = get_env("PAYPAL_ID", envs)
+
+    GMAIL_ID = get_env("GMAIL_ID", envs)
+    GMAIL_PW = get_env("GMAIL_PW", envs)
+
+else:
+    FACEBOOK_KEY = os.environ["FACEBOOK_KEY"]
+    FACEBOOK_SECRET = os.environ["FACEBOOK_SECRET"]
+    GOOGLE_KEY = os.environ["GOOGLE_KEY"]
+    GOOGLE_SECRET = os.environ["GOOGLE_SECRET"]
+    PAYPAL_ID = os.environ["PAYPAL_ID"]
+    GMAIL_ID = os.environ["GMAIL_ID"]
+    GMAIL_PW = os.environ["GMAIL_PW"]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
