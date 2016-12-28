@@ -246,3 +246,6 @@ CKEDITOR_CONFIGS = {
 CART_PRODUCT_MODEL = 'goods.models.Goods'
 
 PAYPAL_TEST = True
+
+# DJDT
+INTERNAL_IPS = '127.0.0.1'
