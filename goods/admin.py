@@ -20,6 +20,7 @@ class GoodsAdmin(admin.ModelAdmin):
     inlines = [GoodsImageInline, ]
 
 
+@admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'user', 'created_at', 'is_paid',
@@ -31,5 +32,4 @@ class OrderAdmin(admin.ModelAdmin):
 
 admin.site.register(Category)
 admin.site.register(Shipping)
-admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderDetail)

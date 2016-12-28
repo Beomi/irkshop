@@ -186,7 +186,8 @@ def _make_virtualhost():
     sudo('a2ensite {}.conf'.format(PROJECT_NAME))
 
 def _grant_apache2():
-    sudo('sudo chown :www-data ~/{}'.format(PROJECT_NAME))
+    sudo('chown :www-data ~/{}'.format(PROJECT_NAME))
+    sudo('chmod 775 ~/{}/db.sqlite3'.format(PROJECT_NAME))
 
 def _restart_apache2():
     sudo('sudo service apache2 restart')
