@@ -99,14 +99,14 @@ class Order(TimeStampModel):
     @property
     def total_price(self):
         total = 0
-        order_details = self.orderdetail.all()
+        order_details = self.orderdetail_set.all()
         for order in order_details:
             total += order.order_price
         return total
 
     @property
     def get_orderdetail_for_this_order(self):
-        order_details = self.orderdetail.all()
+        order_details = self.orderdetail_set.all()
         details = {}
         for detail in order_details:
             details[detail.good.name] = detail.count
@@ -116,7 +116,7 @@ class Order(TimeStampModel):
     @property
     def order_detail(self):
         html = ""
-        order_details = self.orderdetail.all()
+        order_details = self.orderdetail_set.all()
         for detail in order_details:
             html += "<span>{} x {}</span><br>\n".format(detail.good.__str__(), detail.count)
         return format_html(html)

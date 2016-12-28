@@ -276,7 +276,6 @@ def orderlist(request):
 
     qs = Order.objects.filter(is_paid=True).prefetch_related('orderdetail_set')
 
-    orders_all = Order.objects.all()
     for order in qs:
         details = order.orderdetail_set.all()
 
