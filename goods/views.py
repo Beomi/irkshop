@@ -274,25 +274,26 @@ def orderlist(request):
     writer = csv.writer(response)
     writer.writerow(['Invoice Number', 'User Email', 'Pay Amount', 'Order Details', 'Custom Orders', 'Shipping Address'])
 
+    qs = Order.objects.filter(is_paid=True).prefetch_related('orderdetail_set')
+
     orders_all = Order.objects.all()
-    for order in orders_all:
-        if order.is_paid==True:
-            orderdetail = order.orderdetail.all()
+    for order in qs:
+        details = order.orderdetail_set.all()
 
-            order_details = {}
-            try:
-                for i in orderdetail:
-                    order_details[i.good.name] = i.count
-            except TypeError:
-                order_details[orderdetail.good.name] = orderdetail.count
+        order_details = {}
+        try:
+            for i in details:
+                order_details[i.good.name] = i.count
+        except TypeError:
+            order_details[details.good.name] = details.count
 
 
-            if order.address != None:
-                address = order.address.__str__() + ' // ' + order.additional_address
-            else:
-                address = ''
+        if order.address != None:
+            address = order.address.__str__() + ' // ' + order.additional_address
+        else:
+            address = ''
 
-            writer.writerow([order.pk, order.user.email, order.total_price, order_details, order.custom_order, address])
+        writer.writerow([order.pk, order.user.email, order.total_price, order_details, order.custom_order, address])
 
     return response
 

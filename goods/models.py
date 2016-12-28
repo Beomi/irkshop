@@ -138,7 +138,7 @@ class Order(TimeStampModel):
 
 
 class OrderDetail(TimeStampModel):
-    order = models.ForeignKey(Order, related_name='orderdetail')
+    order = models.ForeignKey(Order)
     good = models.ForeignKey(Goods)
     count = models.PositiveSmallIntegerField()
 

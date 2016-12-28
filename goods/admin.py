@@ -15,6 +15,7 @@ class GoodsImageInline(admin.TabularInline):
     extra = 3
 
 
+@admin.register(Goods)
 class GoodsAdmin(admin.ModelAdmin):
     inlines = [GoodsImageInline, ]
 
@@ -29,7 +30,6 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Category)
-admin.site.register(Goods, GoodsAdmin)
 admin.site.register(Shipping)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderDetail)
