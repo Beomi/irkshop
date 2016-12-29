@@ -59,8 +59,8 @@ def setup():
     _ufw_allow()
 
 def deploy():
-    _put_envs()
     _get_latest_source()
+    _put_envs()
     _update_settings()
     _update_virtualenv()
     _update_static_files()
