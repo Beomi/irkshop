@@ -104,9 +104,9 @@ def payment_local(request):
             print(form.cleaned_data)
             this_order = Order()
             cart = Cart(request.session).cart_serializable
-            this_order.address = form.cleaned_data['address']
-            this_order.additional_address = form.cleaned_data['AdditionalAddress']
-            this_order.custom_order = form.cleaned_data['OrderOptioin']
+            this_order.address = form.cleaned_data.get('address', '')
+            this_order.additional_address = form.cleaned_data.get('AdditionalAddress', '')
+            this_order.custom_order = form.cleaned_data.get('OrderOptioin', '')
 
             this_order.user = request.user
             this_order.save()
@@ -126,6 +126,7 @@ def payment_local(request):
 
             if this_order.address != None:
                 shipping_fee_order = OrderDetail()
+                # TODO: Change Hard Coding this pk to env?
                 shipping_fee_order.good = Goods.objects.get(pk=10)
                 shipping_fee_order.count = 1
                 shipping_fee_order.order = this_order
@@ -138,6 +139,7 @@ def payment_local(request):
                     "amount": "{}".format(total_price),
                     "item_name": "{}".format(this_order.orderdetail.all()[0].good),
                     "invoice": "{}".format(this_order.pk),
+                    # TODO: Change URL from code to Envs.json
                     "notify_url": "http://shop.resist.kr/paypal/",
                     "return_url": "http://shop.resist.kr/thankyou/",
                     "cancel_return": "http://shop.resist.kr/",
@@ -257,6 +259,7 @@ def cancel_payment(request):
 
 @csrf_exempt
 def thank_you(request):
+    # TODO: Make one more time check for user
     return render(request, 'payment/thankyou.html')
 
 valid_ipn_received.connect(check_payment)
