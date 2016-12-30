@@ -30,13 +30,13 @@ if os.path.exists(os.path.join(BASE_DIR, "envs.json")):
     GMAIL_PW = get_env("GMAIL_PW", envs)
 
 else:
-    FACEBOOK_KEY = os.environ["FACEBOOK_KEY"]
-    FACEBOOK_SECRET = os.environ["FACEBOOK_SECRET"]
-    GOOGLE_KEY = os.environ["GOOGLE_KEY"]
-    GOOGLE_SECRET = os.environ["GOOGLE_SECRET"]
-    PAYPAL_ID = os.environ["PAYPAL_ID"]
-    GMAIL_ID = os.environ["GMAIL_ID"]
-    GMAIL_PW = os.environ["GMAIL_PW"]
+    FACEBOOK_KEY = os.environ.get('FACEBOOK_KEY', '')
+    FACEBOOK_SECRET = os.environ.get('FACEBOOK_SECRET', '')
+    GOOGLE_KEY = os.environ.get('GOOGLE_KEY', '')
+    GOOGLE_SECRET = os.environ.get('GOOGLE_SECRET', '')
+    PAYPAL_ID = os.environ.get('PAYPAL_ID', '')
+    GMAIL_ID = os.environ.get('GMAIL_ID', '')
+    GMAIL_PW = os.environ.get('GMAIL_PW', '')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
