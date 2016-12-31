@@ -218,6 +218,15 @@ def payment_paypal(request, order_number):
     context = {"form": form}
     return render(request, "payment/payment_paypal.html", context)
 
+
+@login_required
+def get_my_order(request):
+    my_orders = Order.objects.filter(user=request.user).prefetch_related('orderdetail_set')
+    return render(request, 'my_orders.html', {
+        'my_orders': my_orders
+    })
+
+
 # Paypal Payment Checking
 @csrf_exempt
 def check_payment(sender, **kwargs):
