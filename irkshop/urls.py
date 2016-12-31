@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^thankyou/$', goods_views.thank_you, name='thank-you'),
     url(r'^paypal/', include('paypal.standard.ipn.urls')),
     url(r'^orderlist/$', goods_views.orderlist, name='orderlist'),
+    url(r'^my_orders/$', goods_views.get_my_order, name='get_my_order'),
     url(r'^ht/', include('health_check.urls')),
 ]
 if settings.DEBUG:
