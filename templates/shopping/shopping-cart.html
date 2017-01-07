@@ -18,6 +18,8 @@
 </style>
 <script src="{% static 'modal/js/modernizr.custom.js' %}"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+
 </head>
 <body class="cart-modal">
 <header class="cart-header mobile-disabled">
@@ -116,7 +118,7 @@
 	<tr>
 		<td colspan="10" class="cart-right">
             <div class="refresh-total"><u>REFRESH TOTALPRICE</u></div>
-			<div class="cart-total-price">
+			<div class="cart-total-price" id="total_price">
 				 Total: ${{ cart.total }}
 			</div>
 		</td>
@@ -233,6 +235,14 @@
             }
         })
     })
+</script>
+<script>
+var cart = new Vue({
+    el: '#total_price',
+    data: {
+        total_price: {{ cart.total }}
+    }
+})
 </script>
 </body>
 </html>
