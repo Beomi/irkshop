@@ -4,6 +4,7 @@ from django.conf import settings
 from django.utils.html import format_html
 # Python
 from datetime import date
+import json
 # Pip
 from ckeditor.fields import RichTextField
 from address.models import AddressField
@@ -151,3 +152,14 @@ class OrderDetail(TimeStampModel):
             self.order.pk,
             self.order_price
         )
+
+
+class OrderHistory(TimeStampModel):
+    order = models.OneToOneField('Order')
+    history = models.TextField()
+
+    def save_json(self, x):
+        self.history = json.dumps(x)
+
+    def load_json(self):
+        return json.loads(self.history)
