@@ -8,47 +8,61 @@ from django.utils.translation import ugettext_lazy as _
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Env for dev / deploy
+def get_env(setting, envs):
+    try:
+        return envs[setting]
+    except KeyError:
+        error_msg = "set env var error at {}".format(setting)
+        raise ImproperlyConfigured(error_msg)
 
-if os.path.exists(os.path.join(BASE_DIR, "envs.json")):
-    with open(os.path.join(BASE_DIR, "envs.json")) as f:
-        envs = json.loads(f.read())
+DEV_ENVS = os.path.join(BASE_DIR, "envs_dev.json")
+DEPLOY_ENVS = os.path.join(BASE_DIR, "envs.json")
 
-    def get_env(setting, envs):
-        try:
-            return envs[setting]
-        except KeyError:
-            error_msg = "set env var error at {}".format(setting)
-            raise ImproperlyConfigured(error_msg)
-
-    FACEBOOK_KEY = get_env("FACEBOOK_KEY", envs)
-    FACEBOOK_SECRET = get_env("FACEBOOK_SECRET", envs)
-    GOOGLE_KEY = get_env("GOOGLE_KEY", envs)
-    GOOGLE_SECRET = get_env("GOOGLE_SECRET", envs)
-    PAYPAL_ID = get_env("PAYPAL_ID", envs)
-
-    GMAIL_ID = get_env("GMAIL_ID", envs)
-    GMAIL_PW = get_env("GMAIL_PW", envs)
-
+if os.path.exists(DEV_ENVS): # Develop Env
+    f = open(DEV_ENVS)
+elif os.path.exists(DEPLOY_ENVS): # Deploy Env
+    f = open(DEPLOY_ENVS)
 else:
-    FACEBOOK_KEY = os.environ.get('FACEBOOK_KEY', '')
-    FACEBOOK_SECRET = os.environ.get('FACEBOOK_SECRET', '')
-    GOOGLE_KEY = os.environ.get('GOOGLE_KEY', '')
-    GOOGLE_SECRET = os.environ.get('GOOGLE_SECRET', '')
-    PAYPAL_ID = os.environ.get('PAYPAL_ID', '')
-    GMAIL_ID = os.environ.get('GMAIL_ID', '')
-    GMAIL_PW = os.environ.get('GMAIL_PW', '')
+    f = None
+
+if f is None: # System environ
+    try:
+        FACEBOOK_KEY = os.environ['FACEBOOK_KEY']
+        FACEBOOK_SECRET = os.environ['FACEBOOK_SECRET']
+        GOOGLE_KEY = os.environ['GOOGLE_KEY']
+        GOOGLE_SECRET = os.environ['GOOGLE_SECRET']
+        PAYPAL_ID = os.environ['PAYPAL_ID']
+        GMAIL_ID = os.environ['GMAIL_ID']
+        GMAIL_PW = os.environ['GMAIL_PW']
+    except KeyError as error_msg:
+        raise ImproperlyConfigured(error_msg)
+else: # JSON env
+    envs = json.loads(f.read())
+    FACEBOOK_KEY = get_env('FACEBOOK_KEY', envs)
+    FACEBOOK_SECRET = get_env('FACEBOOK_SECRET', envs)
+    GOOGLE_KEY = get_env('GOOGLE_KEY', envs)
+    GOOGLE_SECRET = get_env('GOOGLE_SECRET', envs)
+    PAYPAL_ID = get_env('PAYPAL_ID', envs)
+    GMAIL_ID = get_env('GMAIL_ID', envs)
+    GMAIL_PW = get_env('GMAIL_PW', envs)
+
+# Heroku or Not
+if os.environ.get('HEROKU', False): # if Heroku
+    HEROKU = True
+    DEBUG = False
+    ALLOWED_HOSTS = [os.environ.get('HEROKU_DOMAIN', '*')]
+    STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+else: # or Not
+    HEROKU = False
+    DEBUG = True
+    ALLOWED_HOSTS = []
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'awl40xu110@48pc#0ej)aeqkbs)f8&a)946oalt*d2(f-^&=6o'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -249,3 +263,11 @@ PAYPAL_TEST = True
 
 # DJDT
 INTERNAL_IPS = '127.0.0.1'
+
+
+# Heroku DB
+if HEROKU:
+    # Update database configuration with $DATABASE_URL.
+    import dj_database_url
+    db_from_env = dj_database_url.config(conn_max_age=500)
+    DATABASES['default'].update(db_from_env)
