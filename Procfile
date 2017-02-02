@@ -1,1 +1,2 @@
-web: gunicorn irkshop.wsgi --log-file -
+web: gunicorn verify.wsgi --log-file -
+release: python manage.py migrate
