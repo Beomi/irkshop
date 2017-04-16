@@ -117,7 +117,7 @@ def _update_settings():
     sed(settings_path, "DEBUG = True", "DEBUG = False")
     sed(settings_path,
         'ALLOWED_HOSTS = .+$',
-        'ALLOWED_HOSTS = ["%s"]' % (env.host,)
+        'ALLOWED_HOSTS = ["%s"]' % (REMOTE_HOST,)
     )
     secret_key_file = project_folder + '/{}/secret_key.py'.format(PROJECT_NAME)
     if not exists(secret_key_file):
