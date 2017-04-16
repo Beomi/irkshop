@@ -17,17 +17,17 @@ def get_env(setting, envs):
 # developer: chagne this!
 REPO_URL = get_env('REPO_URL', envs)
 PROJECT_NAME = get_env('PROJECT_NAME', envs)
+REMOTE_HOST = get_env('REMOTE_HOST', envs)
 STATIC_ROOT_NAME = 'static_deploy'
 STATIC_URL_NAME = 'static'
 MEDIA_ROOT = 'uploads'
-
 
 # TODO: Server Engineer: you should add env.user as sudo user and NOT be root
 env.user = get_env('REMOTE_USER', envs)
 username = env.user
 # Option: env.password
 env.hosts = [
-    get_env('REMOTE_HOST', envs),
+    get_env('REMOTE_HOST_SSH', envs),
     ]
 env.password = get_env('REMOTE_PASSWORD', envs)
 project_folder = '/home/{}/{}'.format(env.user, PROJECT_NAME)
@@ -37,15 +37,12 @@ apt_requirements = [
     'python3-dev',
     'python3-pip',
     'build-essential',
-    'libmysqlclient-dev',
+    'libpq-dev',
     'postgresql',
     'postgresql-contrib',
     'apache2',
     'libapache2-mod-wsgi-py3',
     'python3-setuptools',
-    'libpq-dev',
-    'apache2',
-    'libapache2-mod-wsgi-py3',
 ]
 
 def new_server():
@@ -106,18 +103,6 @@ def _get_latest_source():
 def _update_settings():
     settings_path = project_folder + '/{}/settings.py'.format(PROJECT_NAME)
     sed(settings_path, "DEBUG = True", "DEBUG = False")
-    #update DB
-    """
-    sed(
-        settings_path,
-        "''ENGINE': 'django.db.backends.sqlite3''",
-        "''ENGINE': 'django.db.backends.postgresql_psycopg2''"
-    )
-    sed(
-        settings_path,
-        "''NAME': os.path.join(BASE_DIR, 'db.sqlite3'),'", "''NAME':'{}', 'USER': '{}', 'PASSWORD': '{}', 'HOST': 'localhost', 'PORT': '''".format(input('database NAME: '), input('database USER: '), input('database PWD: '))
-    )
-    """
     sed(settings_path,
         'ALLOWED_HOSTS = .+$',
         'ALLOWED_HOSTS = ["%s"]' % (env.host,)

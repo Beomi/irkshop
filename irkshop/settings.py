@@ -8,6 +8,8 @@ from django.utils.translation import ugettext_lazy as _
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+ALLOWED_HOSTS = []
+
 # Env for dev / deploy
 def get_env(setting, envs):
     try:
@@ -23,8 +25,10 @@ if os.path.exists(DEV_ENVS): # Develop Env
     f = open(DEV_ENVS)
 elif os.path.exists(DEPLOY_ENVS): # Deploy Env
     f = open(DEPLOY_ENVS)
+    DEBUG = False
 else:
     f = None
+    DEBUG = False
 
 if f is None: # System environ
     try:
@@ -35,6 +39,11 @@ if f is None: # System environ
         PAYPAL_ID = os.environ['PAYPAL_ID']
         GMAIL_ID = os.environ['GMAIL_ID']
         GMAIL_PW = os.environ['GMAIL_PW']
+        DB_NAME = os.environ['DB_NAME']
+        DB_USER = os.environ['DB_USER']
+        DB_PW = os.environ['DB_PW']
+        DB_HOST = os.environ['DB_HOST']
+        DB_PORT = os.environ['DB_PORT']
     except KeyError as error_msg:
         raise ImproperlyConfigured(error_msg)
 else: # JSON env
@@ -46,17 +55,21 @@ else: # JSON env
     PAYPAL_ID = get_env('PAYPAL_ID', envs)
     GMAIL_ID = get_env('GMAIL_ID', envs)
     GMAIL_PW = get_env('GMAIL_PW', envs)
+    DB_NAME = get_env('DB_NAME', envs)
+    DB_USER = get_env('DB_USER', envs)
+    DB_PW = get_env('DB_PW', envs)
+    DB_HOST = get_env('DB_HOST', envs)
+    DB_PORT = get_env('DB_PORT', envs)
 
 # Heroku or Not
 if os.environ.get('HEROKU', False): # if Heroku
     HEROKU = True
     DEBUG = False
-    ALLOWED_HOSTS = [os.environ.get('HEROKU_DOMAIN', '*')]
+    ALLOWED_HOSTS += [os.environ.get('HEROKU_DOMAIN', '*')]
     STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 else: # or Not
     HEROKU = False
     DEBUG = True
-    ALLOWED_HOSTS = []
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -148,6 +161,17 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+if not DEBUG: # Deploy, RDS like.
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': DB_NAME,
+            'USER': DB_USER,
+            'PASSWORD': DB_PW,
+            'HOST': DB_HOST,
+            'PORT': DB_PORT,
+        }
+    }
 
 
 # Password validation
