@@ -53,7 +53,7 @@ def setup():
     _get_latest_apt()
     _install_apt_requirements(apt_requirements)
     _make_virtualenv()
-    _ufw_allow()
+    #_ufw_allow()
 
 def deploy():
     _get_latest_source()
@@ -62,7 +62,7 @@ def deploy():
     _update_virtualenv()
     _update_static_files()
     _update_database()
-    _ufw_allow()
+    #_ufw_allow()
     _make_virtualhost()
     _grant_apache2()
     _restart_apache2()
