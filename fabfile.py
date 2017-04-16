@@ -176,7 +176,7 @@ def _make_virtualhost():
         username=env.user,
         project_name=PROJECT_NAME,
         static_url=STATIC_URL_NAME,
-        servername=env.host,
+        servername=REMOTE_HOST,
         media_url=MEDIA_ROOT
     )
     sudo('echo {} > /etc/apache2/sites-available/{}.conf'.format(script, PROJECT_NAME))
