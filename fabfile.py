@@ -69,6 +69,16 @@ def deploy():
     _grant_apache2()
     _restart_apache2()
 
+def migrate():
+    _put_envs()
+    _update_settings()
+    _update_virtualenv()
+    _update_static_files()
+    _update_database()
+    _make_virtualhost()
+    _grant_apache2()
+    _restart_apache2()
+
 def _put_envs():
     put('envs.json', '~/{}/envs.json'.format(PROJECT_NAME))
     put('bank_envs.json', '~/{}/bank_envs.json'.format(PROJECT_NAME))
@@ -174,7 +184,8 @@ def _make_virtualhost():
 
 def _grant_apache2():
     sudo('chown :www-data ~/{}'.format(PROJECT_NAME))
-    sudo('chmod 775 ~/{}/db.sqlite3'.format(PROJECT_NAME))
+    # enable below if use sqlite3
+    #sudo('chmod 775 ~/{}/db.sqlite3'.format(PROJECT_NAME))
 
 def _restart_apache2():
     sudo('sudo service apache2 restart')
