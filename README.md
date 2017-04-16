@@ -30,7 +30,7 @@ $ cd irkshop
 $ pip install -r requirements.txt
 ```
 
-3.You should make envs.json file before first migration.
+3.You should make `envs.json`(or `envs_dev.json` for develope on local) file before first migration.
 ```json
 {
   "FACEBOOK_KEY":"",
@@ -39,8 +39,14 @@ $ pip install -r requirements.txt
   "GOOGLE_SECRET":"",
   "PAYPAL_ID":"",
   "GMAIL_ID":"",
-  "GMAIL_PW":""
+  "GMAIL_PW":"",
+  "DB_NAME":"",
+  "DB_USER":"",
+  "DB_PW":"",
+  "DB_HOST":"",
+  "DB_PORT":""
 }
+
 ```
 like this.
 
