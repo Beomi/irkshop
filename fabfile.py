@@ -43,6 +43,8 @@ apt_requirements = [
     'apache2',
     'libapache2-mod-wsgi-py3',
     'python3-setuptools',
+    'libssl-dev',
+    'libffi-dev',
 ]
 
 def new_server():
