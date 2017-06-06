@@ -100,20 +100,9 @@ INSTALLED_APPS = [
     'address',
     # Paypal
     'paypal.standard.ipn',
-    # django health check
-    'health_check',
-    'health_check_celery3',
-    'health_check_db',
-    'health_check_cache',
-    'health_check_storage',
-    # Celery
-    'djcelery',
     #DJDT
     'debug_toolbar',
 ]
-
-#CELERY_RESULT_BACKEND = 'django-db'
-CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

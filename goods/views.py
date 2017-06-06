@@ -12,7 +12,7 @@ from .models import Category
 from .models import Order
 from .models import OrderDetail
 from .forms import OrderForm
-from .tasks import check_payment
+#from .tasks import check_payment
 
 from carton.cart import Cart
 from django.contrib.auth.models import User

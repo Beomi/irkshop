@@ -1,3 +1,4 @@
+'''
 from __future__ import absolute_import
 
 import os
@@ -36,3 +37,4 @@ CELERYBEAT_SCHEDULE = {
         'args': (16, 16),
     },
 }
+'''

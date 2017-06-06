@@ -1,3 +1,4 @@
+'''
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 
@@ -11,3 +12,4 @@ def check_payment(by, amount):
         if str(i['by'])==str(by) and str(i['amount'])==str(amount):
             return True
     return False
+'''
