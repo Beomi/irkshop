@@ -32,18 +32,18 @@ else:
 
 if f is None: # System environ
     try:
-        FACEBOOK_KEY = os.environ['FACEBOOK_KEY']
-        FACEBOOK_SECRET = os.environ['FACEBOOK_SECRET']
-        GOOGLE_KEY = os.environ['GOOGLE_KEY']
-        GOOGLE_SECRET = os.environ['GOOGLE_SECRET']
-        PAYPAL_ID = os.environ['PAYPAL_ID']
-        GMAIL_ID = os.environ['GMAIL_ID']
-        GMAIL_PW = os.environ['GMAIL_PW']
-        DB_NAME = os.environ['DB_NAME']
-        DB_USER = os.environ['DB_USER']
-        DB_PW = os.environ['DB_PW']
-        DB_HOST = os.environ['DB_HOST']
-        DB_PORT = os.environ['DB_PORT']
+        FACEBOOK_KEY = os.environ.get('FACEBOOK_KEY')
+        FACEBOOK_SECRET = os.environ.get('FACEBOOK_SECRET')
+        GOOGLE_KEY = os.environ.get('GOOGLE_KEY')
+        GOOGLE_SECRET = os.environ.get('GOOGLE_SECRET')
+        PAYPAL_ID = os.environ.get('PAYPAL_ID')
+        GMAIL_ID = os.environ.get('GMAIL_ID')
+        GMAIL_PW = os.environ.get('GMAIL_PW')
+        DB_NAME = os.environ.get('DB_NAME')
+        DB_USER = os.environ.get('DB_USER')
+        DB_PW = os.environ.get('DB_PW')
+        DB_HOST = os.environ.get('DB_HOST')
+        DB_PORT = os.environ.get('DB_PORT')
     except KeyError as error_msg:
         raise ImproperlyConfigured(error_msg)
 else: # JSON env
@@ -161,7 +161,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-if not DEBUG: # Deploy, RDS like.
+if DB_NAME and (not DEBUG): # Deploy, RDS like.    
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
