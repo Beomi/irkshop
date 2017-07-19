@@ -158,6 +158,7 @@ deploy.json
 bank_envs.json
 *.json
 uploads/
+static_deploy/
 
 # MAC
 .Ds_Store
