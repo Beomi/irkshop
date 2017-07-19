@@ -118,8 +118,6 @@ def payment_local(request):
                 order_detail.order = this_order
                 order_detail.save()
 
-            # clear cart
-            Cart(request.session).clear()
 
             # paypal
             this_order = Order.objects.get(pk=order_number)
@@ -127,31 +125,31 @@ def payment_local(request):
             if this_order.address != None:
                 shipping_fee_order = OrderDetail()
                 # TODO: Change Hard Coding this pk to env?
-                shipping_fee_order.good = Goods.objects.get(pk=10)
+                shipping_fee_order.good = Goods.objects.get(name='shipping')
                 shipping_fee_order.count = 1
                 shipping_fee_order.order = this_order
                 shipping_fee_order.save()
 
             total_price = this_order.total_price
-            try:
-                paypal_dict = {
-                    "business": "{}".format(settings.PAYPAL_ID),
-                    "amount": "{}".format(total_price),
-                    "item_name": "{}".format(this_order.orderdetail.all()[0].good),
-                    "invoice": "{}".format(this_order.pk),
-                    # TODO: Change URL from code to Envs.json
-                    "notify_url": "http://shop.resist.kr/paypal/",
-                    "return_url": "http://shop.resist.kr/thankyou/",
-                    "cancel_return": "http://shop.resist.kr/",
-                    "custom": "{}".format(this_order.user)
-                }
-            except:
-                return JsonResponse({
-                    'message': 'please checkout with more than 1 items'
-                })
+            if len(this_order.orderdetail_set.all()) > 1:
+                item_name = this_order.orderdetail_set.all()[0]+this_order.orderdetail_set.all()[1]+'...'
+            else:
+                item_name = this_order.orderdetail_set.all()[0].good.name
+
+            paypal_dict = {
+                "business": "{}".format(settings.PAYPAL_ID),
+                "amount": "{}".format(total_price),
+                "item_name": item_name,
+                "invoice": "{}".format(this_order.pk),
+                # TODO: Change URL from code to Envs.json
+                "notify_url": "http://seoul.willbe.blue/paypal/",
+                "return_url": "http://seoul.willbe.blue/thankyou/",
+                "cancel_return": "http://seoul.willbe.blue/",
+                "custom": "{}".format(this_order.user)
+            }
             paypal_form = PayPalPaymentsForm(initial=paypal_dict).render()
 
-            orders = this_order.orderdetail.all()
+            orders = this_order.orderdetail_set.all()
             orders_detail = ''
             for order in orders:
                 orders_detail += (
@@ -177,7 +175,8 @@ def payment_local(request):
                     orders_detail
                 ),
             )
-
+            # clear cart
+            Cart(request.session).clear()
             return JsonResponse({
                 'message': "Sucessfully Ordered!\n"
                            "Please Continue with Paypal Payment.\n"
