@@ -1,0 +1,199 @@
+html {
+    font-size: 16px !important;
+}
+
+@media (max-width: 640px) {
+    .fp-controlArrow {
+        display: none !important;
+    }
+    html {
+        -webkit-text-size-adjust: auto;
+        -moz-text-size-adjust: auto;
+        -ms-text-size-adjust: auto;
+    }
+    #header{height:0;}
+    #header.open{height:300px;width:100%;}
+    #fullpage{padding-left:0;}
+    #toggleHeader{display:block;}
+    #headerBlank{height:61px; position: fixed; background: #000000; z-index: 9999}
+
+    nav{
+        margin-top: 61px;
+    }
+}
+
+body{
+    margin: 0 auto;
+    width:100%;
+    height:100%;
+    padding: 0;
+    overflow: hidden;
+}
+nav{
+    padding-top: 20px;
+    float: left;
+    width: 20%;
+    height: 100%;
+    position: fixed;
+    z-index: auto;
+}
+main{
+    margin:0;
+    float: right;
+    width: 80%;
+    height: auto;
+    position: relative;
+}
+#logo{
+    width: 60%;
+    height: auto;
+    margin-left: 20%;
+    margin-top: 20px;
+}
+.container{
+  min-width:320px; /* 최솟값 */
+  max-width:1280px; /* 최댓값 */
+  margin:0 auto;
+}
+
+.menu-btn-wrap-login {
+    overflow: hidden;
+    width: 80%;
+    margin-left: 10%;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.menu-btn-wrap-category {
+    overflow: hidden;
+    width: 100%;
+    margin-left: 10%;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.menu-btn {
+    width: 25%;
+    max-width: 55px;
+    display: inline;
+}
+
+.menu-btn-wrap-category .nav_button{
+    text-align: right;
+    width: 70%;
+    color: #c4c4c4;
+    overflow: hidden;
+    font-size: 1.3rem;
+    padding: 0;
+    margin: 0;
+    margin-right: 20%;
+    border: hidden;
+}
+
+.menu-btn-wrap-category .nav_button:hover{
+    color: deepskyblue;
+}
+
+
+.slide{
+    text-align: center;
+}
+.login-btn{
+    text-align: center;
+    width: 80%;
+    margin-left: 10%;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+#shopping-cart-icon{
+    position: fixed;
+    float: right;
+    width: 50px;
+    height: 50px;
+    top: 0;
+    right: 0;
+    z-index: 99;
+    filter: invert(100%);
+    margin: 5px;
+}
+.show-more-under{
+    position: relative;
+    width: 50px;
+    height: 50px;
+    bottom: 50px;
+    left: 48%;
+    z-index: 99;
+}
+#fp-nav ul li a span, .fp-slidesNav ul li a span{
+    background-color: #FFF;
+}
+
+.fp-controlArrow.fp-next{
+    right: 50px;
+}
+
+.addCart {
+    box-sizing: content-box;
+    float: inherit;
+}
+
+.addCartButton {
+    margin: 20px 20px 0 20px;
+    width: 80px;
+}
+
+.addcartbutton-push {
+    display: inline-block;
+}
+
+@media (max-width: 640px) {
+    .mobile-disabled {
+        display: none;
+    }
+    main{
+        width: 100%;
+    }
+    .blank-box {
+        height: 20%;
+        float: inherit;
+    }
+}
+
+@media (min-width: 640px) {
+    .blank-box {
+        height: 40%;
+        float: inherit;
+    }
+}
+
+.box{
+    transition: all 200ms;
+    width:100%;
+    height:100%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position: center;
+}
+
+.shadow-box{
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+0,0+51,1+100 */
+    background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 25%, rgba(0,0,0,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,   rgba(0,0,0,0) 0%,rgba(0,0,0,0.2) 25%,rgba(0,0,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.2) 25%,rgba(0,0,0,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+    vertical-align: middle;
+    overflow: hidden;
+}
+
+html body .slider_next .box{transform:scale(0.7) translateX(-40%);  opacity: 0.8;}
+
+html body .slider_prev .box{transform:scale(0.7) translateX(40%);   opacity: 0.8;}
+
+#toggleHeader{display:none;position: fixed;top:0;left:0;width:100%;height:60px; z-index: 10000;border-bottom:1px solid #e0e0e0;}
+

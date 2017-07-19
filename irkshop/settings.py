@@ -93,8 +93,6 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     # My Apps
     'goods',
-    # Email User
-    'custom_user',
     # Social Login
     'social.apps.django_app.default',
     # Cart and Google Address
@@ -182,10 +180,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-# Email User
-
-AUTH_USER_MODEL = 'custom_user.EmailUser'
 
 # Social Login
 AUTHENTICATION_BACKENDS = [

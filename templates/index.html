@@ -1,7 +1,7 @@
 {% load static from staticfiles %}
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>13MAGNUS Reawakens XM Anomaly--INGRESS Resistance Korea</title>
@@ -23,264 +23,263 @@
 
     <!-- Custom stylesheet - for your changes-->
     <!-- Favicon-->
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
 
+    <!------------------------------------------------------------------------------>
+
+    <style>
+
+        #canvas {
+            z-index: 1;
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .canvas-wrap {
+            position: relative;
+        }
+
+        div.canvas-content {
+            position: relative;
+            z-index: 2000;
+            color: #0474B3;
+            text-align: center;
+            padding-top: 0px;
+        }
+
+        /*--------------------------------------*/
+
+        .link_set ul li {
+            font-size: inherit;
+            text-align: center;
+            color: #fff;
+            letter-spacing: 1px;
+            font-family: 'Philosopher', sans-serif;
+            padding: 10px;
+            list-style: none;
+        }
+
+        .link_set ul li a {
+            text-align: center;
+            color: #fff;
+            letter-spacing: 1px;
+            font-family: 'Philosopher', sans-serif;
+            padding: 10px;
+            text-decoration: none;
+        }
+
+        .link_set ul li a:hover {
+            color: #FFF;
+        }
+
+        .cl-effect-1 a::before,
+        .cl-effect-1 a::after {
+            display: inline-block;
+            opacity: 0;
+            -webkit-transition: -webkit-transform 0.3s, opacity 0.2s;
+            -moz-transition: -moz-transform 0.3s, opacity 0.2s;
+            transition: transform 0.3s, opacity 0.2s;
+        }
+
+        .cl-effect-1 a::before {
+            margin-right: 10px;
+            content: '[';
+            -webkit-transform: translateX(20px);
+            -moz-transform: translateX(20px);
+            transform: translateX(20px);
+        }
+
+        .cl-effect-1 a::after {
+            margin-left: 10px;
+            content: ']';
+            -webkit-transform: translateX(-20px);
+            -moz-transform: translateX(-20px);
+            transform: translateX(-20px);
+        }
+
+        .cl-effect-1 a:hover::before,
+        .cl-effect-1 a:hover::after,
+        .cl-effect-1 a:focus::before,
+        .cl-effect-1 a:focus::after {
+            opacity: 1;
+            -webkit-transform: translateX(0px);
+            -moz-transform: translateX(0px);
+            transform: translateX(0px);
+        }
+
+    </style>
 
 
-<!------------------------------------------------------------------------------>
+    <!-------------------------------------------------------------------------->
 
-<style>
+</head>
 
-	#canvas{
-				z-index:1;
-                width:100%;
-                height:auto;
-                overflow: hidden;
-                position:absolute;
-                top:0;
-                left:0;
-            }
-            .canvas-wrap{
-                position:relative;
-            }
-            div.canvas-content{
-                position:relative;
-                z-index:2000;
-                color:#0474B3;
-                text-align:center;
-                padding-top:0px;
-            }
+<body>
 
-/*--------------------------------------*/
+<div class="backgroundTransition">
 
-.link_set ul li{
-	font-size:inherit;
-    text-align: center;
-    color: #fff;
-    letter-spacing: 1px;
-	font-family: 'Philosopher', sans-serif;
-	padding:10px;
-    list-style:none;
-	}
+    <!------------------------------------------------------------------------------->
 
-.link_set ul li a{
-    text-align: center;
-    color: #fff;
-    letter-spacing: 1px;
-	font-family: 'Philosopher', sans-serif;
-	padding:10px;
-	text-decoration:none;
-	}
+    <section class="canvas-wrap">
+        <div class="canvas-content"><!--<h1>3D lines animation with three.js</h1>--></div>
+        <div id="canvas" class="gradient"></div>
+    </section>
+
+    <!-- Main library -->
+    <script src="{% static 'js1/three.min.js' %}"></script>
+
+    <!-- Helpers -->
+    <script src="{% static 'js1/projector.js' %}"></script>
+    <script src="{% static 'js1/canvas-renderer.js' %}"></script>
+
+    <!-- Visualitzation adjustments -->
+    <script src="{% static 'js1/3d-lines-animation.js' %}"></script>
+
+    <!-- Animated background color -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <!--<script src="js1/color.js"></script>-->
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/jquery.cookie.js' %}"></script>
+    <script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'js/front.js' %}"></script>
 
 
-.link_set ul li a:hover{
-	color:#FFF;
-	}
+    <!--------------------------------------------------------------------------------->
 
-.cl-effect-1 a::before,
-.cl-effect-1 a::after {
-	display: inline-block;
-	opacity: 0;
-	-webkit-transition: -webkit-transform 0.3s, opacity 0.2s;
-	-moz-transition: -moz-transform 0.3s, opacity 0.2s;
-	transition: transform 0.3s, opacity 0.2s;
-}
-
-.cl-effect-1 a::before {
-	margin-right: 10px;
-	content: '[';
-	-webkit-transform: translateX(20px);
-	-moz-transform: translateX(20px);
-	transform: translateX(20px);
-}
-
-.cl-effect-1 a::after {
-	margin-left: 10px;
-	content: ']';
-	-webkit-transform: translateX(-20px);
-	-moz-transform: translateX(-20px);
-	transform: translateX(-20px);
-}
-
-.cl-effect-1 a:hover::before,
-.cl-effect-1 a:hover::after,
-.cl-effect-1 a:focus::before,
-.cl-effect-1 a:focus::after {
-	opacity: 1;
-	-webkit-transform: translateX(0px);
-	-moz-transform: translateX(0px);
-	transform: translateX(0px);
-}
-
-        </style>
-
-
-
-
-
-<!-------------------------------------------------------------------------->
-
-  </head>
-
-  <body>
-
-	<div class="backgroundTransition">
-
-<!------------------------------------------------------------------------------->
-
-    	<section class="canvas-wrap">
-			<div class="canvas-content"><!--<h1>3D lines animation with three.js</h1>--></div>
-			<div id="canvas" class="gradient"></div>
-		</section>
-
-		<!-- Main library -->
-		<script src="js1/three.min.js"></script>
-
-		<!-- Helpers -->
-		<script src="js1/projector.js"></script>
-		<script src="js1/canvas-renderer.js"></script>
-
-		<!-- Visualitzation adjustments -->
-		<script src="js1/3d-lines-animation.js"></script>
-
-		<!-- Animated background color -->
-		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-		<!--<script src="js1/color.js"></script>-->
-
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-		<script src="js/jquery.cookie.js"></script><script src="js/jquery.countdown.min.js"></script>
-		<script src="js/front.js"></script>
-
-
-<!--------------------------------------------------------------------------------->
-
-<div class="main">
-	<div class="overlay"></div>
-	<div class="container">
-        <p class="social">
-			<a href="https://www.facebook.com/ingresskorea/" title="" class="facebook" target="_blank"><i class="fa fa-facebook"></i></a>
-			<a href="https://twitter.com/reskorea" title="" class="twitter" target="_blank"><i class="fa fa-twitter"></i></a>
-			<a href="https://plus.google.com/u/0/+IngressResistanceKorea" title="" class="gplus" target="_blank" style="margin-right:0px;"><i class="fa fa-google-plus"></i></a>
-			<!-- <a href="#" title="" class="instagram"><i class="fa fa-instagram"></i></a> --> <br><br>
-        <img src="img/ei.png" width="10%" height="10%" alt=""/>
-
-        </p>
-
-        <div class="row" style="margin-top:1%;">
-          <div class="col-sm-12">
-            <h1 class="cursive">13MAGNUS Reawakens</h1>
-            <h2 class="sub">SEOUL</h2>
-          </div>
-        </div>
-
-        <!-- countdown-->
-        <div id="countdown" class="countdown">
-          <div class="row">
-            <div class="countdown-item col-sm-3 col-xs-6">
-              <div id="countdown-days" class="countdown-number">&nbsp;</div>
-              <div class="countdown-label">days</div>
-            </div>
-            <div class="countdown-item col-sm-3 col-xs-6">
-              <div id="countdown-hours" class="countdown-number">&nbsp;</div>
-              <div class="countdown-label">hours</div>
-            </div>
-            <div class="countdown-item col-sm-3 col-xs-6">
-              <div id="countdown-minutes" class="countdown-number">&nbsp;</div>
-              <div class="countdown-label">minutes</div>
-            </div>
-            <div class="countdown-item col-sm-3 col-xs-6">
-              <div id="countdown-seconds" class="countdown-number">&nbsp;</div>
-              <div class="countdown-label">seconds</div>
-            </div>
-          </div>
-        </div>
-        <!-- /.countdown-->
-
-        <div class="mailing-list">
-
-          <div class="row">
-            <form class="form-inline">
-              <div class="form-group">
-                <!--<label for="email" class="sr-only"></label>
-                <input type="email" placeholder="jane.doe@example.com" id="email" class="form-control transparent">-->
-
-<!---------------------------------------------------------------------------------------------------------------------->
-
-                <div class="link_set">
-                    <section class="color-1">
-                        <nav class="cl-effect-1">
-                                <ul>
-                                    <li>
-                                        <a href="https://13magnusseoul.splashthat.com/">NIA Registration</a>
-                                    </li>
-                                    <li>
-                                        <a href="http://register.seoul.willbe.blue">Resistance Registration</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">IRK SWAG SHOP (TBA)</a>
-                                    </li>
-									<li>
-                                        <a href="https://plus.google.com/u/1/communities/112385544333954788928">G+ Community</a>
-                                    </li>
-                                </ul>
-                        </nav>
-                    </section>
-                </div>
-
-
-<!---------------------------------------------------------------------------------------------------------------------->
-
-
-              </div>
-              <!--<button class="btn btn-danger">subscribe</button>-->
-            </form>
-          </div>
-        </div>
-		</div>
-
-      <div class="footer" style="margin:auto;">
+    <div class="main">
+        <div class="overlay"></div>
         <div class="container">
-          <div class="row">
-            <div class="col-md-6" style="text-align:left;">
-              <p>&copy;2017 <a href="http://cafe.naver.com/ingressresistance/" target="_blank">INGRESS RESISTANCE KOREA</a></p>
+            <p class="social">
+                <a href="https://www.facebook.com/ingresskorea/" title="" class="facebook" target="_blank"><i
+                        class="fa fa-facebook"></i></a>
+                <a href="https://twitter.com/reskorea" title="" class="twitter" target="_blank"><i
+                        class="fa fa-twitter"></i></a>
+                <a href="https://plus.google.com/u/0/+IngressResistanceKorea" title="" class="gplus" target="_blank"
+                   style="margin-right:0px;"><i class="fa fa-google-plus"></i></a>
+                <!-- <a href="#" title="" class="instagram"><i class="fa fa-instagram"></i></a> --> <br><br>
+                <img src="{% static 'img/ei.png' %}" width="10%" height="10%" alt=""/>
+
+            </p>
+
+            <div class="row" style="margin-top:1%;">
+                <div class="col-sm-12">
+                    <h1 class="cursive">13MAGNUS Reawakens</h1>
+                    <h2 class="sub">SEOUL</h2>
+                </div>
             </div>
-            <div class="col-md-6">
-              <p class="credit">IRK design team @HL2XIG / CC BY-NC-SA | Theme by <a href="https://bootstrapious.com/tutorials" target="_blank">Bootstrapious</a></p>
-              <!-- Please do not remove the backlink to us unless you support the development at https://bootstrapious.com/donate. It is part of the license conditions. Thanks for understanding :) -->
+
+            <!-- countdown-->
+            <div id="countdown" class="countdown">
+                <div class="row">
+                    <div class="countdown-item col-sm-3 col-xs-6">
+                        <div id="countdown-days" class="countdown-number">&nbsp;</div>
+                        <div class="countdown-label">days</div>
+                    </div>
+                    <div class="countdown-item col-sm-3 col-xs-6">
+                        <div id="countdown-hours" class="countdown-number">&nbsp;</div>
+                        <div class="countdown-label">hours</div>
+                    </div>
+                    <div class="countdown-item col-sm-3 col-xs-6">
+                        <div id="countdown-minutes" class="countdown-number">&nbsp;</div>
+                        <div class="countdown-label">minutes</div>
+                    </div>
+                    <div class="countdown-item col-sm-3 col-xs-6">
+                        <div id="countdown-seconds" class="countdown-number">&nbsp;</div>
+                        <div class="countdown-label">seconds</div>
+                    </div>
+                </div>
             </div>
-          </div>
+            <!-- /.countdown-->
+
+            <div class="mailing-list">
+
+                <div class="row">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <!--<label for="email" class="sr-only"></label>
+                            <input type="email" placeholder="jane.doe@example.com" id="email" class="form-control transparent">-->
+
+                            <!---------------------------------------------------------------------------------------------------------------------->
+
+                            <div class="link_set">
+                                <section class="color-1">
+                                    <nav class="cl-effect-1">
+                                        <ul>
+                                            <li>
+                                                <a href="https://13magnusseoul.splashthat.com/">NIA Registration</a>
+                                            </li>
+                                            <li>
+                                                <a href="http://register.seoul.willbe.blue">Resistance Registration</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'goods:index' %}">IRK SWAG SHOP (TBA)</a>
+                                            </li>
+                                            <li>
+                                                <a href="https://plus.google.com/u/1/communities/112385544333954788928">G+
+                                                    Community</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </section>
+                            </div>
+
+
+                            <!---------------------------------------------------------------------------------------------------------------------->
+
+
+                        </div>
+                        <!--<button class="btn btn-danger">subscribe</button>-->
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <div class="footer" style="margin:auto;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6" style="text-align:left;">
+                        <p>&copy;2017 <a href="http://cafe.naver.com/ingressresistance/" target="_blank">INGRESS
+                            RESISTANCE KOREA</a></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="credit">IRK design team @HL2XIG / CC BY-NC-SA | Theme by <a
+                                href="https://bootstrapious.com/tutorials" target="_blank">Bootstrapious</a></p>
+                        <!-- Please do not remove the backlink to us unless you support the development at https://bootstrapious.com/donate. It is part of the license conditions. Thanks for understanding :) -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-
 
 
     <!-- 배경 슬라이드 관련 자바스크립트 시작-->
 
 
+    <script type="text/javascript" src="{% static 'js/backgroundTransition.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.backgroundTransition').backgroundTransition({
+                backgrounds: [
+                    {src: "{% static 'img/bg.jpg' %}"},
+                    {src: "{% static 'img/bg1.jpg' %}"},
+                    {src: "{% static 'img/bg2.jpg' %}"},
+                    {src: "{% static 'img/bg3.jpg' %}"},
+                    {src: "{% static 'img/bg4.jpg' %}"},
+                    {src: "{% static 'img/bg5.jpg' %}"}
+                ],
+                transitionDelay: 3,
+                animationSpeed: 1800
+            });
+        });
+    </script>
+    <!-- 배경 슬라이드 관련 자바스크립트 끝-->
 
-
-	<script type="text/javascript" src="js/backgroundTransition.js"></script>
-	<script type="text/javascript">
-  $(document).ready(function(){
-	  $('.backgroundTransition').backgroundTransition({
-		  backgrounds:[
-			  { src: 'img/bg.jpg' },
-			  { src: 'img/bg1.jpg' },
-			  { src: 'img/bg2.jpg' },
-			  { src: 'img/bg3.jpg' },
-			  { src: 'img/bg4.jpg' },
-        { src: 'img/bg5.jpg' }
-		  ],
-		  transitionDelay: 3,
-		  animationSpeed: 1800
-	  });
-  });
-</script>
-<!-- 배경 슬라이드 관련 자바스크립트 끝-->
-
-  </body>
+</body>
 </html>
