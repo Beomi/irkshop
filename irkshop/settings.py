@@ -23,6 +23,7 @@ DEPLOY_ENVS = os.path.join(BASE_DIR, "envs.json")
 
 if os.path.exists(DEV_ENVS): # Develop Env
     f = open(DEV_ENVS)
+    DEBUG = True
 elif os.path.exists(DEPLOY_ENVS): # Deploy Env
     f = open(DEPLOY_ENVS)
     DEBUG = False
@@ -44,6 +45,7 @@ if f is None: # System environ
         DB_PW = os.environ.get('DB_PW')
         DB_HOST = os.environ.get('DB_HOST')
         DB_PORT = os.environ.get('DB_PORT')
+        RAVEN = os.environ.get('RAVEN')
     except KeyError as error_msg:
         raise ImproperlyConfigured(error_msg)
 else: # JSON env
@@ -60,6 +62,7 @@ else: # JSON env
     DB_PW = get_env('DB_PW', envs)
     DB_HOST = get_env('DB_HOST', envs)
     DB_PORT = get_env('DB_PORT', envs)
+    RAVEN = get_env('RAVEN', envs)
 
 # Heroku or Not
 if os.environ.get('HEROKU', False): # if Heroku
@@ -69,7 +72,6 @@ if os.environ.get('HEROKU', False): # if Heroku
     STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 else: # or Not
     HEROKU = False
-    DEBUG = True
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -289,3 +291,12 @@ if HEROKU:
     import dj_database_url
     db_from_env = dj_database_url.config(conn_max_age=500)
     DATABASES['default'].update(db_from_env)
+
+
+if RAVEN:
+    import raven
+    INSTALLED_APPS.append('raven.contrib.django.raven_compat')
+    RAVEN_CONFIG = {
+        'dsn': '{}'.format(RAVEN), # DSN_URL을 위에 적어주셔야 동작합니다.
+        'release': raven.fetch_git_sha(BASE_DIR), # Django가 Git으로 관리되는 경우 자동으로 커밋 버전에 따른 트래킹을 해줍니다.
+    }

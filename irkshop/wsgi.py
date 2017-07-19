@@ -11,10 +11,12 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 from django.conf import settings
+from raven.contrib.django.raven_compat.middleware.wsgi import Sentry
+
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "irkshop.settings")
 
-application = get_wsgi_application()
+application = Sentry(get_wsgi_application())
 
 
 # Heroku Static Serving

@@ -1,0 +1,28 @@
+html, body, .backgroundTransition, .backgroundTransition .image-top, .backgroundTransition .image-bottom {
+  height: 100%;
+  width: 100%;
+}
+
+body { margin: 0; }
+
+body .backgroundTransition {
+  position: relative;
+  background-size: cover;
+}
+
+body .backgroundTransition .image-bottom, body .backgroundTransition .image-top {
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-size: cover;
+  background-position: center center;
+}
+
+body .backgroundTransition .image-bottom { z-index: -2; }
+
+body .backgroundTransition .image-top {
+  z-index: -1;
+  display: none;
+}
+
+#image-download { display: none; }
