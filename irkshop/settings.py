@@ -94,7 +94,7 @@ INSTALLED_APPS = [
     # My Apps
     'goods',
     # Social Login
-    'social.apps.django_app.default',
+    'social_django'
     # Cart and Google Address
     'carton',
     'address',
@@ -183,9 +183,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Social Login
 AUTHENTICATION_BACKENDS = [
-    'social.backends.google.GoogleOAuth2',
-    'social.backends.facebook.FacebookOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.google.GoogleOAuth2', # Google
+    'social_core.backends.facebook.FacebookOAuth2', # Facebook
+    'django.contrib.auth.backends.ModelBackend', # Django 기본 유저모델
 ]
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'

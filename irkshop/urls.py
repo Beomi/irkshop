@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^accounts/login/$', login,
         {'template_name': 'login_page/login.html'}, name='login'),
     url(r'^accounts/logout/$', logout, name='logout'),
-    url('', include('social.apps.django_app.urls', namespace='social')),
+    url('', include('social_django.urls', namespace='social')), # 이 줄을 등록해주면 됩니다.
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^ht/', include('health_check.urls')),
     url(r'^paypal/', include('paypal.standard.ipn.urls')),
