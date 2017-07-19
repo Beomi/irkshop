@@ -16,10 +16,6 @@
         }
     }
 </style>
-<script src="{% static 'modal/js/modernizr.custom.js' %}"></script>
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
-
 </head>
 <body class="cart-modal">
 <header class="cart-header mobile-disabled">
@@ -139,110 +135,65 @@
 	</tfoot>
 	</table>
 </div>
-<!-- scripts for animated buttons -->
+<script src="{% static 'modal/js/modernizr.custom.js' %}"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="{% static 'modal/js/classie.js' %}"></script>
-<script>
-	var buttonsClick = Array.prototype.slice.call( document.querySelectorAll( '#btn-click button' ) ),
-		totalButtonsClick = buttonsClick.length;
-		buttonsClick.forEach( function( el, i ) { el.addEventListener( 'click', activate, false ); } );
-			function activate() {
-				var self = this, activatedClass = 'btn-activated';
-				if( !classie.has( this, activatedClass ) ) {
-					classie.add( this, activatedClass );
-					setTimeout( function() { classie.remove( self, activatedClass ) }, 1000 );
-				}
-			}
-</script>
 <script type="text/javascript">
-    function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-    }
-    var csrftoken = getCookie('csrftoken');
-
-    $(document).on('click', '#close-modal', function (event) {
-        window.parent.closeModal('/');
-    })
-    $(document).on('click', 'a', function (event) {
-        window.parent.closeModal(
-            $(this).attr('href')
-        );
-    })
-    $('.update-quantity').change(function () {
-
+    $('.update-quantity').on('change', function () {
         var input_value = $(this).val();
-        console.log(input_value)
         var price = Number($(this).siblings('.cart-item-price').text())
-        console.log(price)
         var total_price = input_value * price
-        console.log(total_price)
         var good = Number($(this).siblings('.cart-item-id').text());
-        console.log(good)
-        $(this).parent().parent().siblings('.cart-subtotal-each').text('$'+total_price)
+        $(this).parent().parent().siblings('.cart-subtotal-each').text('$' + total_price)
         $.ajax({
-            url: {% url 'shopping-cart-update' %},
+            url: "{% url 'shopping-cart-update' %}",
             type: "POST",
             data: {
                 'quantity': input_value,
-                'csrfmiddlewaretoken' : csrftoken,
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
                 'good': good
             },
-            success : function(json) {
-                console.log(json); // another sanity check
+            success: function (json) {
+                $('#total_price').html('TotalPrice: $' + json['total'])
             }
         })
     });
-    $('.refresh-total').click(function(){
+    $('.refresh-total').click(function () {
         location.reload();
     })
-    $('.cart-item-remove').click(function(){
-        var good = Number($(this).siblings('.item-values').children('.cart-item-id').text());
-        console.log(good)
-        $.ajax({
-            url: {% url 'shopping-cart-remove' %},
-            type: "POST",
-            data: {
-                'good': good,
-                'csrfmiddlewaretoken' : csrftoken
-            },
-            success : function(json) {
-                console.log(json); // another sanity check
-                location.reload();
-            }
-        })
+    $('.cart-item-remove').click(function () {
+        var ok = confirm('Do you want to delete this product?')
+        if (ok) {
+            var good = Number($(this).siblings('.item-values').children('.cart-item-id').text());
+            $.ajax({
+                url: "{% url 'shopping-cart-remove' %}",
+                type: "POST",
+                data: {
+                    'good': good,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (json) {
+                    location.reload();
+                }
+            })
+        }
     })
     $('#cart-empty-btn').click(function () {
-        $.ajax({
-            url: {% url 'shopping-cart-clear' %},
-            type: "POST",
-            data: {
-                'csrfmiddlewaretoken' : csrftoken
-            },
-            success : function(json) {
-                console.log(json); // another sanity check
-                location.reload();
-            }
-        })
+        var ok = confirm('Do you want to clear Shopping Cart?')
+        if (ok) {
+            $.ajax({
+                url: "{% url 'shopping-cart-clear' %}",
+                type: "POST",
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (json) {
+                    location.reload();
+                }
+            })
+        }
     })
 </script>
-<script>
-var cart = new Vue({
-    el: '#total_price',
-    data: {
-        total_price: {{ cart.total }}
-    }
-})
-</script>
+
 </body>
 </html>
