@@ -94,7 +94,7 @@ INSTALLED_APPS = [
     # My Apps
     'goods',
     # Social Login
-    'social_django'
+    'social_django',
     # Cart and Google Address
     'carton',
     'address',
