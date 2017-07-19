@@ -24,6 +24,7 @@ DEPLOY_ENVS = os.path.join(BASE_DIR, "envs.json")
 if os.path.exists(DEV_ENVS): # Develop Env
     f = open(DEV_ENVS)
     DEBUG = True
+    ALLOWED_HOSTS.append('*')
 elif os.path.exists(DEPLOY_ENVS): # Deploy Env
     f = open(DEPLOY_ENVS)
     DEBUG = False
@@ -38,6 +39,7 @@ if f is None: # System environ
         GOOGLE_KEY = os.environ.get('GOOGLE_KEY')
         GOOGLE_SECRET = os.environ.get('GOOGLE_SECRET')
         PAYPAL_ID = os.environ.get('PAYPAL_ID')
+        PAYPAL_URL = os.environ.get('PAYPAL_URL')
         GMAIL_ID = os.environ.get('GMAIL_ID')
         GMAIL_PW = os.environ.get('GMAIL_PW')
         DB_NAME = os.environ.get('DB_NAME')
@@ -55,6 +57,7 @@ else: # JSON env
     GOOGLE_KEY = get_env('GOOGLE_KEY', envs)
     GOOGLE_SECRET = get_env('GOOGLE_SECRET', envs)
     PAYPAL_ID = get_env('PAYPAL_ID', envs)
+    PAYPAL_URL = get_env('PAYPAL_URL', envs)
     GMAIL_ID = get_env('GMAIL_ID', envs)
     GMAIL_PW = get_env('GMAIL_PW', envs)
     DB_NAME = get_env('DB_NAME', envs)

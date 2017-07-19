@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+from django.urls.base import reverse_lazy
 
 from .models import Goods
 from .models import Shipping
@@ -132,7 +133,8 @@ def payment_local(request):
 
             total_price = this_order.total_price
             if len(this_order.orderdetail_set.all()) > 1:
-                item_name = this_order.orderdetail_set.all()[0]+this_order.orderdetail_set.all()[1]+'...'
+                item_name = this_order.orderdetail_set.all()[0].good.name\
+                            +this_order.orderdetail_set.all()[1].good.name+'...'
             else:
                 item_name = this_order.orderdetail_set.all()[0].good.name
 
@@ -141,10 +143,9 @@ def payment_local(request):
                 "amount": "{}".format(total_price),
                 "item_name": item_name,
                 "invoice": "{}".format(this_order.pk),
-                # TODO: Change URL from code to Envs.json
-                "notify_url": "http://seoul.willbe.blue/paypal/",
-                "return_url": "http://seoul.willbe.blue/thankyou/",
-                "cancel_return": "http://seoul.willbe.blue/",
+                "notify_url": settings.PAYPAL_URL + reverse_lazy('paypal-ipn'),
+                "return_url": reverse_lazy('thank-you'),
+                "cancel_return": "http://seoul.willbe.blue/shop/",
                 "custom": "{}".format(this_order.user)
             }
             paypal_form = PayPalPaymentsForm(initial=paypal_dict).render()
@@ -163,7 +164,7 @@ def payment_local(request):
                 user=settings.GMAIL_ID,
                 pwd=settings.GMAIL_PW,
                 recipient=User.objects.get(username=this_order.user).email,
-                subject="Order to SHOPIRK: Via Noir Seoul",
+                subject="Order Confirm: SHOPIRK",
                 body="Hello {},\n We've Just got your order from SHOPIRK: Via Noir Seoul.\nThis is how you've ordered, Please check carefully.\n"
                      "Invoice Number: #{}\n"
                      "YOUR ORDERS:\n"
@@ -206,7 +207,7 @@ def payment_paypal(request, order_number):
     paypal_dict = {
         "business": "{}".format(settings.PAYPAL_ID),
         "amount": "{}".format(order.total_price),
-        "item_name": "{}".format(order.orderdetail.all()[0].good),
+        "item_name": "{}".format(order.orderdetail_set.all()[0].good),
         "invoice": "{}".format(order.pk),
         "notify_url": "http://shop.resist.kr/paypal/",
         "return_url": "http://shop.resist.kr/thankyou/",
