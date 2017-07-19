@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% load in_category %}
 {% load carton_tags %}
-{% get_cart as cart  %}
+{% get_cart as cart %}
 
 {% block title %}Via Noir SEOUL{% endblock %}
 {% block css %}
@@ -13,29 +13,30 @@
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 {% endblock %}
 {% block js %}
-    <script type="application/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    <script type="application/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
     <script src="{% static 'js/jquery.fullPage.min.js' %}"></script>
     <script src="{% static 'js/jquery.fullpage.extensions.min.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.7/vendors/scrolloverflow.min.js"></script>
     <script src="{% static 'js/iziModal.min.js' %}"></script>
     <script type="text/javascript">
-		$(document).ready(function() {
-			$('#fullpage').fullpage({
+        $(document).ready(function () {
+            $('#fullpage').fullpage({
                 anchors: {{ categories_list|safe }},
-       			css3: true,
+                css3: true,
                 navigation: true,
-				navigationPosition: 'right',
+                navigationPosition: 'right',
                 slidesToSections: true,
                 slidesNavigation: true,
                 loopHorizontal: false,
                 controlArrows: true,
-                onSlideLeave: function(anchorLink, index, slideIndex, direction, nextSlideIndex){
+                onSlideLeave: function (anchorLink, index, slideIndex, direction, nextSlideIndex) {
                     $('.slider_prev').removeClass('slider_prev');
                     $('.slider_next').removeClass('slider_next')
                     var slides = $('div.active').children('.fp-slides')[0].children[0].children.length
                     console.log(slides)
-				 },
-                afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex){
+                },
+                afterSlideLoad: function (anchorLink, index, slideAnchor, slideIndex) {
                     var slides = $('div.active').children('.fp-slides')[0].children[0].children.length
                     console.log(slides)
                     if (length > 1) {
@@ -44,103 +45,106 @@
                         console.log('aaa')
                     }
                 }
-       		});
+            });
 
             $('.fp-slide.active').next('.fp-slide').addClass('slider_next');
             $('.fp-slide.active').prev('.fp-slide').addClass('slider_prev');
         });
-	</script>
+    </script>
 
-<script type="text/javascript">
-    window.closeModal = function closeModal(redirect_url){
-        $('#modal').iziModal('close');
-        if (redirect_url){
-            window.location.href = redirect_url
-        }
-    };
-</script>
-<script>
-    $(document).ready(function(){
-        $('#toggleHeader').click(function(){
-            $('#header').toggleClass('open');
-        })
-        $('#fullpage').click(function(){
-            $('#header').removeClass('open');
-        })
-    });
-</script>
+    <script type="text/javascript">
+        window.closeModal = function closeModal(redirect_url) {
+            $('#modal').iziModal('close');
+            if (redirect_url) {
+                window.location.href = redirect_url
+            }
+        };
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#toggleHeader').click(function () {
+                $('#header').toggleClass('open');
+            })
+            $('#fullpage').click(function () {
+                $('#header').removeClass('open');
+            })
+        });
+    </script>
 {% endblock %}
 {% block body %}
-<div>
-    {% include 'compositions/sidebar.html' %}
-    <main>
-        <img id="shopping-cart-icon" src="{% static 'image/shopping_cart.png' %}">
-        <div id="modal" style="overflow: scroll; -webkit-overflow-scrolling: touch">
-        </div>
+    <div>
+        {% include 'compositions/sidebar.html' %}
+        <main>
+            <img id="shopping-cart-icon" src="{% static 'image/shopping_cart.png' %}">
+            <div id="modal" style="overflow: scroll; -webkit-overflow-scrolling: touch">
+            </div>
 
-        <div id="fullpage">
-            {% for category in categories %}
-                <div class="section" id="{{ category }}">
-                    {% for good in goods|in_category:category %}
-                        {% if good|is_available %}
-                        <div class="slide">
-                            <div class="box" style='background-image: url("{{ good.get_first_image.image.url }}");'>
-                                <div class="shadow-box">
-                                    <div class="blank-box"></div>
-                                    <div class="addCartButton-push">
-                                        <img class="btn btn-xs addCartButton" name="submit" src="{% static 'image/cart.png' %}">
-                                        <h5>ADD TO CART</h5>
+            <div id="fullpage">
+                {% for category in categories %}
+                    <div class="section" id="{{ category }}">
+                        {% for good in goods|in_category:category %}
+                            {% if good|is_available %}
+                                <div class="slide">
+                                    <div class="box"
+                                         style='background-image: url("{{ good.get_first_image.image.url }}");'>
+                                        <div class="shadow-box">
+                                            <div class="blank-box"></div>
+                                            <div class="addCartButton-push">
+                                                <img class="btn btn-xs addCartButton" name="submit"
+                                                     src="{% static 'image/cart.png' %}">
+                                                <h5>ADD TO CART</h5>
+                                            </div>
+                                            <form id="add{{ good.name|safe }}" class="addCart" method="POST"
+                                                  enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                                <h2><strong>{{ good.name }}</strong></h2>
+                                                <h4><u>Price: ${{ good.price }}</u></h4>
+                                                <p>{{ good.description|safe }}</p>
+                                                <input name="good" value="{{ good.pk }}" type="hidden">
+                                            </form>
+                                        </div>
                                     </div>
-                                    <form id="add{{ good.name|safe }}" class="addCart" method="POST" enctype="multipart/form-data">
-                                        {% csrf_token %}
-                                        <h2><strong>{{ good.name }}</strong></h2>
-                                        <h4><u>Price: ${{ good.price }}</u></h4>
-                                        <p>{{ good.description|safe }}</p>
-                                        <input name="good" value="{{ good.pk }}" type="hidden">
-                                    </form>
                                 </div>
-                            </div>
-                        </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        </div>
-    </main>
-</div>
-<script type="text/javascript">
-    $('img.addCartButton').on('click touchstart',function () {
-        var form = $(this).parent().next('form').serialize()
-        $.ajax({
-            url: "{% url 'shopping-cart-add' %}",
-            type: "POST",
-            data: form,
-            success : function(json) {
-                console.log(json); // another sanity check
-                alert(json['message']);
-            }
-        })
-    });
-</script>
-<script type="text/javascript">
-var current_width = Number(window.innerWidth)
-if (current_width < 600){
-    iframe_width = 480
-} else {
-    iframe_width = current_width * 0.8
-}
-$("#modal").iziModal({
-    iframe: true,
-    iframeHeight: Number(window.innerHeight) * 0.9,
-    iframeURL: "{% url 'shopping-cart-show' %}",
-    width: iframe_width
-});
-</script>
-<script type="text/javascript">
-    console.log(window.innerWidth)
-    console.log(window.innerHeight)
-    $('#shopping-cart-icon').click(function () {
-        $('#modal').iziModal('open'); // Use "this" to get URL href or option 'iframeURL'
-    });
-</script>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+    <script type="text/javascript">
+        $('img.addCartButton').on('click touchstart', function () {
+            var form = $(this).parent().next('form').serialize()
+            $.ajax({
+                url: "{% url 'shopping-cart-add' %}",
+                type: "POST",
+                data: form,
+                success: function (json) {
+                    console.log(json); // another sanity check
+                    alert(json['message']);
+                }
+            })
+        });
+    </script>
+    <script type="text/javascript">
+        var current_width = Number(window.innerWidth)
+        if (current_width < 600) {
+            iframe_width = 480
+        } else {
+            iframe_width = current_width * 0.8
+        }
+        $("#modal").iziModal({
+            iframe: true,
+            iframeHeight: Number(window.innerHeight) * 0.9,
+            iframeURL: "{% url 'shopping-cart-show' %}",
+            width: iframe_width
+        });
+    </script>
+    <script type="text/javascript">
+        console.log(window.innerWidth)
+        console.log(window.innerHeight)
+        $('#shopping-cart-icon').click(function () {
+            $('#modal').iziModal('open'); // Use "this" to get URL href or option 'iframeURL'
+        });
+    </script>
 {% endblock %}

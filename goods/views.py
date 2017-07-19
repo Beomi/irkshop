@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
-from django.urls.base import reverse_lazy
+from django.urls.base import reverse_lazy, reverse
 
 from .models import Goods
 from .models import Shipping
@@ -143,9 +143,9 @@ def payment_local(request):
                 "amount": "{}".format(total_price),
                 "item_name": item_name,
                 "invoice": "{}".format(this_order.pk),
-                "notify_url": settings.PAYPAL_URL + reverse_lazy('paypal-ipn'),
-                "return_url": reverse_lazy('thank-you'),
-                "cancel_return": "http://seoul.willbe.blue/shop/",
+                "notify_url": settings.PAYPAL_URL + reverse('paypal-ipn'),
+                "return_url": settings.PAYPAL_URL + reverse('thank-you'),
+                "cancel_return": settings.PAYPAL_URL + reverse('index'),
                 "custom": "{}".format(this_order.user)
             }
             paypal_form = PayPalPaymentsForm(initial=paypal_dict).render()
