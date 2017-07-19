@@ -188,10 +188,10 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend', # Django 기본 유저모델
 ]
 
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/shop/'
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
-LOGIN_REDIRECT_URL='/'
+LOGIN_REDIRECT_URL='/shop/'
 
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
