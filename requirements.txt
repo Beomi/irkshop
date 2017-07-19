@@ -7,6 +7,7 @@ celery==3.1.25
 certifi==2017.4.17
 cffi==1.9.1
 chardet==3.0.3
+contextlib2==0.5.5
 cryptography==1.7.1
 defusedxml==0.5.0
 dj-database-url==0.4.2
@@ -39,6 +40,7 @@ PyJWT==1.5.0
 python-social-auth==0.3.6
 python3-openid==3.1.0
 pytz==2017.2
+raven==6.1.0
 requests==2.17.3
 requests-oauthlib==0.8.0
 six==1.10.0
