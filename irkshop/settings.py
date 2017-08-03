@@ -48,6 +48,7 @@ if f is None: # System environ
         DB_HOST = os.environ.get('DB_HOST')
         DB_PORT = os.environ.get('DB_PORT')
         RAVEN = os.environ.get('RAVEN')
+        PAYPAL_TEST = os.environ.get('PAYPAL_TEST')
     except KeyError as error_msg:
         raise ImproperlyConfigured(error_msg)
 else: # JSON env
@@ -66,6 +67,7 @@ else: # JSON env
     DB_HOST = get_env('DB_HOST', envs)
     DB_PORT = get_env('DB_PORT', envs)
     RAVEN = get_env('RAVEN', envs)
+    PAYPAL_TEST = get_env('PAYPAL_TEST', envs)
 
 # Heroku or Not
 if os.environ.get('HEROKU', False): # if Heroku
@@ -275,8 +277,6 @@ CKEDITOR_CONFIGS = {
 # Shopping Cart
 
 CART_PRODUCT_MODEL = 'goods.models.Goods'
-
-PAYPAL_TEST = True
 
 # DJDT
 INTERNAL_IPS = '127.0.0.1'
