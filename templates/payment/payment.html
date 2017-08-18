@@ -5,6 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>ORDER | IRK Shop</title>
     <meta name="description" content="Prepare for the battle before XM Anomaly, with IRK."/>
     <link rel="stylesheet" type="text/css" href="{% static 'modal/css/style_cart.css' %}"/>
@@ -144,7 +145,8 @@
                 <div class="avail-for-shipping" style="display: none;">
                     <h2>Shipping Address:</h2>
                     <label for="id_address">Address:</label>
-                    <input class="address" id="id_address" name="address" type="text" placeholder="Search Place with Google"/>
+                    <input class="address" id="id_address" name="address" type="text"
+                           placeholder="Search Place with Google"/>
                     <div id="address_components">
                         <input type="hidden" name="address_country" data-geo="country" value=""/>
                         <input type="hidden" name="address_country_code" data-geo="country_short" value=""/>
