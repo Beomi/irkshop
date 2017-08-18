@@ -105,6 +105,9 @@ class Order(TimeStampModel):
         order_details = self.orderdetail_set.all()
         for order in order_details:
             total += order.order_price
+        if self.is_shipping:
+            # TODO: Let use this not FIXED
+            total += 8
         return total
 
     @property

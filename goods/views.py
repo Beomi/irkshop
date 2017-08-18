@@ -107,14 +107,10 @@ def clear_cart(request):
 def payment_local(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
-        print(form.is_valid())
+        print(form.errors)
         if form.is_valid():
-            print(form.cleaned_data)
-            this_order = Order()
+            this_order = form.save(commit=False)
             cart = Cart(request.session).cart_serializable
-            this_order.address = form.cleaned_data.get('address', '')
-            this_order.additional_address = form.cleaned_data.get('AdditionalAddress', '')
-            this_order.custom_order = form.cleaned_data.get('OrderOptioin', '')
 
             this_order.user = request.user
             this_order.save()
@@ -128,14 +124,6 @@ def payment_local(request):
 
             # paypal
             this_order = Order.objects.get(pk=order_number)
-
-            if this_order.address != None:
-                shipping_fee_order = OrderDetail()
-                # TODO: Change Hard Coding this pk to env?
-                shipping_fee_order.good = Goods.objects.get(name='shipping')
-                shipping_fee_order.count = 1
-                shipping_fee_order.order = this_order
-                shipping_fee_order.save()
 
             total_price = this_order.total_price
             if len(this_order.orderdetail_set.all()) > 1:
@@ -169,7 +157,7 @@ def payment_local(request):
             send_mail(
                 user=settings.GMAIL_ID,
                 pwd=settings.GMAIL_PW,
-                recipient=User.objects.get(username=this_order.user).email,
+                recipient=this_order.user.email,
                 subject="Order Confirm: IRKSHOP",
                 body="Hello {},\n We've Just got your order from IRKSHOP.\nThis is how you've ordered, Please check carefully.\n"
                      "Invoice Number: #{}\n"
@@ -192,7 +180,8 @@ def payment_local(request):
             })
         else:
             return JsonResponse({
-                'message': 'form is not Valid'
+                'message': 'Order Form is not fully filled!\n'
+                           'NOTE: Ingress Email and Agent Name is Required'
             })
     else:
         form = OrderForm()

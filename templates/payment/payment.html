@@ -89,8 +89,8 @@
                     <a href="/#SHOP{{ item.product.category }}/{{ item.product.id }}" target="_blank"
                        class="item-image iziModal-button-close">
                         {% if item.product.get_first_image.image.url %}
-                        <img src="{{ item.product.get_first_image.image.url }}" alt="{{ item.product.name }}"
-                             style="width: 50px; height: auto;">
+                            <img src="{{ item.product.get_first_image.image.url }}" alt="{{ item.product.name }}"
+                                 style="width: 50px; height: auto;">
                         {% endif %}
                     </a>
                 </td>
@@ -142,19 +142,9 @@
             {% csrf_token %}
             <div class="address-input">
                 <div class="avail-for-shipping" style="display: none;">
-                    <h2>Agent Name & Ingress Email:</h2>
-                    <p>
-                        <label for="id_ingress_mail"></label>
-                        <input type="text" name="ingress_mail">
-                        <label for="id_ingress_agent_name"></label>
-                        <input type="text" name="ingress_agent_name">
-                    </p>
-
-
                     <h2>Shipping Address:</h2>
-                    <p>
-                        <label for="id_address">Address:</label> <input class="address" id="id_address" name="address"
-                                                                        type="text"/>
+                    <label for="id_address">Address:</label>
+                    <input class="address" id="id_address" name="address" type="text" placeholder="Search Place with Google"/>
                     <div id="address_components">
                         <input type="hidden" name="address_country" data-geo="country" value=""/>
                         <input type="hidden" name="address_country_code" data-geo="country_short" value=""/>
@@ -169,12 +159,23 @@
                         <input type="hidden" name="address_latitude" data-geo="lat" value=""/>
                         <input type="hidden" name="address_longitude" data-geo="lng" value=""/>
                     </div>
+                    <p>
+                        <label for="id_AdditionalAddress">Additionaladdress:</label>
+                        <input id="id_AdditionalAddress"
+                               maxlength="255"
+                               name="additional_address"
+                               placeholder="Type Additional Address"
+                               type="text"/>
                     </p>
-                    <p><label for="id_AdditionalAddress">Additionaladdress:</label> <input id="id_AdditionalAddress"
-                                                                                           maxlength="255"
-                                                                                           name="additional_address"
-                                                                                           type="text"/></p>
                 </div>
+                <h2>Agent Name & Ingress Email:</h2>
+                <p>
+                    <label for="id_ingress_mail">Ingress Login Email Address:</label>
+                    <input type="email" name="ingress_mail" id="id_ingress_mail" placeholder="ex) myagent@gmail.com">
+                    <label for="id_ingress_agent_name">Ingress Agent Name:</label>
+                    <input type="text" name="ingress_agent_name" id="id_ingress_agent_name"
+                           placeholder="ex) MyAgentName">
+                </p>
                 <h2>Order Option:</h2>
                 <p><label for="id_OrderOptioin">Order Options:</label> <input id="id_OrderOptioin" maxlength="255"
                                                                               name="custom_order" type="text"
@@ -184,7 +185,7 @@
         </form>
         <div class="cart-buttons-wrapper" style="margin-top: 25px">
             <div class="cart-center">
-                <button class="btn btn-animated btn-a icon-truck" id="checkout-btn">ORDER NOW</button>
+                <button class="btn btn-animated btn-a icon-truck" id="checkout-btn">Paypal PAY</button>
             </div>
         </div>
         <div class="loading-paypal" style="margin-top: 25px; display:none; text-align: center">
