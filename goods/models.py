@@ -20,6 +20,10 @@ class TimeStampModel(models.Model):
 
 
 class Category(TimeStampModel):
+    class Meta:
+        verbose_name = '카테고리'
+        verbose_name_plural = verbose_name
+
     name = models.CharField(max_length=200)
 
     def __str__(self):
@@ -27,19 +31,21 @@ class Category(TimeStampModel):
 
 
 class Goods(TimeStampModel):
+    class Meta:
+        verbose_name = '상품'
+        verbose_name_plural = verbose_name
+
     category = models.ForeignKey(Category, null=True)
     name = models.CharField(max_length=200)
     price = models.DecimalField(decimal_places=2, max_digits=10)
     description = RichTextField()
-    weight = models.DecimalField(decimal_places=2, max_digits=10)
-    size = models.DecimalField(decimal_places=2, max_digits=10)
     sell_until = models.DateField(null=True, blank=True)
     is_valid = models.BooleanField(default=True)
 
     @property
     def is_available(self):
         try:
-            if ((date.today() <= self.sell_until) or (self.sell_until==None)) and self.is_valid:
+            if ((date.today() <= self.sell_until) or (self.sell_until == None)) and self.is_valid:
                 return True
             else:
                 return False
@@ -68,6 +74,10 @@ class Goods(TimeStampModel):
 
 
 class GoodsImage(TimeStampModel):
+    class Meta:
+        verbose_name = '상품 이미지'
+        verbose_name_plural = verbose_name
+
     goods = models.ForeignKey(Goods, related_name='images')
     image = models.ImageField()
 
@@ -75,27 +85,19 @@ class GoodsImage(TimeStampModel):
         return self.image.name
 
 
-class Shipping(TimeStampModel):
-    name = models.CharField(max_length=200)
-    country = models.CharField(max_length=200)
-    receive_at = models.CharField(max_length=200)
-    price = models.DecimalField(decimal_places=2, max_digits=10)
-
-    def __str__(self):
-        return "({}){}: {} ({})".format(
-            self.name,
-            self.receive_at,
-            self.price,
-            self.country
-        )
-
-
 class Order(TimeStampModel):
+    class Meta:
+        verbose_name = '주문건'
+        verbose_name_plural = verbose_name
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     is_paid = models.BooleanField(default=False)
+    is_shipping = models.BooleanField(default=False)
     address = AddressField(blank=True, null=True)
     additional_address = models.TextField(blank=True, null=True)
     custom_order = models.TextField(blank=True, null=True)
+    ingress_mail = models.EmailField(blank=True)
+    ingress_agent_name = models.CharField(max_length=200)
 
     @property
     def total_price(self):
@@ -111,8 +113,9 @@ class Order(TimeStampModel):
         details = {}
         for detail in order_details:
             details[detail.good.name] = detail.count
+        if self.is_shipping:
+            details['shipping'] = True
         return details
-
 
     @property
     def order_detail(self):
@@ -121,7 +124,6 @@ class Order(TimeStampModel):
         for detail in order_details:
             html += "<span>{} x {}</span><br>\n".format(detail.good.__str__(), detail.count)
         return format_html(html)
-
 
     def __str__(self):
         if self.is_paid:
@@ -139,6 +141,10 @@ class Order(TimeStampModel):
 
 
 class OrderDetail(TimeStampModel):
+    class Meta:
+        verbose_name = '주문상세'
+        verbose_name_plural = verbose_name
+
     order = models.ForeignKey(Order)
     good = models.ForeignKey(Goods)
     count = models.PositiveSmallIntegerField()
@@ -155,6 +161,10 @@ class OrderDetail(TimeStampModel):
 
 
 class OrderHistory(TimeStampModel):
+    class Meta:
+        verbose_name = '주문내역'
+        verbose_name_plural = verbose_name
+
     order = models.OneToOneField('Order')
     history = models.TextField()
 

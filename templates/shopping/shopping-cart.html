@@ -16,6 +16,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="{% static 'modal/css/spinner.css' %}">
 </head>
 <body class="cart-modal">
 <header class="cart-header mobile-disabled">
@@ -116,7 +117,6 @@
         <!-- total price area -->
         <tr>
             <td colspan="10" class="cart-right">
-                <div class="refresh-total"><u>REFRESH TOTALPRICE</u></div>
                 <div class="cart-total-price" id="total_price">
                     Total: ${{ cart.total }}
                 </div>
@@ -141,16 +141,37 @@
         </tfoot>
     </table>
 </div>
+
+<div class="spinner">
+    <div class="sk-circle1 sk-child"></div>
+    <div class="sk-circle2 sk-child"></div>
+    <div class="sk-circle3 sk-child"></div>
+    <div class="sk-circle4 sk-child"></div>
+    <div class="sk-circle5 sk-child"></div>
+    <div class="sk-circle6 sk-child"></div>
+    <div class="sk-circle7 sk-child"></div>
+    <div class="sk-circle8 sk-child"></div>
+    <div class="sk-circle9 sk-child"></div>
+    <div class="sk-circle10 sk-child"></div>
+    <div class="sk-circle11 sk-child"></div>
+    <div class="sk-circle12 sk-child"></div>
+</div>
+
 <script src="{% static 'modal/js/modernizr.custom.js' %}"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="{% static 'modal/js/classie.js' %}"></script>
 <script type="text/javascript">
     $('.update-quantity').on('change', function () {
+        var spinner = $('.spinner')
+        spinner.show()
+
         var input_value = $(this).val();
         var price = Number($(this).siblings('.cart-item-price').text())
         var total_price = input_value * price
         var good = Number($(this).siblings('.cart-item-id').text());
+
         $(this).parent().parent().siblings('.cart-subtotal-each').text('$' + total_price)
+
         $.ajax({
             url: "{% url 'shopping-cart-update' %}",
             type: "POST",
@@ -161,12 +182,11 @@
             },
             success: function (json) {
                 $('#total_price').html('TotalPrice: $' + json['total'])
+                spinner.hide()
             }
         })
     });
-    $('.refresh-total').click(function () {
-        location.reload();
-    })
+
     $('.cart-item-remove').click(function () {
         var ok = confirm('Do you want to delete this product?')
         if (ok) {

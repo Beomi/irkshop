@@ -3,6 +3,8 @@ from address.forms import AddressField
 
 
 class OrderForm(forms.Form):
+    ingress_mail = forms.CharField(max_length=200, required=True)
+    ingress_agent_name = forms.CharField(max_length=200, required=True)
     is_shipping = forms.widgets.boolean_check(v=None)
     address = AddressField(required=False)
     AdditionalAddress = forms.CharField(max_length=255, required=False)
