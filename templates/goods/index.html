@@ -56,7 +56,7 @@
 {% endblock %}
 
 {% block js %}
-    <script type="application/javascript"
+    <script type="text/javascript"
             src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
     <script src="{% static 'js/jquery.fullPage.min.js' %}"></script>
     <script src="{% static 'js/jquery.fullpage.extensions.min.js' %}"></script>
@@ -85,67 +85,54 @@
                     if (length > 1) {
                         $('.fp-slide.active').next('.fp-slide').addClass('slider_next');
                         $('.fp-slide.active').prev('.fp-slide').addClass('slider_prev');
-                        console.log('aaa')
                     }
                 }
             });
 
             $('.fp-slide.active').next('.fp-slide').addClass('slider_next');
             $('.fp-slide.active').prev('.fp-slide').addClass('slider_prev');
-        });
-    </script>
 
-    <script type="text/javascript">
-        window.closeModal = function closeModal(redirect_url) {
-            $('#modal').iziModal('close');
-            if (redirect_url) {
-                window.location.href = redirect_url
+            window.closeModal = function closeModal(redirect_url) {
+                $('#modal').iziModal('close');
+                if (redirect_url) {
+                    window.location.href = redirect_url
+                }
             }
-        };
-    </script>
-    <script>
-        $(document).ready(function () {
             $('#toggleHeader').click(function () {
                 $('#header').toggleClass('open');
             })
             $('#fullpage').click(function () {
                 $('#header').removeClass('open');
             })
-        });
-    </script>
-    <script type="text/javascript">
-        $('img.addCartButton').on('click touchstart', function () {
-            var form = $(this).parent().next('form').serialize()
-            $.ajax({
-                url: "{% url 'shopping-cart-add' %}",
-                type: "POST",
-                data: form,
-                success: function (json) {
-                    console.log(json); // another sanity check
-                    alert(json['message']);
-                }
-            })
-        });
-    </script>
-    <script type="text/javascript">
-        var current_width = Number(window.innerWidth)
-        if (current_width < 600) {
-            iframe_width = 480
-        } else {
-            iframe_width = current_width * 0.8
-        }
-        $("#modal").iziModal({
-            iframe: true,
-            iframeHeight: Number(window.innerHeight) * 0.9,
-            iframeURL: "{% url 'shopping-cart-show' %}",
-            width: iframe_width
-        });
-    </script>
-    <script type="text/javascript">
-        console.log(window.innerWidth)
-        console.log(window.innerHeight)
-        $('#shopping-cart-icon').click(function () {
-            $('#modal').iziModal('open'); // Use "this" to get URL href or option 'iframeURL'
+            $('img.addCartButton').on('click touchstart', function () {
+                var form = $(this).parent().next('form').serialize()
+                $.ajax({
+                    url: "{% url 'shopping-cart-add' %}",
+                    type: "POST",
+                    data: form,
+                    success: function (json) {
+                        console.log(json); // another sanity check
+                        alert(json['message']);
+                    }
+                })
+            });
+            var current_width = Number(window.innerWidth)
+            if (current_width < 600) {
+                iframe_width = 480
+            } else {
+                iframe_width = current_width * 0.8
+            }
+            $("#modal").iziModal({
+                iframe: true,
+                iframeHeight: Number(window.innerHeight) * 0.9,
+                iframeURL: "{% url 'shopping-cart-show' %}",
+                width: iframe_width
+            });
+            console.log(window.innerWidth)
+            console.log(window.innerHeight)
+            $('#shopping-cart-icon').click(function () {
+                $('#modal').iziModal('open'); // Use "this" to get URL href or option 'iframeURL'
+            });
         });
     </script>
 {% endblock %}
