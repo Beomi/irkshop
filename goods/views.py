@@ -8,12 +8,11 @@ from django.conf import settings
 from django.urls.base import reverse_lazy, reverse
 
 from .models import Goods
-from .models import Shipping
 from .models import Category
 from .models import Order
 from .models import OrderDetail
 from .forms import OrderForm
-#from .tasks import check_payment
+# from .tasks import check_payment
 
 from carton.cart import Cart
 from django.contrib.auth.models import User
@@ -34,13 +33,14 @@ def index(request):
     categories = Category.objects.all()
     categories_list = []
     for i in categories:
-        categories_list.append('SHOP'+i.name)
+        categories_list.append('SHOP' + i.name)
     goods = Goods.objects.all()
     return render(request, 'goods/index.html', {
         'goods': goods,
         'categories': categories,
         'categories_list': categories_list
     })
+
 
 def add_cart(request):
     if request.method == 'POST':
@@ -49,11 +49,12 @@ def add_cart(request):
             goods = Goods.objects.get(id=request.POST.get('good'))
             cart.add(goods, price=goods.price)
             return JsonResponse({
-                'message':"Added {}".format(goods.name)
+                'message': "Added {}".format(goods.name)
             })
     return JsonResponse({
-        'message':"Please Access with AJAX/POST"
+        'message': "Please Access with AJAX/POST"
     })
+
 
 def update_cart(request):
     if request.method == 'POST':
@@ -63,19 +64,23 @@ def update_cart(request):
             goods = Goods.objects.get(id=request.POST.get('good'))
             cart.set_quantity(goods, quantity)
             return JsonResponse({
-                'message':'update {} for {}'.format(
+                'message': 'update {} for {}'.format(
                     goods.name, quantity
-                )
+                ),
+                'total': cart.total,
             })
+
 
 def show_cart(request):
     cart = Cart(request.session)
     context = {"items": cart.items}
     return render(request, 'shopping/shopping-cart.html', context=context)
 
+
 def current_cart(request):
     cart = Cart(request.session)
     return JsonResponse(dict(data=cart.items_serializable))
+
 
 def remove_cart(request):
     if request.method == 'POST':
@@ -87,6 +92,7 @@ def remove_cart(request):
                 'message': "Removed"
             })
 
+
 def clear_cart(request):
     if request.method == 'POST':
         if request.is_ajax():
@@ -96,18 +102,15 @@ def clear_cart(request):
                 'message': 'cleared cart'
             })
 
+
 @login_required
 def payment_local(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
-        print(form.is_valid())
+        print(form.errors)
         if form.is_valid():
-            print(form.cleaned_data)
-            this_order = Order()
+            this_order = form.save(commit=False)
             cart = Cart(request.session).cart_serializable
-            this_order.address = form.cleaned_data.get('address', '')
-            this_order.additional_address = form.cleaned_data.get('AdditionalAddress', '')
-            this_order.custom_order = form.cleaned_data.get('OrderOptioin', '')
 
             this_order.user = request.user
             this_order.save()
@@ -119,22 +122,13 @@ def payment_local(request):
                 order_detail.order = this_order
                 order_detail.save()
 
-
             # paypal
             this_order = Order.objects.get(pk=order_number)
 
-            if this_order.address != None:
-                shipping_fee_order = OrderDetail()
-                # TODO: Change Hard Coding this pk to env?
-                shipping_fee_order.good = Goods.objects.get(name='shipping')
-                shipping_fee_order.count = 1
-                shipping_fee_order.order = this_order
-                shipping_fee_order.save()
-
             total_price = this_order.total_price
             if len(this_order.orderdetail_set.all()) > 1:
-                item_name = this_order.orderdetail_set.all()[0].good.name\
-                            +this_order.orderdetail_set.all()[1].good.name+'...'
+                item_name = this_order.orderdetail_set.all()[0].good.name \
+                            + this_order.orderdetail_set.all()[1].good.name + '...'
             else:
                 item_name = this_order.orderdetail_set.all()[0].good.name
 
@@ -163,9 +157,9 @@ def payment_local(request):
             send_mail(
                 user=settings.GMAIL_ID,
                 pwd=settings.GMAIL_PW,
-                recipient=User.objects.get(username=this_order.user).email,
-                subject="Order Confirm: SHOPIRK",
-                body="Hello {},\n We've Just got your order from SHOPIRK: Via Noir Seoul.\nThis is how you've ordered, Please check carefully.\n"
+                recipient=this_order.user.email,
+                subject="Order Confirm: IRKSHOP",
+                body="Hello {},\n We've Just got your order from IRKSHOP.\nThis is how you've ordered, Please check carefully.\n"
                      "Invoice Number: #{}\n"
                      "YOUR ORDERS:\n"
                      "{}\n"
@@ -186,37 +180,15 @@ def payment_local(request):
             })
         else:
             return JsonResponse({
-                'message': 'form is not Valid'
+                'message': 'Order Form is not fully filled!\n'
+                           'NOTE: Ingress Email and Agent Name is Required'
             })
     else:
         form = OrderForm()
 
-    return render(request, 'payment/payment_local.html', {
+    return render(request, 'payment/payment.html', {
         'form': form,
     })
-
-@login_required
-def payment_paypal(request, order_number):
-    order = Order.objects.get(pk=order_number)
-    if order.is_paid:
-        return JsonResponse({
-            'message': 'Already Paid purchase'
-        })
-
-    # What you want the button to do.
-    paypal_dict = {
-        "business": "{}".format(settings.PAYPAL_ID),
-        "amount": "{}".format(order.total_price),
-        "item_name": "{}".format(order.orderdetail_set.all()[0].good),
-        "invoice": "{}".format(order.pk),
-        "notify_url": "http://shop.resist.kr/paypal/",
-        "return_url": "http://shop.resist.kr/thankyou/",
-        "cancel_return": "http://shop.resist.kr/cancel_payment/",
-        "custom": "{}".format(order.user)
-    }
-    form = PayPalPaymentsForm(initial=paypal_dict)
-    context = {"form": form}
-    return render(request, "payment/payment_paypal.html", context)
 
 
 @login_required
@@ -245,7 +217,7 @@ def check_payment(sender, **kwargs):
                     user=settings.GMAIL_ID,
                     pwd=settings.GMAIL_PW,
                     recipient=user.email,
-                    subject="Payment to SHOPIRK: Via Noir Seoul",
+                    subject="Payment to IRKSHOP",
                     body="Hello {},\n"
                          "We've Just got your PAYMENT from PAYPAL.\n"
                          "This is the confirm of your Order's payment.\n"
@@ -262,14 +234,17 @@ def check_payment(sender, **kwargs):
         except:
             return False
 
+
 @csrf_exempt
 def cancel_payment(request):
     pass
+
 
 @csrf_exempt
 def thank_you(request):
     # TODO: Make one more time check for user
     return render(request, 'payment/thankyou.html')
+
 
 valid_ipn_received.connect(check_payment)
 
@@ -279,12 +254,13 @@ valid_ipn_received.connect(check_payment)
 def orderlist(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; ' \
-                                      'filename="SHOPIRK_ORDERLIST_{}.csv"'.format(
-                                        datetime.now().strftime("%Y%m%d%H%M")
-                                      )
+                                      'filename="IRKSHOP_ORDERLIST_{}.csv"'.format(
+        datetime.now().strftime("%Y%m%d%H%M")
+    )
 
     writer = csv.writer(response)
-    writer.writerow(['Invoice Number', 'User Email', 'Pay Amount', 'Order Details', 'Custom Orders', 'Shipping Address'])
+    writer.writerow(
+        ['Invoice Number', 'User Email', 'Pay Amount', 'Order Details', 'Custom Orders', 'Shipping Address'])
 
     qs = Order.objects.filter(is_paid=True).prefetch_related('orderdetail_set')
 
@@ -297,7 +273,6 @@ def orderlist(request):
                 order_details[i.good.name] = i.count
         except TypeError:
             order_details[details.good.name] = details.count
-
 
         if order.address != None:
             address = order.address.__str__() + ' // ' + order.additional_address

@@ -3,7 +3,6 @@ from django.contrib import admin
 from .models import Goods
 from .models import GoodsImage
 from .models import Category
-from .models import Shipping
 from .models import Order
 from .models import OrderDetail
 
@@ -12,7 +11,7 @@ from core.export_csv import export_as_csv_action
 
 class GoodsImageInline(admin.TabularInline):
     model = GoodsImage
-    extra = 3
+    extra = 0
 
 
 @admin.register(Goods)
@@ -36,5 +35,4 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Category)
-admin.site.register(Shipping)
 admin.site.register(OrderDetail)
