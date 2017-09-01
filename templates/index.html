@@ -35,7 +35,7 @@
             z-index: 1;
             width: 100%;
             height: auto;
-            overflow: hidden;
+            overflow: scroll;
             position: absolute;
             top: 0;
             left: 0;
@@ -47,13 +47,17 @@
 
         div.canvas-content {
             position: relative;
-            z-index: 2000;
+            z-index: 1;
             color: #0474B3;
             text-align: center;
-            padding-top: 0px;
+            padding-top: 0;
         }
 
         /*--------------------------------------*/
+
+        .link_set {
+            z-index: 999 !important;
+        }
 
         .link_set ul li {
             font-size: inherit;
@@ -111,6 +115,11 @@
             -webkit-transform: translateX(0px);
             -moz-transform: translateX(0px);
             transform: translateX(0px);
+        }
+
+        ul, li {
+            padding: 0;
+            margin: 0;
         }
 
     </style>
@@ -198,59 +207,42 @@
             </div>
             <!-- /.countdown-->
 
-            <div class="mailing-list">
 
-                <div class="row">
-                    <form class="form-inline">
-                        <div class="form-group">
-                            <!--<label for="email" class="sr-only"></label>
-                            <input type="email" placeholder="jane.doe@example.com" id="email" class="form-control transparent">-->
-
-                            <!---------------------------------------------------------------------------------------------------------------------->
-
-                            <div class="link_set">
-                                <section class="color-1">
-                                    <nav class="cl-effect-1">
-                                        <ul>
-                                            <li>
-                                                <a href="https://13magnusseoul.splashthat.com/">NIA Registration</a>
-                                            </li>
-                                            <li>
-                                                <a href="http://register.seoul.willbe.blue">Resistance Registration</a>
-                                            </li>
-                                            <li>
-                                                <a href="{% url 'index' %}">IRK SWAG SHOP (TBA)</a>
-                                            </li>
-                                            <li>
-                                                <a href="https://plus.google.com/u/1/communities/112385544333954788928">G+
-                                                    Community</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </section>
-                            </div>
-
-
-                            <!---------------------------------------------------------------------------------------------------------------------->
-
-
-                        </div>
-                        <!--<button class="btn btn-danger">subscribe</button>-->
-                    </form>
-                </div>
+            <div class="link_set" style="margin: 20px auto">
+                <nav class="cl-effect-1">
+                    <ul>
+                        <li>
+                            <a href="https://13magnusseoul.splashthat.com/">NIA Registration</a>
+                        </li>
+                        <li>
+                            <a href="http://register.seoul.willbe.blue">Resistance Registration</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'index' %}">IRK SWAG SHOP (TBA)</a>
+                        </li>
+                        <li>
+                            <a href="https://plus.google.com/u/1/communities/112385544333954788928">G+
+                                Community</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
 
-        <div class="footer" style="margin:auto;">
+        <div class="footer" style="margin: 10px auto;">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6" style="text-align:left;">
+                    <div class="col-md-6">
                         <p>&copy;2017 <a href="http://cafe.naver.com/ingressresistance/" target="_blank">INGRESS
                             RESISTANCE KOREA</a></p>
                     </div>
                     <div class="col-md-6">
-                        <p class="credit">IRK design team @HL2XIG / CC BY-NC-SA | Theme by <a
-                                href="https://bootstrapious.com/tutorials" target="_blank">Bootstrapious</a></p>
+                        <p class="credit">IRK design team @HL2XIG / CC BY-NC-SA <br>
+                            <small>
+                                Theme by <a
+                                    href="https://bootstrapious.com/tutorials" target="_blank">Bootstrapious</a>
+                            </small>
+                        </p>
                         <!-- Please do not remove the backlink to us unless you support the development at https://bootstrapious.com/donate. It is part of the license conditions. Thanks for understanding :) -->
                     </div>
                 </div>

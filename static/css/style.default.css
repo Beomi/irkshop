@@ -143,8 +143,16 @@
     }
 }
 
+@media (max-width: 767px) {
+    .backgroundTransition .main .countdown {
+        margin-top: 35px;
+        text-align: center;
+        color: #fff;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+    }
+}
+
 .backgroundTransition .main .countdown {
-    margin-top: 50px;
     text-align: center;
     color: #fff;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
