@@ -111,7 +111,7 @@ def payment_local(request):
         if form.is_valid():
             this_order = form.save(commit=False)
             cart = Cart(request.session).cart_serializable
-
+            payment_method = request.POST['payment-method']
             this_order.user = request.user
             this_order.save()
             order_number = this_order.pk
@@ -122,62 +122,103 @@ def payment_local(request):
                 order_detail.order = this_order
                 order_detail.save()
 
-            # paypal
-            this_order = Order.objects.get(pk=order_number)
+            if payment_method == 'paypal':
+                # paypal
+                this_order = Order.objects.get(pk=order_number)
 
-            total_price = this_order.total_price
-            if len(this_order.orderdetail_set.all()) > 1:
-                item_name = this_order.orderdetail_set.all()[0].good.name \
-                            + this_order.orderdetail_set.all()[1].good.name + '...'
-            else:
-                item_name = this_order.orderdetail_set.all()[0].good.name
+                total_price = this_order.total_price
+                if len(this_order.orderdetail_set.all()) > 1:
+                    item_name = this_order.orderdetail_set.all()[0].good.name \
+                                + this_order.orderdetail_set.all()[1].good.name + '...'
+                else:
+                    item_name = this_order.orderdetail_set.all()[0].good.name
 
-            paypal_dict = {
-                "business": "{}".format(settings.PAYPAL_ID),
-                "amount": "{}".format(total_price),
-                "item_name": item_name,
-                "invoice": "{}".format(this_order.pk),
-                "notify_url": settings.PAYPAL_URL + reverse('paypal-ipn'),
-                "return_url": settings.PAYPAL_URL + reverse('thank-you'),
-                "cancel_return": settings.PAYPAL_URL + reverse('index'),
-                "custom": "{}".format(this_order.user)
-            }
-            paypal_form = PayPalPaymentsForm(initial=paypal_dict).render()
+                paypal_dict = {
+                    "business": "{}".format(settings.PAYPAL_ID),
+                    "amount": "{}".format(total_price),
+                    "item_name": item_name,
+                    "invoice": "{}".format(this_order.pk),
+                    "notify_url": settings.PAYPAL_URL + reverse('paypal-ipn'),
+                    "return_url": settings.PAYPAL_URL + reverse('thank-you'),
+                    "cancel_return": settings.PAYPAL_URL + reverse('index'),
+                    "custom": "{}".format(this_order.user)
+                }
+                paypal_form = PayPalPaymentsForm(initial=paypal_dict).render()
 
-            orders = this_order.orderdetail_set.all()
-            orders_detail = ''
-            for order in orders:
-                orders_detail += (
-                    '{} x {}\n'.format(
-                        order.good,
-                        order.count
+                orders = this_order.orderdetail_set.all()
+                orders_detail = ''
+                for order in orders:
+                    orders_detail += (
+                        '{} x {}\n'.format(
+                            order.good,
+                            order.count
+                        )
                     )
-                )
 
-            send_mail(
-                user=settings.GMAIL_ID,
-                pwd=settings.GMAIL_PW,
-                recipient=this_order.user.email,
-                subject="Order Confirm: IRKSHOP",
-                body="Hello {},\n We've Just got your order from IRKSHOP.\nThis is how you've ordered, Please check carefully.\n"
-                     "Invoice Number: #{}\n"
-                     "YOUR ORDERS:\n"
-                     "{}\n"
-                     "Thanks again for your Order.\n"
-                     "Sincerely, IRK.".format(
-                    this_order.user,
-                    this_order.pk,
-                    orders_detail
-                ),
-            )
-            # clear cart
-            Cart(request.session).clear()
-            return JsonResponse({
-                'message': "Sucessfully Ordered!\n"
-                           "Please Continue with Paypal Payment.\n"
-                           "(Paypal Checkout will show soon.)",
-                'paypal-form': paypal_form
-            })
+                send_mail(
+                    user=settings.GMAIL_ID,
+                    pwd=settings.GMAIL_PW,
+                    recipient=this_order.user.email,
+                    subject="Order Confirm: IRKSHOP",
+                    body="Hello {},\n We've Just got your order from IRKSHOP.\nThis is how you've ordered, Please check carefully.\n"
+                         "Invoice Number: #{}\n"
+                         "YOUR ORDERS:\n"
+                         "{}\n"
+                         "If you forgot to pay when you checkout, continue with this paypal link:\n"
+                         "{}"
+                         "Thanks again for your Order.\n"
+                         "Sincerely, IRK.".format(
+                        this_order.user,
+                        this_order.pk,
+                        orders_detail,
+                        paypal_form
+                    ),
+                )
+                # clear cart
+                Cart(request.session).clear()
+                return JsonResponse({
+                    'message': "Sucessfully Ordered!\n"
+                               "We've send you your order mail.\n"
+                               "Please Continue with Paypal Payment.\n"
+                               "(Paypal Checkout will show soon.)",
+                    'paypal-form': paypal_form
+                })
+            elif payment_method == 'bank-transfer':
+                orders = this_order.orderdetail_set.all()
+                orders_detail = ''
+                for order in orders:
+                    orders_detail += (
+                        '{} x {}\n'.format(
+                            order.good,
+                            order.count
+                        )
+                    )
+
+                send_mail(
+                    user=settings.GMAIL_ID,
+                    pwd=settings.GMAIL_PW,
+                    recipient=this_order.user.email,
+                    subject="Order Confirm: IRKSHOP",
+                    body="Hello {},\n We've Just got your order from IRKSHOP.\nThis is how you've ordered, Please check carefully.\n"
+                         "Invoice Number: #{}\n"
+                         "YOUR ORDERS:\n"
+                         "{}\n"
+                         "As you Selected with Bank Transfer payment, you have to send your invoice manually.\n"
+                         "Thanks again for your Order.\n"
+                         "Sincerely, IRK.".format(
+                        this_order.user,
+                        this_order.pk,
+                        orders_detail
+                    ),
+                )
+                # clear cart
+                Cart(request.session).clear()
+                return JsonResponse({
+                    'message': "Sucessfully Ordered!\n"
+                               "Please Continue with Bank Transfer.\n"
+                               "We've mailed you our invoice.",
+                    'redirect': reverse_lazy('thank-you')
+                })
         else:
             return JsonResponse({
                 'message': 'Order Form is not fully filled!\n'

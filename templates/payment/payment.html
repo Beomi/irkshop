@@ -130,12 +130,19 @@
 </div>
 <div id="select-shipping-option-radio">
     <h2>Shipping Method:</h2>
-    <div>
-        <label for="get-on-field">Get Items at ANOMALY</label><input id="get-on-field" type="radio"
-                                                                     name="shipping-options" checked="checked"
-                                                                     value="field">
-        <label for="get-shipping">Shipping(fee +$8)</label><input id="get-shipping" type="radio" name="shipping-options"
-                                                                  value="shipping">
+    <div class="row">
+        <div class="col-2">
+            <label for="get-on-field">Get Items at ANOMALY</label>
+            <input id="get-on-field" type="radio"
+                   name="shipping-options" checked="checked"
+                   value="field">
+        </div>
+        <div class="col-2">
+            <label for="get-shipping">Shipping(fee +$8)</label>
+            <input id="get-shipping" type="radio"
+                   name="shipping-options"
+                   value="shipping">
+        </div>
     </div>
 
     <div id="shipping-option">
@@ -184,10 +191,33 @@
                                                                               placeholder="Please enter details like hoodie size, lunch box type, and preferred onsite pickup time."/>
                 </p>
             </div>
+            <h2>Payment Method:</h2>
+            <div class="row">
+                <div class="col-2">
+                    <label for="pay-with-paypal">Pay with Paypal</label>
+                    <input id="pay-with-paypal" type="radio"
+                           name="payment-method" checked="checked"
+                           value="paypal">
+                </div>
+                <div class="col-2">
+                    <label for="pay-with-bank-tranfer">Bank Transfer <span
+                            style="font-family: sans-serif; font-size: 90%">(계좌이체)</span></label>
+                    <input id="pay-with-bank-tranfer" type="radio"
+                           name="payment-method"
+                           value="bank-transfer">
+                </div>
+            </div>
         </form>
-        <div class="cart-buttons-wrapper" style="margin-top: 25px">
+
+        <div class="cart-buttons-wrapper paypal-payment" style="margin-top: 25px">
             <div class="cart-center">
-                <button class="btn btn-animated btn-a icon-truck" id="checkout-btn">Paypal PAY</button>
+                <button class="btn btn-animated btn-a icon-truck checkout-btn" data-payment="paypal">PAYPAL PAY</button>
+            </div>
+        </div>
+        <div class="cart-buttons-wrapper bank-transfer-payment" style="margin-top: 25px; display: none">
+            <div class="cart-center">
+                <button class="btn btn-animated btn-a icon-truck checkout-btn" data-payment="bank">계좌이체
+                </button>
             </div>
         </div>
         <div class="loading-paypal" style="margin-top: 25px; display:none; text-align: center">
@@ -202,25 +232,6 @@
 <!-- scripts for animated buttons -->
 <script src="{% static 'modal/js/classie.js' %}"></script>
 <script>
-    $('#checkout-btn').click(function () {
-        alert('Your Order is Processing.\nPlease Wait For a while.')
-        $('.cart-buttons-wrapper').hide();
-        $('.loading-paypal').show();
-        $.ajax({
-            url: window.location.href,
-            type: "POST",
-            data: $('#order-now').serialize(),
-            success: function (json) {
-                console.log(json); // another sanity check
-                alert(json['message']);
-                if (json['paypal-form']) {
-                    $('.loading-paypal').hide();
-                    $('#paypal-btn').html(json['paypal-form']);
-                }
-            }
-        })
-    })
-
     $(document).ready(function () {
         $("input[name$='shipping-options']").click(function () {
             var shipping_method = $(this).val();
@@ -231,7 +242,70 @@
                 $(".avail-for-shipping").show()
             }
 
-        });
+        })
+        $("input[name$='payment-method']").click(function () {
+            var payment_method = $(this).val()
+            console.log(payment_method)
+            if (payment_method === 'paypal') {
+                $('.paypal-payment').show()
+                $('.bank-transfer-payment').hide()
+            } else if (payment_method === 'bank-transfer') {
+                $('.bank-transfer-payment').show()
+                $('.paypal-payment').hide()
+            }
+        })
+        $('.checkout-btn').click(function (e) {
+            if (e.target.dataset.payment === 'paypal') {
+                $(":input").prop("readonly", true);
+                alert('Your Order with Paypal is in Progress.\nPlease Wait For a while.')
+                $('.paypal-payment').hide();
+                $('.loading-paypal').show();
+                $.ajax({
+                    url: window.location.href,
+                    type: "POST",
+                    data: $('#order-now').serialize(),
+                    success: function (json) {
+                        alert(json['message']);
+                        if (json['paypal-form']) {
+                            $('.loading-paypal').hide();
+                            $('#paypal-btn').html(json['paypal-form']);
+                        } else {
+                            $('.paypal-payment').show();
+                            $('.loading-paypal').hide();
+                        }
+                        $(":input").prop("readonly", false);
+                    },
+                    error: function (err) {
+                        alert('Network Status is weak. Please Try again')
+                        $('.paypal-payment').show();
+                        $('.loading-paypal').hide();
+                        $(":input").prop("readonly", false);
+                    }
+                })
+            } else if (e.target.dataset.payment === 'bank') {
+                $(":input").prop("readonly", true);
+                $('.bank-transfer-payment').hide();
+                $.ajax({
+                    url: window.location.href,
+                    type: "POST",
+                    data: $('#order-now').serialize(),
+                    success: function (json) {
+                        alert(json['message']);
+                        if (json['redirect']) {
+                            window.location.href = json['redirect']
+                        } else {
+                            $('.bank-transfer-payment').show();
+                        }
+                        $(":input").prop("readonly", false);
+                    },
+                    error: function (err) {
+                        alert(err)
+                        $('.bank-transfer-payment').show();
+                        $(":input").prop("readonly", false);
+                    }
+                })
+            }
+        })
     });
 </script>
 </body>

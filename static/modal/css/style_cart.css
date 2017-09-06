@@ -414,3 +414,17 @@ tbody td {
 		display: inline-block;
 	}
 }
+
+.row {
+	width: 100%;
+	display: inline-block;
+}
+
+.col-2 {
+	width: 50%;
+	float: left;
+}
+
+.col-2 > label {
+	float: left;
+}
