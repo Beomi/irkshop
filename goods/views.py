@@ -104,7 +104,7 @@ def clear_cart(request):
 
 
 @login_required
-def payment_local(request):
+def payment(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
         print(form.errors)
@@ -139,7 +139,7 @@ def payment_local(request):
                     "item_name": item_name,
                     "invoice": "{}".format(this_order.uuid),
                     "notify_url": settings.PAYPAL_URL + reverse('paypal-ipn'),
-                    "return_url": settings.PAYPAL_URL + reverse('thank-you') + '/' + str(this_order.uuid),
+                    "return_url": settings.PAYPAL_URL + reverse_lazy('thank-you', kwargs={'uuid': this_order.uuid}),
                     "cancel_return": settings.PAYPAL_URL + reverse('index'),
                     "custom": "{}".format(this_order.user)
                 }
@@ -171,32 +171,10 @@ def payment_local(request):
                     'paypal-form': paypal_form
                 })
             elif payment_method == 'bank-transfer':
-                orders = this_order.orderdetail_set.all()
-                orders_detail = ''
-                for order in orders:
-                    orders_detail += (
-                        '{} x {}\n'.format(
-                            order.good,
-                            order.count
-                        )
-                    )
-
-                send_mail(
-                    user=settings.GMAIL_ID,
-                    pwd=settings.GMAIL_PW,
-                    recipient=this_order.user.email,
-                    subject="Order Confirm: IRKSHOP",
-                    body="Hello {},\n We've Just got your order from IRKSHOP.\nThis is how you've ordered, Please check carefully.\n"
-                         "Invoice Number: #{}\n"
-                         "YOUR ORDERS:\n"
-                         "{}\n"
-                         "As you Selected with Bank Transfer payment, you have to send your invoice manually.\n"
-                         "Thanks again for your Order.\n"
-                         "Sincerely, IRK.".format(
-                        this_order.user,
-                        this_order.pk,
-                        orders_detail
-                    ),
+                send_gmail(
+                    send_to=str(this_order.user.email),
+                    subject='IRKSHOP: Thankyou for your Order!',
+                    order=this_order
                 )
                 # clear cart
                 Cart(request.session).clear()
@@ -204,12 +182,12 @@ def payment_local(request):
                     'message': "Sucessfully Ordered!\n"
                                "Please Continue with Bank Transfer.\n"
                                "We've mailed you our invoice.",
-                    'redirect': reverse_lazy('thank-you')
+                    'redirect': reverse_lazy('thank-you', kwargs={'uuid': this_order.uuid})
                 })
         else:
             return JsonResponse({
                 'message': 'Order Form is not fully filled!\n'
-                           'NOTE: Ingress Email and Agent Name is Required'
+                           'NOTE: Ingress Email and Agent Name are Required'
             })
     else:
         form = OrderForm()
