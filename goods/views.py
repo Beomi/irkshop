@@ -17,7 +17,7 @@ from .forms import OrderForm
 from carton.cart import Cart
 from django.contrib.auth.models import User
 
-from core.send_mail import send_mail
+from core.send_mail import send_mail, send_gmail
 
 from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.models import ST_PP_COMPLETED
@@ -137,7 +137,7 @@ def payment_local(request):
                     "business": "{}".format(settings.PAYPAL_ID),
                     "amount": "{}".format(total_price),
                     "item_name": item_name,
-                    "invoice": "{}".format(this_order.pk),
+                    "invoice": "{}".format(this_order.uuid),
                     "notify_url": settings.PAYPAL_URL + reverse('paypal-ipn'),
                     "return_url": settings.PAYPAL_URL + reverse('thank-you'),
                     "cancel_return": settings.PAYPAL_URL + reverse('index'),
@@ -155,25 +155,32 @@ def payment_local(request):
                         )
                     )
 
-                send_mail(
-                    user=settings.GMAIL_ID,
-                    pwd=settings.GMAIL_PW,
-                    recipient=this_order.user.email,
-                    subject="Order Confirm: IRKSHOP",
-                    body="Hello {},\n We've Just got your order from IRKSHOP.\nThis is how you've ordered, Please check carefully.\n"
-                         "Invoice Number: #{}\n"
-                         "YOUR ORDERS:\n"
-                         "{}\n"
-                         "If you forgot to pay when you checkout, continue with this paypal link:\n"
-                         "{}"
-                         "Thanks again for your Order.\n"
-                         "Sincerely, IRK.".format(
-                        this_order.user,
-                        this_order.pk,
-                        orders_detail,
-                        paypal_form
-                    ),
+                send_gmail(
+                    send_to=str(this_order.user.email),
+                    subject='IRKSHOP: Thankyou for your Order!',
+                    order=this_order
                 )
+
+                # send_mail(
+                #     user=settings.GMAIL_ID,
+                #     pwd=settings.GMAIL_PW,
+                #     recipient=this_order.user.email,
+                #     subject="Order Confirm: IRKSHOP",
+                #     body="Hello {},\n We've Just got your order from IRKSHOP.\nThis is how you've ordered, Please check carefully.\n"
+                #          "Invoice Number: #{}\n"
+                #          "YOUR ORDERS:\n"
+                #          "{}\n"
+                #          "If you forgot to pay when you checkout, continue with this paypal link:\n"
+                #          "{}"
+                #          "Thanks again for your Order.\n"
+                #          "Sincerely, IRK.".format(
+                #         this_order.user,
+                #         this_order.pk,
+                #         orders_detail,
+                #         paypal_form
+                #     ),
+                # )
+
                 # clear cart
                 Cart(request.session).clear()
                 return JsonResponse({
@@ -248,12 +255,11 @@ def check_payment(sender, **kwargs):
         if ipn_obj.receiver_email != settings.PAYPAL_ID:
             return False
         try:
-            order = Order.objects.get(pk=ipn_obj.invoice)
+            order = Order.objects.get(uuid=ipn_obj.invoice)
             if ipn_obj.mc_gross == order.total_price:
                 order.is_paid = True
                 order.save()
-                invoice_pk = ipn_obj.invoice
-                user = Order.objects.get(pk=invoice_pk).user
+                user = order.user
                 send_mail(
                     user=settings.GMAIL_ID,
                     pwd=settings.GMAIL_PW,
@@ -267,7 +273,7 @@ def check_payment(sender, **kwargs):
                          "Thanks again for your Order.\n"
                          "Sincerely, IRK.".format(
                         user,
-                        invoice_pk,
+                        order.pk,
                         ipn_obj.mc_gross
                     ),
                 )

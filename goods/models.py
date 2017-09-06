@@ -5,6 +5,7 @@ from django.utils.html import format_html
 # Python
 from datetime import date
 import json
+import uuid
 # Pip
 from ckeditor.fields import RichTextField
 from address.models import AddressField
@@ -90,6 +91,7 @@ class Order(TimeStampModel):
         verbose_name = '주문건'
         verbose_name_plural = verbose_name
 
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     is_paid = models.BooleanField(default=False)
     is_shipping = models.BooleanField(default=False)
@@ -116,6 +118,15 @@ class Order(TimeStampModel):
         details = {}
         for detail in order_details:
             details[detail.good.name] = detail.count
+        if self.is_shipping:
+            details['shipping'] = True
+        return details
+
+    def get_orderdetail_email_template(self):
+        order_details = self.orderdetail_set.all()
+        details = {}
+        for detail in order_details:
+            details[detail.good.name] = [detail.count, detail.order_price]
         if self.is_shipping:
             details['shipping'] = True
         return details
