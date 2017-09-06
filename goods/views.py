@@ -139,7 +139,7 @@ def payment_local(request):
                     "item_name": item_name,
                     "invoice": "{}".format(this_order.uuid),
                     "notify_url": settings.PAYPAL_URL + reverse('paypal-ipn'),
-                    "return_url": settings.PAYPAL_URL + reverse('thank-you'),
+                    "return_url": settings.PAYPAL_URL + reverse('thank-you') + '/' + str(this_order.uuid),
                     "cancel_return": settings.PAYPAL_URL + reverse('index'),
                     "custom": "{}".format(this_order.user)
                 }
@@ -160,26 +160,6 @@ def payment_local(request):
                     subject='IRKSHOP: Thankyou for your Order!',
                     order=this_order
                 )
-
-                # send_mail(
-                #     user=settings.GMAIL_ID,
-                #     pwd=settings.GMAIL_PW,
-                #     recipient=this_order.user.email,
-                #     subject="Order Confirm: IRKSHOP",
-                #     body="Hello {},\n We've Just got your order from IRKSHOP.\nThis is how you've ordered, Please check carefully.\n"
-                #          "Invoice Number: #{}\n"
-                #          "YOUR ORDERS:\n"
-                #          "{}\n"
-                #          "If you forgot to pay when you checkout, continue with this paypal link:\n"
-                #          "{}"
-                #          "Thanks again for your Order.\n"
-                #          "Sincerely, IRK.".format(
-                #         this_order.user,
-                #         this_order.pk,
-                #         orders_detail,
-                #         paypal_form
-                #     ),
-                # )
 
                 # clear cart
                 Cart(request.session).clear()
@@ -288,9 +268,11 @@ def cancel_payment(request):
 
 
 @csrf_exempt
-def thank_you(request):
-    # TODO: Make one more time check for user
-    return render(request, 'payment/thankyou.html')
+def thank_you(request, order_uuid):
+    order = Order.objects.get(uuid=order_uuid)
+    return render(request, 'mail_template.html', {
+        'order': order
+    })
 
 
 valid_ipn_received.connect(check_payment)
