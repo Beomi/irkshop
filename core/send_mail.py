@@ -31,12 +31,20 @@ def send_mail(user, pwd, recipient, subject, body):
 
 def send_gmail(send_to: str, subject: str, order):
     # First, you MUST activate SMTP for your Gmail Account
-    rendered = str(render_to_string(
-        template_name='mail_template.html',
-        context={
-            'order': order,
-        }
-    ))
+    if order.is_paid:
+        rendered = str(render_to_string(
+            template_name='mail_payment_confirm_template.html',
+            context={
+                'order': order,
+            }
+        ))
+    else:
+        rendered = str(render_to_string(
+            template_name='mail_template.html',
+            context={
+                'order': order,
+            }
+        ))
     msg = MIMEMultipart('alternative')
     msg['Subject'] = subject
     msg['From'] = settings.GMAIL_ID

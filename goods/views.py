@@ -205,23 +205,10 @@ def check_payment(sender, **kwargs):
             if ipn_obj.mc_gross == order.total_price:
                 order.is_paid = True
                 order.save()
-                user = order.user
-                send_mail(
-                    user=settings.GMAIL_ID,
-                    pwd=settings.GMAIL_PW,
-                    recipient=user.email,
-                    subject="Payment to IRKSHOP",
-                    body="Hello {},\n"
-                         "We've Just got your PAYMENT from PAYPAL.\n"
-                         "This is the confirm of your Order's payment.\n"
-                         "Your Order Invoice Number: #{}\n"
-                         "Total Payment Amount: ${}\n"
-                         "Thanks again for your Order.\n"
-                         "Sincerely, IRK.".format(
-                        user,
-                        order.pk,
-                        ipn_obj.mc_gross
-                    ),
+                send_gmail(
+                    send_to=order.user.email,
+                    subject='IRKSHOP: Payment Confirmed!',
+                    order=order
                 )
                 return True
         except:
