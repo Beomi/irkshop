@@ -155,15 +155,15 @@
                                                 # {{ order.pk }}
                                             </td>
                                         </tr>
-                                        {% for goods, amount in this_order.get_orderdetail_email_template %}
+                                        {% for i in order.orderdetail_set.all %}
                                             <tr>
                                                 <td width="75%" align="left"
                                                     style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
-                                                    {{ goods }} ({{ amount.0 }})
+                                                    {{ i.good.name }} (x{{ i.count }})
                                                 </td>
                                                 <td width="25%" align="left"
                                                     style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
-                                                    ${{ amount.1 }}
+                                                    ${{ i.order_price }}
                                                 </td>
                                             </tr>
                                         {% endfor %}
