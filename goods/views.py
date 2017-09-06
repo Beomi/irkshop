@@ -223,9 +223,14 @@ def cancel_payment(request):
 @csrf_exempt
 def thank_you(request, order_uuid):
     order = Order.objects.get(uuid=order_uuid)
-    return render(request, 'mail_template.html', {
-        'order': order
-    })
+    if order.is_paid:
+        return render(request, 'mail_payment_confirm_template.html', {
+            'order': order
+        })
+    else:
+        return render(request, 'mail_template.html', {
+            'order': order
+        })
 
 
 valid_ipn_received.connect(check_payment)
