@@ -139,28 +139,16 @@ def payment(request):
                     "item_name": item_name,
                     "invoice": "{}".format(this_order.uuid),
                     "notify_url": settings.PAYPAL_URL + reverse('paypal-ipn'),
-                    "return_url": settings.PAYPAL_URL + reverse_lazy('thank-you', kwargs={'uuid': this_order.uuid}),
+                    "return_url": settings.PAYPAL_URL + '/shop/thankyou/' + str(this_order.uuid),
                     "cancel_return": settings.PAYPAL_URL + reverse('index'),
                     "custom": "{}".format(this_order.user)
                 }
                 paypal_form = PayPalPaymentsForm(initial=paypal_dict).render()
-
-                orders = this_order.orderdetail_set.all()
-                orders_detail = ''
-                for order in orders:
-                    orders_detail += (
-                        '{} x {}\n'.format(
-                            order.good,
-                            order.count
-                        )
-                    )
-
                 send_gmail(
                     send_to=str(this_order.user.email),
                     subject='IRKSHOP: Thankyou for your Order!',
                     order=this_order
                 )
-
                 # clear cart
                 Cart(request.session).clear()
                 return JsonResponse({
@@ -173,7 +161,7 @@ def payment(request):
             elif payment_method == 'bank-transfer':
                 send_gmail(
                     send_to=str(this_order.user.email),
-                    subject='IRKSHOP: Thankyou for your Order!',
+                    subject='IRKSHOP: Please Proceed Bank Transfer to finish your purchase',
                     order=this_order
                 )
                 # clear cart
@@ -182,7 +170,7 @@ def payment(request):
                     'message': "Sucessfully Ordered!\n"
                                "Please Continue with Bank Transfer.\n"
                                "We've mailed you our invoice.",
-                    'redirect': reverse_lazy('thank-you', kwargs={'uuid': this_order.uuid})
+                    'redirect': '/shop/thankyou/' + str(this_order.uuid)
                 })
         else:
             return JsonResponse({

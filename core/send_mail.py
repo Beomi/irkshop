@@ -36,7 +36,7 @@ def send_gmail(send_to: str, subject: str, order):
         context={
             'order': order,
         }
-    ))[:]
+    ))
     msg = MIMEMultipart('alternative')
     msg['Subject'] = subject
     msg['From'] = settings.GMAIL_ID
