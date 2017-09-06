@@ -1,0 +1,8 @@
+body:nth-of-type(1) button.greybutton[type]{
+   	padding:0px 9px 5px 0;
+    line-height:17px;
+}
+body:last-child:not(:root:root) button.bigbutton[type] {
+	padding: 50px;
+	background-position: right top;
+}
