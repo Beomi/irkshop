@@ -125,8 +125,6 @@ def payment(request):
             if payment_method == 'paypal':
                 # paypal
                 this_order = Order.objects.get(pk=order_number)
-
-                total_price = this_order.total_price
                 if len(this_order.orderdetail_set.all()) > 1:
                     item_name = this_order.orderdetail_set.all()[0].good.name \
                                 + this_order.orderdetail_set.all()[1].good.name + '...'
@@ -135,7 +133,7 @@ def payment(request):
 
                 paypal_dict = {
                     "business": "{}".format(settings.PAYPAL_ID),
-                    "amount": "{}".format(total_price),
+                    "amount": "{}".format(this_order.total_price),
                     "item_name": item_name,
                     "invoice": "{}".format(this_order.uuid),
                     "notify_url": settings.PAYPAL_URL + reverse('paypal-ipn'),
@@ -228,8 +226,20 @@ def thank_you(request, order_uuid):
             'order': order
         })
     else:
+        paypal_dict = {
+            "business": "{}".format(settings.PAYPAL_ID),
+            "amount": "{}".format(order.total_price),
+            "item_name": order.orderdetail_set.first().__str__() + '...',
+            "invoice": "{}".format(order.uuid),
+            "notify_url": settings.PAYPAL_URL + reverse('paypal-ipn'),
+            "return_url": settings.PAYPAL_URL + '/shop/thankyou/' + str(order.uuid),
+            "cancel_return": settings.PAYPAL_URL + reverse('index'),
+            "custom": "{}".format(order.user)
+        }
+        paypal_form = PayPalPaymentsForm(initial=paypal_dict).render()
         return render(request, 'mail_template.html', {
-            'order': order
+            'order': order,
+            'paypal_form': paypal_form,
         })
 
 
