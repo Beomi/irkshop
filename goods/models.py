@@ -32,6 +32,9 @@ class Category(TimeStampModel):
     def __str__(self):
         return self.name
 
+    def get_available_goods(self):
+        return [x for x in self.goods_set.all() if x.is_available is True]
+
 
 class Goods(TimeStampModel):
     class Meta:

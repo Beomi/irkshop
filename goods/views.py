@@ -30,13 +30,13 @@ import json
 
 
 def shop_main(request):
-    categories = Category.objects.all()
+    categories = Category.objects.all().prefetch_related('goods_set').prefetch_related('goods_set__images')
     categories_list = []
     for i in categories:
         categories_list.append('SHOP' + i.name)
-    goods = Goods.objects.filter(is_valid=True)
+    # goods = Goods.objects.filter(is_valid=True).order_by('display_order')
     return render(request, 'goods/shop_main.html', {
-        'goods': goods,
+        # 'goods': goods,
         'categories': categories,
         'categories_list': categories_list
     })

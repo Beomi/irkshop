@@ -24,31 +24,31 @@
             <div id="fullpage">
                 {% for category in categories %}
                     <div class="section" id="{{ category }}">
-                        {% for good in goods|in_category:category %}
-                            {% if good|is_available %}
-                                <div class="slide">
-                                    <div class="box"
-                                         style='background-image: url("{{ good.get_first_image.image.url }}");'>
-                                        <div class="shadow-box">
-                                            <div class="blank-box"></div>
-                                            <div class="addCartButton-push">
-                                                <img class="btn btn-xs addCartButton" name="submit"
-                                                     src="{% static 'image/cart.png' %}">
-                                                <h6><small>{{ good.current_stock }} left</small></h6>
-                                                <h5>ADD TO CART</h5>
-                                            </div>
-                                            <form id="add{{ good.name|safe }}" class="addCart" method="POST"
-                                                  enctype="multipart/form-data">
-                                                {% csrf_token %}
-                                                <h2><strong>{{ good.name }}</strong></h2>
-                                                <h4><u>Price: ${{ good.price }}</u></h4>
-                                                <p>{{ good.description|safe }}</p>
-                                                <input name="good" value="{{ good.pk }}" type="hidden">
-                                            </form>
+                        {% for good in category.get_available_goods %}
+                            <div class="slide">
+                                <div class="box"
+                                     style='background-image: url("{{ good.get_first_image.image.url }}");'>
+                                    <div class="shadow-box">
+                                        <div class="blank-box"></div>
+                                        <div class="addCartButton-push">
+                                            <img class="btn btn-xs addCartButton" name="submit"
+                                                 src="{% static 'image/cart.png' %}">
+                                            <h6>
+                                                <small>{{ good.current_stock }} left</small>
+                                            </h6>
+                                            <h5>ADD TO CART</h5>
                                         </div>
+                                        <form id="add{{ good.name|safe }}" class="addCart" method="POST"
+                                              enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <h2><strong>{{ good.name }}</strong></h2>
+                                            <h4><u>Price: ${{ good.price }}</u></h4>
+                                            <p>{{ good.description|safe }}</p>
+                                            <input name="good" value="{{ good.pk }}" type="hidden">
+                                        </form>
                                     </div>
                                 </div>
-                            {% endif %}
+                            </div>
                         {% endfor %}
                     </div>
                 {% endfor %}
