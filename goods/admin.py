@@ -17,11 +17,12 @@ class GoodsImageInline(admin.TabularInline):
 @admin.register(Goods)
 class GoodsAdmin(admin.ModelAdmin):
     inlines = [GoodsImageInline, ]
-    list_display = ['id', 'category', 'name', 'price', 'description', 'is_valid']
+    list_display = ['id', 'category', 'name', 'price', 'is_valid', 'is_available', 'current_stock', 'max_stock']
     list_display_links = ['id', 'name']
     list_filter = ['category', 'is_valid']
     list_editable = ['is_valid']
     search_fields = ['name']
+    ordering = ['category', 'display_order']
 
 
 @admin.register(Order)
