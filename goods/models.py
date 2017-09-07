@@ -24,8 +24,10 @@ class Category(TimeStampModel):
     class Meta:
         verbose_name = '카테고리'
         verbose_name_plural = verbose_name
+        ordering = ['display_order']
 
     name = models.CharField(max_length=200)
+    display_order = models.PositiveSmallIntegerField(default=0, verbose_name='카테고리 순서(작은게 먼저)')
 
     def __str__(self):
         return self.name
@@ -35,23 +37,28 @@ class Goods(TimeStampModel):
     class Meta:
         verbose_name = '상품'
         verbose_name_plural = verbose_name
+        ordering = ['display_order']
 
-    category = models.ForeignKey(Category, null=True)
-    name = models.CharField(max_length=200)
-    price = models.DecimalField(decimal_places=2, max_digits=10)
-    description = RichTextField()
-    sell_until = models.DateField(null=True, blank=True)
-    is_valid = models.BooleanField(default=True)
+    category = models.ForeignKey(Category, null=True, verbose_name='카테고리')
+    display_order = models.PositiveSmallIntegerField(default=0, verbose_name='카테고리 내 순서(작은게 먼저)')
+    name = models.CharField(max_length=200, verbose_name='상품명')
+    price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='가격(달러)')
+    description = RichTextField(verbose_name='상품설명')
+    sell_until = models.DateField(null=True, blank=True, verbose_name='판매종료일')
+    is_valid = models.BooleanField(default=True, verbose_name='판매중')
+    stock = models.PositiveIntegerField(default=1000, verbose_name='재고')
 
     @property
     def is_available(self):
         try:
-            if ((date.today() <= self.sell_until) or (self.sell_until == None)) and self.is_valid:
+            if ((date.today() <= self.sell_until) or (self.sell_until == None))\
+                    and self.is_valid \
+                    and self.stock > 0:
                 return True
             else:
                 return False
         except TypeError:
-            if self.is_valid:
+            if self.is_valid and self.stock > 0:
                 return True
             else:
                 return False

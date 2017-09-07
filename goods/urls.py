@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import index
+from .views import shop_main
 from .views import add_cart
 from .views import show_cart
 from .views import remove_cart
@@ -22,5 +22,5 @@ urlpatterns = [
     url(r'^thankyou/(?P<order_uuid>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$', thank_you, name='thank-you'),
     url(r'^orderlist/$', orderlist, name='orderlist'),
     url(r'^my_orders/$', get_my_order, name='get_my_order'),
-    url(r'^', index, name='index'),
+    url(r'^', shop_main, name='shop_main'),
 ]

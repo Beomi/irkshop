@@ -29,13 +29,13 @@ import requests
 import json
 
 
-def index(request):
+def shop_main(request):
     categories = Category.objects.all()
     categories_list = []
     for i in categories:
         categories_list.append('SHOP' + i.name)
     goods = Goods.objects.all()
-    return render(request, 'goods/index.html', {
+    return render(request, 'goods/shop_main.html', {
         'goods': goods,
         'categories': categories,
         'categories_list': categories_list

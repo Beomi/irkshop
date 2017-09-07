@@ -112,7 +112,6 @@
                 </td>
             </tr>
         {% endfor %}
-        <button id="close-modal" data-izimodal-close="" data-izimodal-transitionout="bounceOutDown">Close</button>
         </tbody>
         <tfoot>
         <!-- total price area -->
@@ -132,7 +131,7 @@
                     </div>
                     <div class="cart-checkout">
                         <button class="btn btn-animated btn-a icon-truck" id="checkout-btn"
-                                onclick="window.top.location.href='{% url 'payment' %}'">
+                                onclick="window.top.location.href='{% url 'shop:payment' %}'">
                             Checkout
                         </button>
                     </div>
@@ -174,7 +173,7 @@
         $(this).parent().parent().siblings('.cart-subtotal-each').text('$' + total_price)
 
         $.ajax({
-            url: "{% url 'shopping-cart-update' %}",
+            url: "{% url 'shop:shopping-cart-update' %}",
             type: "POST",
             data: {
                 'quantity': input_value,
@@ -193,7 +192,7 @@
         if (ok) {
             var good = Number($(this).siblings('.item-values').children('.cart-item-id').text());
             $.ajax({
-                url: "{% url 'shopping-cart-remove' %}",
+                url: "{% url 'shop:shopping-cart-remove' %}",
                 type: "POST",
                 data: {
                     'good': good,
@@ -209,7 +208,7 @@
         var ok = confirm('Do you want to clear Shopping Cart?')
         if (ok) {
             $.ajax({
-                url: "{% url 'shopping-cart-clear' %}",
+                url: "{% url 'shop:shopping-cart-clear' %}",
                 type: "POST",
                 data: {
                     'csrfmiddlewaretoken': '{{ csrf_token }}'

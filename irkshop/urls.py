@@ -14,8 +14,8 @@ urlpatterns = [
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^ht/', include('health_check.urls')),
     url(r'^paypal/', include('paypal.standard.ipn.urls')),
-    url(r'^shop/', include('goods.urls')),
-    url(r'^', TemplateView.as_view(template_name='index.html')),
+    url(r'^shop/', include('goods.urls', namespace='shop')),
+    url(r'^$', TemplateView.as_view(template_name='index.html')),
 ]
 
 if settings.DEBUG:
