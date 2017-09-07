@@ -34,7 +34,7 @@ def shop_main(request):
     categories_list = []
     for i in categories:
         categories_list.append('SHOP' + i.name)
-    goods = Goods.objects.all()
+    goods = Goods.objects.filter(is_valid=True)
     return render(request, 'goods/shop_main.html', {
         'goods': goods,
         'categories': categories,
@@ -138,7 +138,7 @@ def payment(request):
                     "invoice": "{}".format(this_order.uuid),
                     "notify_url": settings.PAYPAL_URL + reverse('paypal-ipn'),
                     "return_url": settings.PAYPAL_URL + '/shop/thankyou/' + str(this_order.uuid),
-                    "cancel_return": settings.PAYPAL_URL + reverse('index'),
+                    "cancel_return": settings.PAYPAL_URL + reverse('shop:shop_main'),
                     "custom": "{}".format(this_order.user)
                 }
                 paypal_form = PayPalPaymentsForm(initial=paypal_dict).render()
@@ -233,11 +233,11 @@ def thank_you(request, order_uuid):
             "invoice": "{}".format(order.uuid),
             "notify_url": settings.PAYPAL_URL + reverse('paypal-ipn'),
             "return_url": settings.PAYPAL_URL + '/shop/thankyou/' + str(order.uuid),
-            "cancel_return": settings.PAYPAL_URL + reverse('index'),
+            "cancel_return": settings.PAYPAL_URL + reverse('shop:shop_main'),
             "custom": "{}".format(order.user)
         }
         paypal_form = PayPalPaymentsForm(initial=paypal_dict).render()
-        return render(request, 'mail_template.html', {
+        return render(request, 'payment/thankyou.html', {
             'order': order,
             'paypal_form': paypal_form,
         })

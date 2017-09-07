@@ -34,6 +34,7 @@
                                             <div class="addCartButton-push">
                                                 <img class="btn btn-xs addCartButton" name="submit"
                                                      src="{% static 'image/cart.png' %}">
+                                                <h6><small>{{ good.current_stock }} left</small></h6>
                                                 <h5>ADD TO CART</h5>
                                             </div>
                                             <form id="add{{ good.name|safe }}" class="addCart" method="POST"

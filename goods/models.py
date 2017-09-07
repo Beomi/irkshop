@@ -46,19 +46,26 @@ class Goods(TimeStampModel):
     description = RichTextField(verbose_name='상품설명')
     sell_until = models.DateField(null=True, blank=True, verbose_name='판매종료일')
     is_valid = models.BooleanField(default=True, verbose_name='판매중')
-    stock = models.PositiveIntegerField(default=1000, verbose_name='재고')
+    max_stock = models.PositiveIntegerField(default=1000, verbose_name='판매 재고(전체)')
+
+    def current_stock(self):
+        stock = self.max_stock
+        for od in OrderDetail.objects.filter(order__is_paid=True):
+            if od.good == self:
+                stock -= od.count
+        return stock
 
     @property
     def is_available(self):
         try:
             if ((date.today() <= self.sell_until) or (self.sell_until == None))\
                     and self.is_valid \
-                    and self.stock > 0:
+                    and self.current_stock() > 0:
                 return True
             else:
                 return False
         except TypeError:
-            if self.is_valid and self.stock > 0:
+            if self.is_valid and self.current_stock() > 0:
                 return True
             else:
                 return False

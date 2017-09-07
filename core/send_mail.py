@@ -49,7 +49,7 @@ def send_gmail(send_to: str, subject: str, order):
             "invoice": "{}".format(order.uuid),
             "notify_url": settings.PAYPAL_URL + reverse('paypal-ipn'),
             "return_url": settings.PAYPAL_URL + '/shop/thankyou/' + str(order.uuid),
-            "cancel_return": settings.PAYPAL_URL + reverse('index'),
+            "cancel_return": settings.PAYPAL_URL + reverse('shop:shop_main'),
             "custom": "{}".format(order.user)
         }
         paypal_form = PayPalPaymentsForm(initial=paypal_dict).render()
