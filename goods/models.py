@@ -40,7 +40,7 @@ class Goods(TimeStampModel):
     class Meta:
         verbose_name = '상품'
         verbose_name_plural = verbose_name
-        ordering = ['display_order']
+        ordering = ['category', 'display_order']
 
     category = models.ForeignKey(Category, null=True, verbose_name='카테고리')
     display_order = models.PositiveSmallIntegerField(default=0, verbose_name='카테고리 내 순서(작은게 먼저)')

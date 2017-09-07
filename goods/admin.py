@@ -17,10 +17,11 @@ class GoodsImageInline(admin.TabularInline):
 @admin.register(Goods)
 class GoodsAdmin(admin.ModelAdmin):
     inlines = [GoodsImageInline, ]
-    list_display = ['id', 'category', 'name', 'price', 'is_valid', 'is_available', 'current_stock', 'max_stock']
+    list_display = ['id', 'category', 'name', 'price', 'is_valid', 'is_available', 'current_stock', 'max_stock',
+                    'display_order']
     list_display_links = ['id', 'name']
     list_filter = ['category', 'is_valid']
-    list_editable = ['is_valid']
+    list_editable = ['is_valid', 'display_order']
     search_fields = ['name']
     ordering = ['category', 'display_order']
 
@@ -35,5 +36,10 @@ class OrderAdmin(admin.ModelAdmin):
     actions = [export_as_csv_action("CSV Export")]
 
 
-admin.site.register(Category)
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'display_order']
+    list_editable = ['display_order']
+
+
 admin.site.register(OrderDetail)
