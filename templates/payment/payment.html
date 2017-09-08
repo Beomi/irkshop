@@ -129,25 +129,24 @@
     </table>
 </div>
 <div id="select-shipping-option-radio">
-    <h2>Shipping Method:</h2>
-    <div class="row">
-        <div class="col-2">
-            <label for="get-on-field">Get Items at ANOMALY</label>
-            <input id="get-on-field" type="radio"
-                   name="shipping-options" checked="checked"
-                   value="field">
-        </div>
-        <div class="col-2">
-            <label for="get-shipping">Shipping(fee +$8)</label>
-            <input id="get-shipping" type="radio"
-                   name="shipping-options"
-                   value="shipping">
-        </div>
-    </div>
-
     <div id="shipping-option">
         <form id="order-now">
             {% csrf_token %}
+            <h2>Shipping Method:</h2>
+            <div class="row">
+                <div class="col-2">
+                    <label for="get-on-field">Get Items at ANOMALY</label>
+                    <input id="get-on-field" type="radio"
+                           name="shipping-options" checked="checked"
+                           value="field">
+                </div>
+                <div class="col-2">
+                    <label for="get-shipping">Shipping(fee +$8)</label>
+                    <input id="get-shipping" type="radio"
+                           name="shipping-options"
+                           value="shipping">
+                </div>
+            </div>
             <div class="address-input">
                 <div class="avail-for-shipping" style="display: none;">
                     <h2>Shipping Address:</h2>

@@ -113,6 +113,8 @@ def payment(request):
             cart = Cart(request.session).cart_serializable
             payment_method = request.POST['payment-method']
             this_order.user = request.user
+            if request.POST.get('shipping-options') == 'shipping':
+                this_order.is_shipping = True
             this_order.save()
             order_number = this_order.pk
             for v in cart.values():
