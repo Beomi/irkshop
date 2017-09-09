@@ -134,7 +134,13 @@ def payment(request):
                     item_name = this_order.orderdetail_set.all()[0].good.name \
                                 + this_order.orderdetail_set.all()[1].good.name + '...'
                 else:
-                    item_name = this_order.orderdetail_set.all()[0].good.name
+                    try:
+                        item_name = this_order.orderdetail_set.all()[0].good.name
+                    except IndexError:
+                        return JsonResponse({
+                            'message': 'Your order does NOT contain any goods.\n'
+                                       'Add some goods and try again!'
+                        })
 
                 paypal_dict = {
                     "business": "{}".format(settings.PAYPAL_ID),
