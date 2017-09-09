@@ -87,6 +87,8 @@ SECRET_KEY = 'awl40xu110@48pc#0ej)aeqkbs)f8&a)946oalt*d2(f-^&=6o'
 # Application definition
 
 INSTALLED_APPS = [
+    # admin site flexible
+    'flat_responsive',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
