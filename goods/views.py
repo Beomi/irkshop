@@ -139,7 +139,8 @@ def payment(request):
                     except IndexError:
                         return JsonResponse({
                             'message': 'Your order does NOT contain any goods.\n'
-                                       'Add some goods and try again!'
+                                       'Add some goods and try again!',
+                            'redirect': reverse('shop:shopping-cart-show')
                         })
 
                 paypal_dict = {

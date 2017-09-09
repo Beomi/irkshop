@@ -307,5 +307,11 @@
         })
     });
 </script>
+{% if not cart.items|length %}
+    <script>
+        alert('Your shopping cart seems empty!\nCheck one more time please:)')
+        location.href = '/shop/#modal'
+    </script>
+{% endif %}
 </body>
 </html>
