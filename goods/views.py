@@ -62,7 +62,10 @@ def update_cart(request):
             cart = Cart(request.session)
             quantity = request.POST.get('quantity')
             goods = Goods.objects.get(id=request.POST.get('good'))
-            cart.set_quantity(goods, quantity)
+            if not quantity:
+                cart.set_quantity(goods, 0)
+            else:
+                cart.set_quantity(goods, quantity)
             return JsonResponse({
                 'message': 'update {} for {}'.format(
                     goods.name, quantity
