@@ -31,9 +31,15 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'user', 'created_at', 'is_paid',
         'address', 'additional_address', 'custom_order',
+        'get_orderdetail_for_this_order_admin'
     )
     actions = [export_as_csv_action("CSV Export")]
+    list_select_related = ['user']
 
+    def get_queryset(self, request):
+        my_model = super(OrderAdmin, self).get_queryset(request)
+        my_model = my_model.prefetch_related('orderdetail_set')
+        return my_model
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
