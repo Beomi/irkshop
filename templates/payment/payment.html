@@ -332,7 +332,8 @@
                         $(":input").prop("disabled", true);
                     },
                     error: function (err) {
-                        alert('Error Occured', err)
+                        alert('Network Error! Contact Admin please.')
+                        console.log(err)
                         $('.bank-transfer-payment').show();
                         $(":input").prop("readonly", false);
                     }
