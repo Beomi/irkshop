@@ -57,7 +57,7 @@ if f is None: # System environ
     except KeyError as error_msg:
         raise ImproperlyConfigured(error_msg)
 else: # JSON env
-    envs = json.loads(f.read())
+    envs = json.load(f, encoding='utf-8')
     FACEBOOK_KEY = get_env('FACEBOOK_KEY', envs)
     FACEBOOK_SECRET = get_env('FACEBOOK_SECRET', envs)
     GOOGLE_KEY = get_env('GOOGLE_KEY', envs)
