@@ -321,7 +321,8 @@ def korea_bank_payment(request, uuid):
     # Check Payment
     if request.method == 'POST':
         recent_payments = kb.get_transactions(
-            settings.BANK_ACCOUNT, settings.BANK_BIRTH, settings.BANK_PW
+            settings.BANK_ACCOUNT, settings.BANK_BIRTH, settings.BANK_PW,
+            PHANTOM_PATH=settings.PHANTOM_PATH
         )
         for trs in recent_payments:
             if trs['amount'] == total_krw_fee and trs['transaction_by'] == order.bank_transfer_name:

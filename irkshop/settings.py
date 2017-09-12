@@ -54,6 +54,7 @@ if f is None: # System environ
         BANK_BIRTH = os.environ.get('BANK_BIRTH')
         BANK_NAME = os.environ.get('BANK_NAME')
         BANK_OWNER = os.environ.get('BANK_OWNER')
+        PHANTOM_PATH = os.environ.get('PHANTOM_PATH')
     except KeyError as error_msg:
         raise ImproperlyConfigured(error_msg)
 else: # JSON env
@@ -78,6 +79,7 @@ else: # JSON env
     BANK_BIRTH = get_env('BANK_BIRTH', envs)
     BANK_NAME = get_env('BANK_NAME', envs)
     BANK_OWNER = get_env('BANK_OWNER', envs)
+    PHANTOM_PATH = get_env('PHANTOM_PATH', envs)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'awl40xu110@48pc#0ej)aeqkbs)f8&a)946oalt*d2(f-^&=6o'
