@@ -23,6 +23,8 @@ from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.models import ST_PP_COMPLETED
 from paypal.standard.ipn.signals import valid_ipn_received
 
+from simple_bank_korea import kb
+
 import csv
 from datetime import datetime
 import requests
@@ -129,7 +131,8 @@ def payment(request):
 
             if payment_method == 'paypal':
                 # paypal
-                this_order = Order.objects.get(pk=order_number)
+                this_order.payment_method = 'p'
+                this_order.save()
                 if len(this_order.orderdetail_set.all()) > 1:
                     item_name = this_order.orderdetail_set.all()[0].good.name \
                                 + this_order.orderdetail_set.all()[1].good.name + '...'
@@ -169,6 +172,13 @@ def payment(request):
                     'paypal-form': paypal_form
                 })
             elif payment_method == 'bank-transfer':
+                # currency = requests.get('http://www.floatrates.com/daily/usd.json').text
+                # today_usd_to_krw = int(json.loads(currency)['krw']['rate'] / 10) * 10
+                today_usd_to_krw = 1000
+                this_order.payment_method = 'b'
+                this_order.usd_to_krw = today_usd_to_krw
+                this_order.bank_transfer_name = request.POST.get('bank_transfer_name')
+                this_order.save()
                 send_gmail(
                     send_to=str(this_order.user.email),
                     subject='IRKSHOP: Please Proceed Bank Transfer to finish your purchase',
@@ -180,7 +190,7 @@ def payment(request):
                     'message': "Sucessfully Ordered!\n"
                                "Please Continue with Bank Transfer.\n"
                                "We've mailed you our invoice.",
-                    'redirect': '/shop/thankyou/' + str(this_order.uuid)
+                    'redirect': '/shop/bank_payment/' + str(this_order.uuid) + '/'
                 })
         else:
             return JsonResponse({
@@ -189,9 +199,11 @@ def payment(request):
             })
     else:
         form = OrderForm()
-
+    currency = requests.get('http://www.floatrates.com/daily/usd.json').text
+    today_usd_to_krw = int(json.loads(currency)['krw']['rate'] / 10) * 10
     return render(request, 'payment/payment.html', {
         'form': form,
+        'today_usd_to_krw': today_usd_to_krw
     })
 
 
@@ -238,21 +250,28 @@ def thank_you(request, order_uuid):
             'order': order
         })
     else:
-        paypal_dict = {
-            "business": "{}".format(settings.PAYPAL_ID),
-            "amount": "{}".format(order.total_price),
-            "item_name": order.orderdetail_set.first().__str__() + '...',
-            "invoice": "{}".format(order.uuid),
-            "notify_url": settings.PAYPAL_URL + reverse('paypal-ipn'),
-            "return_url": settings.PAYPAL_URL + '/shop/thankyou/' + str(order.uuid),
-            "cancel_return": settings.PAYPAL_URL + reverse('shop:shop_main'),
-            "custom": "{}".format(order.user)
-        }
-        paypal_form = PayPalPaymentsForm(initial=paypal_dict).render()
-        return render(request, 'payment/thankyou.html', {
-            'order': order,
-            'paypal_form': paypal_form,
-        })
+        if order.payment_method == 'p':
+            paypal_dict = {
+                "business": "{}".format(settings.PAYPAL_ID),
+                "amount": "{}".format(order.total_price),
+                "item_name": order.orderdetail_set.first().__str__() + '...',
+                "invoice": "{}".format(order.uuid),
+                "notify_url": settings.PAYPAL_URL + reverse('paypal-ipn'),
+                "return_url": settings.PAYPAL_URL + '/shop/thankyou/' + str(order.uuid),
+                "cancel_return": settings.PAYPAL_URL + reverse('shop:shop_main'),
+                "custom": "{}".format(order.user)
+            }
+            paypal_form = PayPalPaymentsForm(initial=paypal_dict).render()
+            data = {
+                'order': order,
+                'paypal_form': paypal_form,
+            }
+            return render(request, 'payment/thankyou.html', data)
+        elif order.payment_method == 'b':
+            data = {
+                'order': order
+            }
+            return render(request, 'payment/thankyou_krw.html', data)
 
 
 valid_ipn_received.connect(check_payment)
@@ -294,21 +313,41 @@ def orderlist(request):
 
 
 # Korea Bank Check
-def korea_bank_payment(request, order_number):
-    order = Order.objects.get(pk=order_number)
-    currency = requests.get('http://www.floatrates.com/daily/usd.json')
-    today_usd_to_krw = int(json.loads(currency)['krw']['rate'] / 10) * 10  # NOT to get 1won but 10won
+@csrf_exempt
+def korea_bank_payment(request, uuid):
+    order = Order.objects.get(uuid=uuid)
+    total_krw_fee = int(order.total_price * order.usd_to_krw)
+    # Check Payment
     if request.method == 'POST':
-        pass
+        recent_payments = kb.get_transactions(
+            settings.BANK_ACCOUNT, settings.BANK_BIRTH, settings.BANK_PW
+        )
+        for trs in recent_payments:
+            if trs['amount'] == total_krw_fee and trs['transaction_by'] == order.bank_transfer_name:
+                order.is_paid = True
+                order.save()
+                return JsonResponse({
+                    'message': '결제가 확인되었습니다!',
+                    'payment': 'ok'
+                })
+        return JsonResponse({
+            'message': '아직 결제가 확인되지 않았습니다. 입금 후 다시 시도해보세요!'
+        })
+    # Request Payment
     else:
-        if order.is_paid:
+        if order.payment_method != 'b':
             return JsonResponse({
-                'message': 'This transaction is already paid!'
+                'message': 'This Transaction is ready for Bank Transfer.'
             })
-        data = {
-            "amount": order.total_price * today_usd_to_krw,
-            "order_number": order_number,
-            "today_usd_to_krw": today_usd_to_krw
-        }
 
+        data = {
+            "order": order,
+            "amount": total_krw_fee,
+            "order_number": order.pk,
+            "today_usd_to_krw": order.usd_to_krw,
+            "PAYPAL_URL": settings.PAYPAL_URL,
+            "bank_account": settings.BANK_ACCOUNT,
+            "bank_name": settings.BANK_NAME,
+            "bank_owner": settings.BANK_OWNER,
+        }
         return render(request, 'payment/korea_bank_payment.html', data)

@@ -141,7 +141,7 @@
                            value="field">
                 </div>
                 <div class="col-2">
-                    <label for="get-shipping">Shipping(fee +$8)</label>
+                    <label for="get-shipping">Shipping(fee +$35)</label>
                     <input id="get-shipping" type="radio"
                            name="shipping-options"
                            value="shipping">
@@ -206,6 +206,36 @@
                            value="bank-transfer">
                 </div>
             </div>
+            {# 국내, 계좌이체 결제 #}
+            <div class="is_bank_transfer" style="display: none; font-family: sans-serif">
+                <h2>Bank Transferer Name:</h2>
+                <h5>1달러는 1000원으로 계산됩니다.</h5>
+                <div>
+                    <label for="bank_transfer_name">(은행 송금)입금자명:</label>
+                    <input type="text" name="bank_transfer_name" id="bank_transfer_name">
+                </div>
+                <h3>수령방법:</h3>
+                <div class="row">
+                    <div class="col-3">
+                        <label for="how_to_receive_krw_f">현장수령</label>
+                        <input id="how_to_receive_krw_f" type="radio"
+                               name="how_to_receive_krw" checked="checked"
+                               value="f">
+                    </div>
+                    <div class="col-3">
+                        <label for="how_to_receive_krw_l">뒷풀이때 수령</label>
+                        <input id="how_to_receive_krw_l" type="radio"
+                               name="how_to_receive_krw"
+                               value="l">
+                    </div>
+                    <div class="col-3">
+                        <label for="get-shipping">배송(위에 체크해도 다시한번 체크해주세요)</label>
+                        <input id="how_to_receive_krw_s" type="radio"
+                               name="how_to_receive_krw"
+                               value="s">
+                    </div>
+                </div>
+            </div>
         </form>
 
         <div class="cart-buttons-wrapper paypal-payment" style="margin-top: 25px">
@@ -248,9 +278,11 @@
             if (payment_method === 'paypal') {
                 $('.paypal-payment').show()
                 $('.bank-transfer-payment').hide()
+                $('.is_bank_transfer').hide()
             } else if (payment_method === 'bank-transfer') {
                 $('.bank-transfer-payment').show()
                 $('.paypal-payment').hide()
+                $('.is_bank_transfer').show()
             }
         })
         $('.checkout-btn').click(function (e) {
@@ -272,7 +304,7 @@
                             $('.paypal-payment').show();
                             $('.loading-paypal').hide();
                         }
-                        $(":input").prop("readonly", false);
+                        $(":input").prop("disabled", true);
                     },
                     error: function (err) {
                         alert('Network Status is weak. Please Try again')
@@ -284,18 +316,20 @@
             } else if (e.target.dataset.payment === 'bank') {
                 $(":input").prop("readonly", true);
                 $('.bank-transfer-payment').hide();
+                $('.loading-paypal').show();
                 $.ajax({
                     url: window.location.href,
                     type: "POST",
                     data: $('#order-now').serialize(),
                     success: function (json) {
+                        $('.loading-paypal').hide();
                         alert(json['message']);
                         if (json['redirect']) {
                             window.location.href = json['redirect']
                         } else {
                             $('.bank-transfer-payment').show();
                         }
-                        $(":input").prop("readonly", false);
+                        $(":input").prop("disabled", true);
                     },
                     error: function (err) {
                         alert('Error Occured', err)

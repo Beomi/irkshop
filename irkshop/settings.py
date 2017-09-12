@@ -49,6 +49,11 @@ if f is None: # System environ
         DB_PORT = os.environ.get('DB_PORT')
         RAVEN = os.environ.get('RAVEN')
         PAYPAL_TEST = os.environ.get('PAYPAL_TEST')
+        BANK_ACCOUNT = os.environ.get('BANK_ACCOUNT')
+        BANK_PW = os.environ.get('BANK_PW')
+        BANK_BIRTH = os.environ.get('BANK_BIRTH')
+        BANK_NAME = os.environ.get('BANK_NAME')
+        BANK_OWNER = os.environ.get('BANK_OWNER')
     except KeyError as error_msg:
         raise ImproperlyConfigured(error_msg)
 else: # JSON env
@@ -68,18 +73,11 @@ else: # JSON env
     DB_PORT = get_env('DB_PORT', envs)
     RAVEN = get_env('RAVEN', envs)
     PAYPAL_TEST = get_env('PAYPAL_TEST', envs)
-
-# Heroku or Not
-if os.environ.get('HEROKU', False): # if Heroku
-    HEROKU = True
-    DEBUG = False
-    ALLOWED_HOSTS += [os.environ.get('HEROKU_DOMAIN', '*')]
-    STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-else: # or Not
-    HEROKU = False
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
+    BANK_ACCOUNT = get_env('BANK_ACCOUNT', envs)
+    BANK_PW = get_env('BANK_PW', envs)
+    BANK_BIRTH = get_env('BANK_BIRTH', envs)
+    BANK_NAME = get_env('BANK_NAME', envs)
+    BANK_OWNER = get_env('BANK_OWNER', envs)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'awl40xu110@48pc#0ej)aeqkbs)f8&a)946oalt*d2(f-^&=6o'
@@ -282,14 +280,6 @@ CART_PRODUCT_MODEL = 'goods.models.Goods'
 
 # DJDT
 INTERNAL_IPS = '127.0.0.1'
-
-
-# Heroku DB
-if HEROKU:
-    # Update database configuration with $DATABASE_URL.
-    import dj_database_url
-    db_from_env = dj_database_url.config(conn_max_age=500)
-    DATABASES['default'].update(db_from_env)
 
 
 if RAVEN:

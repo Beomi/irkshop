@@ -61,7 +61,7 @@ class Goods(TimeStampModel):
     @property
     def is_available(self):
         try:
-            if ((date.today() <= self.sell_until) or (self.sell_until == None))\
+            if ((date.today() <= self.sell_until) or (self.sell_until == None)) \
                     and self.is_valid \
                     and self.current_stock() > 0:
                 return True
@@ -108,25 +108,51 @@ class Order(TimeStampModel):
         verbose_name = '주문건'
         verbose_name_plural = verbose_name
 
+    PAYMENT_METHODS = (
+        ('b', '계좌이체'),
+        ('p', 'Paypal'),
+    )
+
+    HOW_TO_RECEIVE_KRW = (
+        ('f', '현장수령'),
+        ('l', '뒷풀이수령'),
+        ('s', '배송(한국)')
+    )
+
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    is_paid = models.BooleanField(default=False)
-    is_shipping = models.BooleanField(default=False)
-    address = AddressField(blank=True, null=True)
-    additional_address = models.TextField(blank=True, null=True)
-    custom_order = models.TextField(blank=True, null=True)
-    ingress_mail = models.EmailField(blank=True)
-    ingress_agent_name = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='주문고객')
+    is_paid = models.BooleanField('결제완료', default=False)
+    is_shipping = models.BooleanField('배송건', default=False)
+    address = AddressField(verbose_name='주소', blank=True, null=True)
+    additional_address = models.TextField('상세주소', blank=True, null=True)
+    custom_order = models.TextField('주문요청건', blank=True, null=True)
+    ingress_mail = models.EmailField('Ingress 메일주소', blank=True)
+    ingress_agent_name = models.CharField('Ingress Agent Name', max_length=200)
+    payment_method = models.CharField('결제수단', max_length=1, choices=PAYMENT_METHODS, default='b')
+    usd_to_krw = models.IntegerField('환율', default=0)
+    bank_transfer_name = models.CharField('계좌이체 표시이름', max_length=20, default='')
+    how_to_receive_krw = models.CharField('(한국)수령방법', max_length=1, choices=HOW_TO_RECEIVE_KRW, blank=True, null=True)
 
     @property
     def total_price(self):
         total = 0
         order_details = self.orderdetail_set.all()
-        for order in order_details:
-            total += order.order_price
+        for od in order_details:
+            total += od.order_price
         if self.is_shipping:
             # TODO: Let use this not FIXED
-            total += 8
+            total += 35
+        return total
+
+    @property
+    def total_price_krw(self):
+        total = 0
+        order_details = self.orderdetail_set.all()
+        for od in order_details:
+            total += od.order_price_krw
+        if self.is_shipping:
+            # TODO: Let use this not FIXED
+            total += 5000
         return total
 
     @property
@@ -137,6 +163,14 @@ class Order(TimeStampModel):
             details[detail.good.name] = detail.count
         if self.is_shipping:
             details['shipping'] = True
+        return details
+
+    @property
+    def get_orderdetail_for_this_order_admin(self):
+        order_details = self.orderdetail_set.all()
+        details = ""
+        for detail in order_details:
+            details += "{} (x{})\n".format(detail.good.name, detail.count)
         return details
 
     def get_orderdetail_email_template(self):
@@ -184,7 +218,16 @@ class OrderDetail(TimeStampModel):
     def order_price(self):
         return self.good.price * self.count
 
+    @property
+    def order_price_krw(self):
+        return self.good.price * self.count * self.order.usd_to_krw
+
     def __str__(self):
+        if self.order_price_krw:
+            return '#{} / {}원'.format(
+                self.order.pk,
+                self.order_price_krw
+            )
         return '#{} / ${}'.format(
             self.order.pk,
             self.order_price

@@ -17,12 +17,3 @@ from raven.contrib.django.raven_compat.middleware.wsgi import Sentry
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "irkshop.settings")
 
 application = Sentry(get_wsgi_application())
-
-
-# Heroku Static Serving
-if settings.HEROKU:
-    from django.core.wsgi import get_wsgi_application
-    from whitenoise.django import DjangoWhiteNoise
-
-    application = get_wsgi_application()
-    application = DjangoWhiteNoise(application)

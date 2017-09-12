@@ -70,135 +70,6 @@
         div[style*="margin: 16px 0;"] {
             margin: 0 !important;
         }
-
-        .hover-button {
-            background: #2d2d2d;
-            width: 100%;
-            height: 100px;
-        }
-
-        .hover-button > a {
-            position: relative;
-            cursor: pointer;
-            top: 50%;
-            left: 50%;
-            color: white;
-            transform: translate3d(-50%, -50%, 0);
-            padding: 0.7em calc(0.7em * 1.2);
-            display: inline-block;
-            border: 3px solid transparent;
-            position: relative;
-            font-size: 1.5em;
-            letter-spacing: 0.07em;
-        }
-
-        .hover-button > a .text {
-            font-family: proxima-nova;
-            transform: translate3d(0, 0.7em, 0);
-            display: block;
-            transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1) 0.4s;
-        }
-
-        .hover-button > a:after {
-            position: absolute;
-            content: '';
-            bottom: -3px;
-            left: calc(0.7em * 1.2);
-            right: calc(0.7em * 1.2);
-            height: 3px;
-            background: #f26522;
-            z-index: -1;
-            transition: transform 0.8s cubic-bezier(1, 0, 0.37, 1) 0.2s, right 0.2s cubic-bezier(0.04, 0.48, 0, 1) 0.6s, left 0.4s cubic-bezier(0.04, 0.48, 0, 1) 0.6s;
-            transform-origin: left;
-        }
-
-        .line {
-            position: absolute;
-            background: #f26522;
-        }
-
-        .line.-right, .line.-left {
-            width: 3px;
-            bottom: -3px;
-            top: -3px;
-            transform: scale3d(1, 0, 1);
-        }
-
-        .line.-top, .line.-bottom {
-            height: 3px;
-            left: -3px;
-            right: -3px;
-            transform: scale3d(0, 1, 1);
-        }
-
-        .line.-right {
-            right: -3px;
-            transition: transform 0.1s cubic-bezier(1, 0, 0.65, 1.01) 0.23s;
-            transform-origin: top;
-        }
-
-        .line.-top {
-            top: -3px;
-            transition: transform 0.08s linear 0.43s;
-            transform-origin: left;
-        }
-
-        .line.-left {
-            left: -3px;
-            transition: transform 0.08s linear 0.51s;
-            transform-origin: bottom;
-        }
-
-        .line.-bottom {
-            bottom: -3px;
-            transition: transform 0.3s cubic-bezier(1, 0, 0.65, 1.01);
-            transform-origin: right;
-        }
-
-        a:hover .text,
-        a:active .text {
-            transform: translate3d(0, 0, 0);
-            transition: transform 0.6s cubic-bezier(0.2, 0, 0, 1) 0.4s;
-        }
-
-        a:hover:after,
-        a:active:after {
-            transform: scale3d(0, 1, 1);
-            right: -3px;
-            left: -3px;
-            transform-origin: right;
-            transition: transform 0.2s cubic-bezier(1, 0, 0.65, 1.01) 0.17s, right 0.2s cubic-bezier(1, 0, 0.65, 1.01), left 0s 0.3s;
-        }
-
-        a:hover .line,
-        a:active .line {
-            transform: scale3d(1, 1, 1);
-        }
-
-        a:hover .line.-right,
-        a:active .line.-right {
-            transition: transform 0.1s cubic-bezier(1, 0, 0.65, 1.01) 0.2s;
-            transform-origin: bottom;
-        }
-
-        a:hover .line.-top,
-        a:active .line.-top {
-            transition: transform 0.08s linear 0.4s;
-            transform-origin: right;
-        }
-
-        a:hover .line.-left,
-        a:active .line.-left {
-            transition: transform 0.08s linear 0.48s;
-            transform-origin: top;
-        }
-
-        a:hover .line.-bottom,
-        a:active .line.-bottom {
-            transition: transform 0.5s cubic-bezier(0, 0.53, 0.29, 1) 0.56s;
-            transform-origin: left;
-        }
-
     </style>
 <body style="margin: 0 !important; padding: 0 !important; background-color: #eeeeee;" bgcolor="#eeeeee">
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -249,18 +120,10 @@
                             <tr>
                                 <td align="center"
                                     style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 25px;">
-                                    {% if order.is_paid %}
-                                        <img src="{% static 'image/payment_confirm_icon.svg' %}" style="max-width: 200px; margin: 0 auto">
-
-                                    {% else %}
-                                        <img src="{% static 'image/abandoned-cart.svg' %}" style="max-width: 200px; margin: 0 auto">
-                                    {% endif %}
+                                    <img src="http://seoul.willbe.blue/static/image/abandoned-cart.png"
+                                         style="max-width: 200px; margin: 0 auto">
                                     <h2 style="font-size: 30px; font-weight: 800; line-height: 36px; color: #333333; margin: 0;">
-                                        {% if order.is_paid %}
-                                            구매해주셔서 감사합니다!
-                                        {% else %}
-                                            주문해주셔서 감사합니다!
-                                        {% endif %}
+                                        주문해주셔서 감사합니다!
                                     </h2>
                                 </td>
                             </tr>
@@ -368,15 +231,15 @@
 
                                                 </td>
                                                 {% if order.is_shipping %}
-                                                    <td align="left" valign="top"
-                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
-                                                        <p style="font-weight: 800;">배송지</p>
-                                                        <p>주소:<br>
-                                                            {{ order.address }}<br>
-                                                            상세주소: <br>
-                                                            {{ order.additional_address }}
-                                                        </p>
-                                                    </td>
+                                                <td align="left" valign="top"
+                                                    style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
+                                                    <p style="font-weight: 800;">배송지</p>
+                                                    <p>주소:<br>
+                                                        {{ order.address }}<br>
+                                                        상세주소: <br>
+                                                        {{ order.additional_address }}
+                                                    </p>
+                                                </td>
                                                 {% endif %}
                                             </tr>
                                         </table>
@@ -385,31 +248,20 @@
                             </td>
                             <td align="left" valign="top" width="300">
                             <![endif]-->
-                                    {% if not order.is_paid %}
-                                        <div style="display:inline-block; max-width:50%; min-width:240px; vertical-align:top; width:100%;">
-                                            <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%"
-                                                   style="max-width:300px;">
-                                                <tr>
-                                                    <td align="left" valign="top"
-                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
-                                                        <p style="font-weight: 800;">아래 계좌번호로 입금을 마치고 '결제확인'버튼을
-                                                            눌러주세요.<br>
-                                                            계좌번호: ({{ bank_name }}, {{ bank_owner }}) {{ bank_account }}
-                                                        </p>
-                                                        <div class="hover-button">
-                                                            <a id="checkPayment">
-                                                                <span class="text">결제 확인</span>
-                                                                <span class="line -right"></span>
-                                                                <span class="line -top"></span>
-                                                                <span class="line -left"></span>
-                                                                <span class="line -bottom"></span>
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    {% endif %}
+                                    <div style="display:inline-block; max-width:50%; min-width:240px; vertical-align:top; width:100%;">
+                                        <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%"
+                                               style="max-width:300px;">
+                                            <tr>
+                                                <td align="left" valign="top"
+                                                    style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
+                                                    <p style="font-weight: 800;">아래 계좌번호로 입금을 마치고 '결제확인'버튼을 눌러주세요.<br>
+                                                        계좌번호: ({{ bank_name }}) {{ bank_account }}
+                                                    </p>
+                                                    <p><a href="{{ PAYPAL_URL }}{% url 'shop:korea_bank_payment'  uuid=order.uuid %}"><button>결제 확인</button></a></p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                     <!--[if (gte mso 9)|(IE)]>
                             </td>
                             </tr>
@@ -467,23 +319,4 @@
     </tr>
 </table>
 </body>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script>
-    document.querySelector('#checkPayment').addEventListener('click', function (e) {
-        document.querySelector('#checkPayment > span').innerText = '결제확인중입니다..'
-        e.preventDefault()
-        axios.post("").then(function (res) {
-            if (res.status === 500) {
-                alert('은행 조회가 실패했습니다. 잠시후 다시 시도해보세요!')
-                document.querySelector('#checkPayment > span').innerText = '결제확인'
-                return;
-            }
-            alert(res.data['message'])
-            if (res.data['payment'] === 'ok') {
-                location.reload()
-            }
-            document.querySelector('#checkPayment > span').innerText = '결제확인'
-        })
-    })
-</script>
 </html>

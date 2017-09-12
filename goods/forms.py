@@ -14,6 +14,8 @@ class OrderForm(forms.ModelForm):
             'address',
             'additional_address',
             'custom_order',
+            'bank_transfer_name',
+
         ]
 
     ingress_mail = forms.CharField(max_length=200, required=True)
@@ -22,3 +24,5 @@ class OrderForm(forms.ModelForm):
     address = AddressField(required=False)
     additional_address = forms.CharField(max_length=255, required=False)
     custom_order = forms.CharField(max_length=255, label='Order Options', required=False)
+    bank_transfer_name = forms.CharField(max_length=20, required=False)
+    how_to_receive_krw = forms.CharField(max_length=1, required=False)

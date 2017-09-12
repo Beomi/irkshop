@@ -7,11 +7,13 @@ from .views import update_cart
 from .views import current_cart
 from .views import clear_cart
 from .views import payment
+from .views import korea_bank_payment
 from .views import thank_you
 from .views import orderlist
 from .views import get_my_order
 
 urlpatterns = [
+    url(r'^bank_payment/(?P<uuid>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/$', korea_bank_payment, name='korea_bank_payment'),
     url(r'^add/$', add_cart, name='shopping-cart-add'),
     url(r'^show/$', show_cart, name='shopping-cart-show'),
     url(r'^remove/$', remove_cart, name='shopping-cart-remove'),

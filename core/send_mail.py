@@ -42,24 +42,37 @@ def send_gmail(send_to: str, subject: str, order):
             }
         ))
     else:
-        paypal_dict = {
-            "business": "{}".format(settings.PAYPAL_ID),
-            "amount": "{}".format(order.total_price),
-            "item_name": order.orderdetail_set.first().__str__() + '...',
-            "invoice": "{}".format(order.uuid),
-            "notify_url": settings.PAYPAL_URL + reverse('paypal-ipn'),
-            "return_url": settings.PAYPAL_URL + '/shop/thankyou/' + str(order.uuid),
-            "cancel_return": settings.PAYPAL_URL + reverse('shop:shop_main'),
-            "custom": "{}".format(order.user)
-        }
-        paypal_form = PayPalPaymentsForm(initial=paypal_dict).render()
-        rendered = str(render_to_string(
-            template_name='mail_template.html',
-            context={
-                'order': order,
-                'paypal_form': paypal_form,
+        if order.payment_method == 'p':
+            paypal_dict = {
+                "business": "{}".format(settings.PAYPAL_ID),
+                "amount": "{}".format(order.total_price),
+                "item_name": order.orderdetail_set.first().__str__() + '...',
+                "invoice": "{}".format(order.uuid),
+                "notify_url": settings.PAYPAL_URL + reverse('paypal-ipn'),
+                "return_url": settings.PAYPAL_URL + '/shop/thankyou/' + str(order.uuid),
+                "cancel_return": settings.PAYPAL_URL + reverse('shop:shop_main'),
+                "custom": "{}".format(order.user)
             }
-        ))
+            paypal_form = PayPalPaymentsForm(initial=paypal_dict).render()
+            rendered = str(render_to_string(
+                template_name='mail_template.html',
+                context={
+                    'order': order,
+                    'paypal_form': paypal_form,
+                }
+            ))
+        elif order.payment_method == 'b':
+            rendered = str(render_to_string(
+                template_name='mail_template_korea_bank.html',
+                context={
+                    'order': order,
+                    'bank_account': settings.BANK_ACCOUNT,
+                    'bank_name': settings.BANK_NAME,
+                    'PAYPAL_URL': settings.PAYPAL_URL,
+                }
+            ))
+        else:
+            rendered = ''
     msg = MIMEMultipart('alternative')
     msg['Subject'] = subject
     msg['From'] = settings.GMAIL_ID
