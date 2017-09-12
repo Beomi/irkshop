@@ -174,6 +174,7 @@ def payment(request):
             elif payment_method == 'bank-transfer':
                 # currency = requests.get('http://www.floatrates.com/daily/usd.json').text
                 # today_usd_to_krw = int(json.loads(currency)['krw']['rate'] / 10) * 10
+                this_order = Order.objects.get(pk=order_number)
                 today_usd_to_krw = 1000
                 this_order.payment_method = 'b'
                 this_order.usd_to_krw = today_usd_to_krw
