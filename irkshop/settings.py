@@ -22,11 +22,11 @@ DEV_ENVS = os.path.join(BASE_DIR, "envs_dev.json")
 DEPLOY_ENVS = os.path.join(BASE_DIR, "envs.json")
 
 if os.path.exists(DEV_ENVS): # Develop Env
-    f = open(DEV_ENVS)
+    f = open(DEV_ENVS, encoding='utf-8')
     DEBUG = True
     ALLOWED_HOSTS.append('*')
 elif os.path.exists(DEPLOY_ENVS): # Deploy Env
-    f = open(DEPLOY_ENVS)
+    f = open(DEPLOY_ENVS, encoding='utf-8')
     DEBUG = False
 else:
     f = None
