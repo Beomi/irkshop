@@ -305,6 +305,7 @@
                             $('.loading-paypal').hide();
                         }
                         $(":input").prop("disabled", true);
+                        $('#paypal-btn').find(':input').prop('disabled', false);
                     },
                     error: function (err) {
                         alert('Network Status is weak. Please Try again')
