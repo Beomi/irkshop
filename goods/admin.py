@@ -29,7 +29,7 @@ class GoodsAdmin(admin.ModelAdmin):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'user', 'created_at', 'is_paid',
+        'id', 'user', 'payment_method', 'is_paid', 'created_at',
         'address', 'additional_address', 'custom_order',
         'get_orderdetail_for_this_order_admin'
     )
