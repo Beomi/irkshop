@@ -35,6 +35,7 @@ class OrderAdmin(admin.ModelAdmin):
     )
     actions = [export_as_csv_action("CSV Export")]
     list_select_related = ['user']
+    list_filter = ['is_paid']
 
     def get_queryset(self, request):
         my_model = super(OrderAdmin, self).get_queryset(request)
