@@ -300,7 +300,7 @@ def orderlist(request):
         try:
             for idx, i in enumerate(details):
                 if idx:
-                    order_details += '\n{} x{}개'.format(i.good.name, i.count)
+                    order_details += '\r\n{} x{}개'.format(i.good.name, i.count)
                 else:
                     order_details += '{} x{}개'.format(i.good.name, i.count)
         except TypeError:
