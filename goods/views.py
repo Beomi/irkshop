@@ -296,12 +296,15 @@ def orderlist(request):
     for order in qs:
         details = order.orderdetail_set.all()
 
-        order_details = {}
+        order_details = ''
         try:
-            for i in details:
-                order_details[i.good.name] = i.count
+            for idx, i in enumerate(details):
+                if idx:
+                    order_details += '\n{} x{}개'.format(i.good.name, i.count)
+                else:
+                    order_details += '{} x{}개'.format(i.good.name, i.count)
         except TypeError:
-            order_details[details.good.name] = details.count
+            order_details += '{} x{}개'.format(details.good.name, details.count)
 
         if order.address != None:
             address = order.address.__str__() + ' // ' + order.additional_address
