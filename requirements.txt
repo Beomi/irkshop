@@ -18,7 +18,7 @@ django-address==0.1.5
 django-carton==1.2.1
 django-ckeditor==5.2.2
 django-custom-user==0.7
-django-debug-toolbar==1.8
+django-debug-toolbar==1.11.1
 django-flat-responsive==1.4.1
 django-health-check==2.3.0
 django-js-asset==0.1.1
