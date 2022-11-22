@@ -32,7 +32,7 @@ kombu==4.1.0
 oauthlib==2.0.2
 olefile==0.44
 paramiko==2.2.1
-Pillow==4.2.1
+Pillow==9.3.0
 psycopg2==2.7.3
 pyasn1==0.2.3
 pycparser==2.17
